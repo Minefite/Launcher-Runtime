@@ -1,8 +1,10 @@
 package pro.gravit.launcher.gui.config;
+import pro.gravit.launcher.core.api.method.AuthMethod;
+import pro.gravit.launcher.core.api.method.AuthMethodPassword;
+import pro.gravit.launcher.core.backend.UserSettings;
 import pro.gravit.launcher.gui.service.JavaService;
 import pro.gravit.launcher.gui.utils.SystemTheme;
 import pro.gravit.launcher.runtime.client.DirBridge;
-import pro.gravit.launcher.runtime.client.UserSettings;
 import pro.gravit.launcher.core.LauncherNetworkAPI;
 import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
 import pro.gravit.launcher.base.profiles.ClientProfile;
@@ -22,23 +24,17 @@ public class RuntimeSettings extends UserSettings {
     @LauncherNetworkAPI
     public String login;
     @LauncherNetworkAPI
-    public AuthRequest.AuthPasswordInterface password;
+    public AuthMethodPassword password;
     @LauncherNetworkAPI
     public boolean autoAuth;
     @LauncherNetworkAPI
-    public GetAvailabilityAuthRequestEvent.AuthAvailability lastAuth;
+    public AuthMethod lastAuth;
     @LauncherNetworkAPI
     public String updatesDirPath;
     @LauncherNetworkAPI
     public UUID lastProfile;
     @LauncherNetworkAPI
     public volatile LAUNCHER_LOCALE locale;
-    @LauncherNetworkAPI
-    public String oauthAccessToken;
-    @LauncherNetworkAPI
-    public String oauthRefreshToken;
-    @LauncherNetworkAPI
-    public long oauthExpire;
     @LauncherNetworkAPI
     public volatile LAUNCHER_THEME theme = LAUNCHER_THEME.COMMON;
     @LauncherNetworkAPI

@@ -1,6 +1,7 @@
 package pro.gravit.launcher.gui.impl;
 
 import javafx.application.Platform;
+import pro.gravit.launcher.core.api.features.AuthFeatureAPI;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.scenes.AbstractScene;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
@@ -33,23 +34,25 @@ public class GuiEventHandler implements RequestService.EventHandler {
             if (!requestEvent.requestUUID.equals(RequestEvent.eventUUID)) return false;
         }
         try {
-            if (event instanceof AuthRequestEvent authRequestEvent) {
-                boolean isNextScene = application.getCurrentScene() instanceof LoginScene; //TODO: FIX
-                LogHelper.dev("Receive auth event. Send next scene %s", isNextScene ? "true" : "false");
-                application.authService.setAuthResult(null, authRequestEvent);
-                if (isNextScene) {
-                    Platform.runLater(() -> {
-                        try {
-                            ((LoginScene) application.getCurrentScene()).onSuccessLogin(
-                                    new AuthFlow.SuccessAuth(authRequestEvent,
-                                                             authRequestEvent.playerProfile != null ? authRequestEvent.playerProfile.username : null,
-                                                             null));
-                        } catch (Throwable e) {
-                            LogHelper.error(e);
-                        }
-                    });
-                }
-            }
+//            if (event instanceof AuthRequestEvent authRequestEvent) {
+//                boolean isNextScene = application.getCurrentScene() instanceof LoginScene; //TODO: FIX
+//                LogHelper.dev("Receive auth event. Send next scene %s", isNextScene ? "true" : "false");
+//                application.authService.setAuthResult(null, new AuthFeatureAPI.AuthResponse(authRequestEvent.makeUserInfo(),
+//                                                                                            authRequestEvent.oauth));
+//                if (isNextScene) {
+//                    Platform.runLater(() -> {
+//                        try {
+//                            ((LoginScene) application.getCurrentScene()).onSuccessLogin(
+//                                    new AuthFlow.SuccessAuth(new AuthFeatureAPI.AuthResponse(authRequestEvent.makeUserInfo(),
+//                                                                                             authRequestEvent.oauth),
+//                                                             authRequestEvent.playerProfile != null ? authRequestEvent.playerProfile.username : null,
+//                                                             null));
+//                        } catch (Throwable e) {
+//                            LogHelper.error(e);
+//                        }
+//                    });
+//                }
+//            }
             if (event instanceof ProfilesRequestEvent profilesRequestEvent) {
                 application.profilesService.setProfilesResult(profilesRequestEvent);
                 if (application.profilesService.getProfile() != null) {

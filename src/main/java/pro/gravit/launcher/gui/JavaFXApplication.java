@@ -9,6 +9,8 @@ import javafx.stage.StageStyle;
 import pro.gravit.launcher.base.*;
 import pro.gravit.launcher.client.api.DialogService;
 import pro.gravit.launcher.client.events.ClientExitPhase;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
+import pro.gravit.launcher.core.backend.UserSettings;
 import pro.gravit.launcher.gui.commands.RuntimeCommand;
 import pro.gravit.launcher.gui.commands.VersionCommand;
 import pro.gravit.launcher.gui.config.GuiModuleConfig;
@@ -22,7 +24,6 @@ import pro.gravit.launcher.gui.stage.PrimaryStage;
 import pro.gravit.launcher.runtime.LauncherEngine;
 import pro.gravit.launcher.runtime.NewLauncherSettings;
 import pro.gravit.launcher.runtime.client.DirBridge;
-import pro.gravit.launcher.runtime.client.UserSettings;
 import pro.gravit.launcher.runtime.client.events.ClientGuiPhase;
 import pro.gravit.launcher.runtime.debug.DebugMain;
 import pro.gravit.launcher.runtime.managers.ConsoleManager;
@@ -70,6 +71,7 @@ public class JavaFXApplication extends Application {
     public JavaService javaService;
     public PingService pingService;
     public OfflineService offlineService;
+    public BackendCallbackService backendCallbackService;
     public TriggerManager triggerManager;
     private SettingsManager settingsManager;
     private PrimaryStage mainStage;
@@ -120,14 +122,18 @@ public class JavaFXApplication extends Application {
         javaService = new JavaService(this);
         offlineService = new OfflineService(this);
         pingService = new PingService();
+        backendCallbackService = new BackendCallbackService();
+        LauncherBackendAPIHolder.getApi().setCallback(backendCallbackService);
         registerCommands();
     }
 
+    @Deprecated
     public final <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
             Consumer<T> onSuccess, EventHandler<ActionEvent> onError) {
         gui.processingOverlay.processRequest(getMainStage(), message, request, onSuccess, onError);
     }
 
+    @Deprecated
     public final <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
             Consumer<T> onSuccess, Consumer<Throwable> onException, EventHandler<ActionEvent> onError) {
         gui.processingOverlay.processRequest(getMainStage(), message, request, onSuccess, onException, onError);

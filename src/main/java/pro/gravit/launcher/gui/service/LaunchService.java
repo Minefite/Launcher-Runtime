@@ -2,6 +2,8 @@ package pro.gravit.launcher.gui.service;
 
 import pro.gravit.launcher.base.Launcher;
 import pro.gravit.launcher.base.profiles.ClientProfileBuilder;
+import pro.gravit.launcher.base.profiles.PlayerProfile;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.config.RuntimeSettings;
 import pro.gravit.launcher.gui.impl.AbstractStage;
@@ -89,8 +91,8 @@ public class LaunchService {
         }
         ClientLauncherProcess clientLauncherProcess =
                 new ClientLauncherProcess(clientDir, assetDir, javaVersion, clientDir.resolve("resourcepacks"), profile,
-                                          application.authService.getPlayerProfile(), view,
-                                          application.authService.getAccessToken(), clientHDir, assetHDir, jvmHDir);
+                                          (PlayerProfile) application.authService.getPlayerProfile(), view,
+                                          null /* TODO */, clientHDir, assetHDir, jvmHDir);
         clientLauncherProcess.params.ram = profileSettings.ram;
         clientLauncherProcess.params.offlineMode = application.offlineService.isOfflineMode();
         if (clientLauncherProcess.params.ram > 0) {

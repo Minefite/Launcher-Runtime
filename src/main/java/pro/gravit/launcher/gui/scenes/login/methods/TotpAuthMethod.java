@@ -1,14 +1,15 @@
 package pro.gravit.launcher.gui.scenes.login.methods;
 
 import javafx.scene.control.TextField;
+import pro.gravit.launcher.base.request.auth.password.AuthTOTPPassword;
+import pro.gravit.launcher.core.api.method.details.AuthTotpDetails;
+import pro.gravit.launcher.core.api.method.password.AuthTotpPassword;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
 import pro.gravit.launcher.gui.impl.ContextHelper;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
 import pro.gravit.launcher.gui.scenes.login.LoginScene;
-import pro.gravit.launcher.base.request.auth.details.AuthTotpDetails;
-import pro.gravit.launcher.base.request.auth.password.AuthTOTPPassword;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -36,7 +37,7 @@ public class TotpAuthMethod extends AbstractAuthMethod<AuthTotpDetails> {
 
     @Override
     public CompletableFuture<Void> show(AuthTotpDetails details) {
-        overlay.maxLength = details.maxKeyLength;
+        overlay.maxLength = 6;
         CompletableFuture<Void> future = new CompletableFuture<>();
         try {
             ContextHelper.runInFxThreadStatic(() -> {
@@ -54,9 +55,7 @@ public class TotpAuthMethod extends AbstractAuthMethod<AuthTotpDetails> {
         overlay.future = new CompletableFuture<>();
         String totp = overlay.getCode();
         if (totp != null && !totp.isEmpty()) {
-            AuthTOTPPassword totpPassword = new AuthTOTPPassword();
-            totpPassword.totp = totp;
-            return CompletableFuture.completedFuture(new AuthFlow.LoginAndPasswordResult(null, totpPassword));
+            return CompletableFuture.completedFuture(new AuthFlow.LoginAndPasswordResult(null, new AuthTotpPassword(totp)));
         }
         return overlay.future;
     }
