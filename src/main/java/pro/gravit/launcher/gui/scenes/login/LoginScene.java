@@ -118,7 +118,7 @@ public class LoginScene extends AbstractScene {
 //    }
 
     private void getAvailabilityAuth() {
-        processing(LauncherBackendAPIHolder.getApi().init(),
+        processing(application.backendCallbackService.initDataCallback,
                    application.getTranslation("runtime.overlay.processing.text.launcher"),
                    (initData) -> contextHelper.runInFxThread(() -> {
                        this.auth = initData.methods();
@@ -132,7 +132,7 @@ public class LoginScene extends AbstractScene {
                                if (authAvailability.getName().equals("std") || this.authAvailability == null) {
                                    changeAuthAvailability(authAvailability);
                                }
-                           } else if (authAvailability.getName().equals(application.runtimeSettings.lastAuth.getName()))
+                           } else if (authAvailability.getName().equals(application.runtimeSettings.lastAuth))
                                changeAuthAvailability(authAvailability);
                            if(authAvailability.isVisible()) {
                                addAuthAvailability(authAvailability);
@@ -201,7 +201,7 @@ public class LoginScene extends AbstractScene {
         if (savePassword) {
             application.runtimeSettings.login = successAuth.recentLogin();
             application.runtimeSettings.password = null;
-            application.runtimeSettings.lastAuth = authAvailability;
+            application.runtimeSettings.lastAuth = authAvailability.getName();
         }
         if (user != null
                 && user.getAssets() != null) {

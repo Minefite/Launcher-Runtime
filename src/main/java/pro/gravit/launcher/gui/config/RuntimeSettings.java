@@ -28,7 +28,7 @@ public class RuntimeSettings extends UserSettings {
     @LauncherNetworkAPI
     public boolean autoAuth;
     @LauncherNetworkAPI
-    public AuthMethod lastAuth;
+    public String lastAuth;
     @LauncherNetworkAPI
     public String updatesDirPath;
     @LauncherNetworkAPI

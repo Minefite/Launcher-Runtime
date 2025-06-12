@@ -73,7 +73,6 @@ public class JavaFXApplication extends Application {
     public OfflineService offlineService;
     public BackendCallbackService backendCallbackService;
     public TriggerManager triggerManager;
-    private SettingsManager settingsManager;
     private PrimaryStage mainStage;
     private boolean debugMode;
     private ResourceBundle resources;
@@ -97,14 +96,11 @@ public class JavaFXApplication extends Application {
 
     @Override
     public void init() throws Exception {
-        guiModuleConfig = new GuiModuleConfig();
-        settingsManager = new StdSettingsManager();
         UserSettings.providers.register(JavaRuntimeModule.RUNTIME_NAME, RuntimeSettings.class);
-        settingsManager.loadConfig();
-        NewLauncherSettings settings = settingsManager.getConfig();
-        if (settings.userSettings.get(JavaRuntimeModule.RUNTIME_NAME) == null)
-            settings.userSettings.put(JavaRuntimeModule.RUNTIME_NAME, RuntimeSettings.getDefault(guiModuleConfig));
-        runtimeSettings = (RuntimeSettings) settings.userSettings.get(JavaRuntimeModule.RUNTIME_NAME);
+        backendCallbackService = new BackendCallbackService();
+        backendCallbackService.initDataCallback = LauncherBackendAPIHolder.getApi().init();
+        guiModuleConfig = new GuiModuleConfig();
+        runtimeSettings = (RuntimeSettings) LauncherBackendAPIHolder.getApi().getUserSettings("stdruntime", (a) -> RuntimeSettings.getDefault(guiModuleConfig));
         runtimeSettings.apply();
         System.setProperty("prism.vsync", String.valueOf(runtimeSettings.globalSettings.prismVSync));
         DirBridge.dirUpdates = runtimeSettings.updatesDir == null
@@ -122,7 +118,6 @@ public class JavaFXApplication extends Application {
         javaService = new JavaService(this);
         offlineService = new OfflineService(this);
         pingService = new PingService();
-        backendCallbackService = new BackendCallbackService();
         LauncherBackendAPIHolder.getApi().setCallback(backendCallbackService);
         registerCommands();
     }
@@ -254,6 +249,7 @@ public class JavaFXApplication extends Application {
     @Override
     public void stop() {
         LogHelper.debug("JavaFX method stop invoked");
+        LauncherBackendAPIHolder.getApi().shutdown();
         LauncherEngine.modulesManager.invokeEvent(new ClientExitPhase(0));
     }
 
@@ -344,7 +340,6 @@ public class JavaFXApplication extends Application {
     }
 
     public void saveSettings() throws IOException {
-        settingsManager.saveConfig();
         if (profilesService != null) {
             try {
                 profilesService.saveAll();
