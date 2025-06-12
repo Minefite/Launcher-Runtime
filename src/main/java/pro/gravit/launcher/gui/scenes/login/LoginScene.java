@@ -189,19 +189,19 @@ public class LoginScene extends AbstractScene {
     }
 
     public void onGetProfiles() {
-        processing(new ProfilesRequest(), application.getTranslation("runtime.overlay.processing.text.profiles"),
-                   (profiles) -> {
+        processing(LauncherBackendAPIHolder.getApi().fetchProfiles(), application.getTranslation("runtime.overlay.processing.text.profiles"),
+                   (profiles) -> {/*
                        application.profilesService.setProfilesResult(profiles);
-                       application.runtimeSettings.profiles = profiles.profiles;
+                       application.runtimeSettings.profiles = profiles.profiles;*/
                        contextHelper.runInFxThread(() -> {
-                           application.securityService.startRequest();
+                           application.securityService.startRequest();/*
                            if (application.gui.optionsScene != null) {
                                try {
                                    application.profilesService.loadAll();
                                } catch (Throwable ex) {
                                    errorHandle(ex);
                                }
-                           }
+                           }*/
                            if (application.getCurrentScene() instanceof LoginScene loginScene) {
                                loginScene.authFlow.isLoginStarted = false;
                            }

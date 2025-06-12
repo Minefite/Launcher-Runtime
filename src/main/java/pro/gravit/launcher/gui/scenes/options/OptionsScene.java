@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import pro.gravit.launcher.base.profiles.ClientProfile;
 import pro.gravit.launcher.base.profiles.optional.OptionalView;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.components.ServerButton;
 import pro.gravit.launcher.gui.components.UserBlock;
@@ -29,12 +30,13 @@ public class OptionsScene extends AbstractScene implements SceneSupportUserBlock
     public void reset() {
         Pane serverButtonContainer = LookupHelper.lookup(layout, "#serverButton");
         serverButtonContainer.getChildren().clear();
-        ClientProfile profile = application.profilesService.getProfile();
+        var profile = application.profileService.getCurrentProfile();
+        var profileSettings = LauncherBackendAPIHolder.getApi().makeClientProfileSettings(profile);
         ServerButton serverButton = ServerButton.createServerButton(application, profile);
         serverButton.addTo(serverButtonContainer);
         serverButton.enableSaveButton(null, (e) -> {
             try {
-                application.profilesService.setOptionalView(profile, optionsTab.getOptionalView());
+                LauncherBackendAPIHolder.getApi().saveClientProfileSettings(profileSettings);
                 switchScene(application.gui.serverInfoScene);
             } catch (Exception exception) {
                 errorHandle(exception);
@@ -42,8 +44,7 @@ public class OptionsScene extends AbstractScene implements SceneSupportUserBlock
         });
         serverButton.enableResetButton(null, (e) -> {
             optionsTab.clear();
-            application.profilesService.setOptionalView(profile, new OptionalView(profile));
-            optionsTab.addProfileOptionals(application.profilesService.getOptionalView());
+            optionsTab.addProfileOptionals(profileSettings);
         });
         optionsTab.clear();
         LookupHelper.<Button>lookupIfPossible(layout, "#back").ifPresent(x -> x.setOnAction((e) -> {
@@ -53,7 +54,7 @@ public class OptionsScene extends AbstractScene implements SceneSupportUserBlock
                 errorHandle(exception);
             }
         }));
-        optionsTab.addProfileOptionals(application.profilesService.getOptionalView());
+        optionsTab.addProfileOptionals(profileSettings);
         userBlock.reset();
     }
 

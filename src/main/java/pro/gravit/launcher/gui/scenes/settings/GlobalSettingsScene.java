@@ -68,13 +68,14 @@ public class GlobalSettingsScene extends BaseSettingsScene {
             application.runtimeSettings.updatesDir = newDir;
             String oldDir = DirBridge.dirUpdates.toString();
             DirBridge.dirUpdates = newDir;
-            for (ClientProfile profile : application.profilesService.getProfiles()) {
+            // TODO changeDir Java update
+            /*for (ClientProfile profile : application.profilesService.getProfiles()) {
                 RuntimeSettings.ProfileSettings settings = application.getProfileSettings(profile);
                 if (settings.javaPath != null && settings.javaPath.startsWith(oldDir)) {
                     settings.javaPath = newDir.toString().concat(settings.javaPath.substring(oldDir.length()));
                 }
             }
-            application.javaService.update();
+            application.javaService.update();*/
             updateDirLink.setText(application.runtimeSettings.updatesDirPath);
         });
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#deleteDir").ifPresent(a -> a.setOnAction(

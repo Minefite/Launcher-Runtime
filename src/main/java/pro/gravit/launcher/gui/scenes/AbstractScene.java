@@ -99,7 +99,6 @@ public abstract class AbstractScene extends AbstractVisualComponent {
                                application.gui.loginScene.clearPassword();
                                application.gui.loginScene.reset();
                                try {
-                                   application.saveSettings();
                                    application.authService.exit();
                                    switchScene(application.gui.loginScene);
                                } catch (Exception ex) {

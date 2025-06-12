@@ -2,7 +2,9 @@ package pro.gravit.launcher.gui.scenes.update;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import pro.gravit.launcher.base.Downloader;
 import pro.gravit.launcher.base.profiles.optional.OptionalView;
+import pro.gravit.launcher.core.backend.LauncherBackendAPI;
 import pro.gravit.launcher.core.hasher.FileNameMatcher;
 import pro.gravit.launcher.core.hasher.HashedDir;
 import pro.gravit.launcher.gui.JavaFXApplication;
@@ -25,7 +27,6 @@ public class UpdateScene extends AbstractScene {
     private Pane speedon;
 
     private VisualDownloader downloader;
-    private volatile DownloadStatus downloadStatus = DownloadStatus.COMPLETE;
 
     public UpdateScene(JavaFXApplication application) {
         super("scenes/update/update.fxml", application);
@@ -41,10 +42,16 @@ public class UpdateScene extends AbstractScene {
         cancel = LookupHelper.lookup(layout, "#cancel");
         volume = LookupHelper.lookup(layout, "#volume");
         logOutput = LookupHelper.lookup(layout, "#outputUpdate");
-        downloader = new VisualDownloader(application, progressBar, speed, volume, this::errorHandle,
-                                          (log) -> contextHelper.runInFxThread(() -> addLog(log)), this::onUpdateStatus);
+        downloader = new VisualDownloader(application, progressBar, speed, volume,
+                                          (log) -> contextHelper.runInFxThread(() -> addLog(log)));
         LookupHelper.<ButtonBase>lookup(layout, "#cancel").setOnAction((e) -> {
-            if (downloadStatus == DownloadStatus.DOWNLOAD && downloader.isDownload()) {
+            downloader.cancel();
+            try {
+                switchToBackScene();
+            } catch (Exception exception) {
+                errorHandle(exception);
+            }
+            /*if (downloadStatus == DownloadStatus.DOWNLOAD && downloader.isDownload()) {
                 downloader.cancel();
             } else if(downloadStatus == DownloadStatus.ERROR || downloadStatus == DownloadStatus.COMPLETE) {
                 try {
@@ -52,23 +59,12 @@ public class UpdateScene extends AbstractScene {
                 } catch (Exception exception) {
                     errorHandle(exception);
                 }
-            }
+            }*/
         });
     }
 
-    private void onUpdateStatus(DownloadStatus newStatus) {
-        this.downloadStatus = newStatus;
-        LogHelper.debug("Update download status: %s", newStatus.toString());
-    }
-
-    public void sendUpdateAssetRequest(String dirName, Path dir, FileNameMatcher matcher, boolean digest,
-            String assetIndex, boolean test, Consumer<HashedDir> onSuccess) {
-        downloader.sendUpdateAssetRequest(dirName, dir, matcher, digest, assetIndex, test, onSuccess);
-    }
-
-    public void sendUpdateRequest(String dirName, Path dir, FileNameMatcher matcher, boolean digest, OptionalView view,
-            boolean optionalsEnabled, boolean test, Consumer<HashedDir> onSuccess) {
-        downloader.sendUpdateRequest(dirName, dir, matcher, digest, view, optionalsEnabled, test, onSuccess);
+    public LauncherBackendAPI.DownloadCallback makeDownloadCallback() {
+        return downloader;
     }
 
     public void addLog(String string) {

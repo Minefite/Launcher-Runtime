@@ -142,12 +142,5 @@ public class JavaRuntimeModule extends LauncherModule {
         if(LauncherBackendAPIHolder.getApi() != null) {
             LauncherBackendAPIHolder.getApi().shutdown();
         }
-        if (provider != null && provider instanceof StdJavaRuntimeProvider stdJavaRuntimeProvider) {
-            try {
-                stdJavaRuntimeProvider.getApplication().saveSettings();
-            } catch (Throwable e) {
-                LogHelper.error(e);
-            }
-        }
     }
 }

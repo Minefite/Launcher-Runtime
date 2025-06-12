@@ -2,18 +2,19 @@ package pro.gravit.launcher.gui.scenes.debug;
 
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import pro.gravit.launcher.core.backend.LauncherBackendAPI;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.JavaRuntimeModule;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.scenes.AbstractScene;
-import pro.gravit.launcher.gui.service.LaunchService;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.io.EOFException;
 
 public class DebugScene extends AbstractScene {
-    private ProcessLogOutput processLogOutput;
-    private LaunchService.ClientInstance clientInstance;
+    private volatile ProcessLogOutput processLogOutput;
+    private TextArea output;
 
     public DebugScene(JavaFXApplication application) {
         super("scenes/debug/debug.fxml", application);
@@ -22,18 +23,17 @@ public class DebugScene extends AbstractScene {
 
     @Override
     protected void doInit() {
-        processLogOutput = new ProcessLogOutput(LookupHelper.lookup(layout, "#output"));
+        processLogOutput = new ProcessLogOutput(output);
         LookupHelper.<ButtonBase>lookupIfPossible(header, "#controls", "#kill").ifPresent((x) -> x.setOnAction((e) -> {
-            if(clientInstance != null) clientInstance.kill();
+            processLogOutput.terminate();
         }));
 
         LookupHelper.<Label>lookupIfPossible(layout, "#version")
                     .ifPresent((v) -> v.setText(JavaRuntimeModule.getMiniLauncherInfo()));
         LookupHelper.<ButtonBase>lookupIfPossible(header, "#controls", "#copy").ifPresent((x) -> x.setOnAction((e) -> processLogOutput.copyToClipboard()));
         LookupHelper.<ButtonBase>lookup(header, "#back").setOnAction((e) -> {
-            if(clientInstance != null) {
-                clientInstance.unregisterListener(processLogOutput);
-            }
+            processLogOutput.detach();
+            processLogOutput = new ProcessLogOutput(output);
             try {
                 switchToBackScene();
             } catch (Exception ex) {
@@ -48,17 +48,12 @@ public class DebugScene extends AbstractScene {
         processLogOutput.clear();
     }
 
-    public void onClientInstance(LaunchService.ClientInstance clientInstance) {
-        this.clientInstance = clientInstance;
-        this.clientInstance.registerListener(processLogOutput);
-        this.clientInstance.getOnWriteParamsFuture().thenAccept((ok) -> processLogOutput.append("[START] Write param successful\n")).exceptionally((e) -> {
+    public void run(LauncherBackendAPI.ReadyProfile readyProfile) {
+        try {
+            readyProfile.run(processLogOutput);
+        } catch (Throwable e) {
             errorHandle(e);
-            return null;
-        });
-        this.clientInstance.start().thenAccept((code) -> processLogOutput.append(String.format("[START] Process exit with code %d", code))).exceptionally((e) -> {
-            errorHandle(e);
-            return null;
-        });
+        }
     }
 
     public void append(String text) {

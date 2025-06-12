@@ -7,117 +7,100 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import pro.gravit.launcher.base.profiles.ClientProfile;
-import pro.gravit.launcher.gui.config.RuntimeSettings;
+import pro.gravit.launcher.core.api.features.ProfileFeatureAPI;
+import pro.gravit.launcher.core.backend.LauncherBackendAPI;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.service.JavaService;
-import pro.gravit.utils.helper.JavaHelper;
 import pro.gravit.utils.helper.LogHelper;
 
 public class JavaSelectorComponent {
-    private final ComboBox<JavaHelper.JavaVersion> comboBox;
-    private final RuntimeSettings.ProfileSettingsView profileSettings;
-    private final ClientProfile profile;
-    private final JavaService javaService;
+    private final ComboBox<LauncherBackendAPI.Java> comboBox;
+    private final LauncherBackendAPI.ClientProfileSettings profileSettings;
+    private final ProfileFeatureAPI.ClientProfile profile;
 
-    public JavaSelectorComponent(JavaService javaService, Pane layout,
-            RuntimeSettings.ProfileSettingsView profileSettings, ClientProfile profile) {
+    public JavaSelectorComponent(Pane layout,
+            LauncherBackendAPI.ClientProfileSettings profileSettings, ProfileFeatureAPI.ClientProfile profile) {
         comboBox = LookupHelper.lookup(layout, "#javaCombo");
         this.profile = profile;
         comboBox.getItems().clear();
         this.profileSettings = profileSettings;
-        this.javaService = javaService;
-        comboBox.setConverter(new JavaVersionConverter(profile));
+        comboBox.setConverter(new JavaVersionConverter(profileSettings));
         comboBox.setCellFactory(new JavaVersionCellFactory(comboBox.getConverter()));
         reset();
     }
 
     public void reset() {
         boolean reset = true;
-        for (JavaHelper.JavaVersion version : javaService.javaVersions) {
-            if (javaService.isIncompatibleJava(version, profile)) {
-                continue;
+        LauncherBackendAPIHolder.getApi().getAvailableJava().thenAccept((javas) -> {
+            for (LauncherBackendAPI.Java version : javas) {
+                if (!profileSettings.isCompatible(version)) {
+                    continue;
+                }
+                comboBox.getItems().add(version);
+                comboBox.setValue(profileSettings.getSelectedJava());
             }
-            comboBox.getItems().add(version);
-            if (profileSettings.javaPath != null && profileSettings.javaPath.equals(version.jvmDir.toString())) {
-                comboBox.setValue(version);
-                reset = false;
-            }
-        }
-        if (comboBox.getTooltip() != null) {
-            comboBox.getTooltip().setText(profileSettings.javaPath);
-        }
-        if (reset) {
-            JavaHelper.JavaVersion recommend = javaService.getRecommendJavaVersion(profile);
-            if (recommend != null) {
-                LogHelper.warning("Selected Java Version not found. Using %s",
-                                  recommend.jvmDir.toAbsolutePath().toString());
-                comboBox.getSelectionModel().select(recommend);
-                profileSettings.javaPath = recommend.jvmDir.toAbsolutePath().toString();
-            }
-        }
-        comboBox.setOnAction(e -> {
-            JavaHelper.JavaVersion version = comboBox.getValue();
-            if (version == null) return;
-            var path = version.jvmDir.toAbsolutePath().toString();
             if (comboBox.getTooltip() != null) {
-                comboBox.getTooltip().setText(path);
+                comboBox.getTooltip().setText(profileSettings.getSelectedJava().getPath().toAbsolutePath().toString());
             }
-            LogHelper.info("Select Java %s", path);
-            profileSettings.javaPath = path;
+            comboBox.setOnAction(e -> {
+                LauncherBackendAPI.Java version = comboBox.getValue();
+                if (version == null) return;
+                LogHelper.info("Select Java %s", version.getPath().toAbsolutePath().toString());
+                profileSettings.setSelectedJava(version);
+            });
         });
     }
 
     public String getPath() {
-        return comboBox.getValue().jvmDir.toAbsolutePath().toString();
+        return comboBox.getValue().getPath().toAbsolutePath().toString();
     }
 
-    private static class JavaVersionConverter extends StringConverter<JavaHelper.JavaVersion> {
-        private final ClientProfile profile;
+    private static class JavaVersionConverter extends StringConverter<LauncherBackendAPI.Java> {
+        private final LauncherBackendAPI.ClientProfileSettings settings;
 
-        private JavaVersionConverter(ClientProfile profile) {
-            this.profile = profile;
+        public JavaVersionConverter(LauncherBackendAPI.ClientProfileSettings settings) {
+            this.settings = settings;
         }
 
         @Override
-        public String toString(JavaHelper.JavaVersion object) {
+        public String toString(LauncherBackendAPI.Java object) {
             if (object == null) return "Unknown";
             String postfix = "";
-            if (object.version == profile.getRecommendJavaVersion()) {
+            if (settings.isRecommended(object)) {
                 postfix = "[RECOMMENDED]";
             }
-            return "Java %d b%d %s".formatted(object.version, object.build, postfix);
+            return "Java %d %s".formatted(object.getMajorVersion(), postfix);
         }
 
         @Override
-        public JavaHelper.JavaVersion fromString(String string) {
+        public LauncherBackendAPI.Java fromString(String string) {
             return null;
         }
     }
 
-    private static class JavaVersionCellFactory implements Callback<ListView<JavaHelper.JavaVersion>, ListCell<JavaHelper.JavaVersion>> {
+    private static class JavaVersionCellFactory implements Callback<ListView<LauncherBackendAPI.Java>, ListCell<LauncherBackendAPI.Java>> {
 
-        private final StringConverter<JavaHelper.JavaVersion> converter;
+        private final StringConverter<LauncherBackendAPI.Java> converter;
 
-        public JavaVersionCellFactory(StringConverter<JavaHelper.JavaVersion> converter) {
+        public JavaVersionCellFactory(StringConverter<LauncherBackendAPI.Java> converter) {
             this.converter = converter;
         }
 
         @Override
-        public ListCell<JavaHelper.JavaVersion> call(ListView<JavaHelper.JavaVersion> param) {
+        public ListCell<LauncherBackendAPI.Java> call(ListView<LauncherBackendAPI.Java> param) {
             return new JavaVersionListCell(converter);
         }
     }
 
-    private static class JavaVersionListCell extends ListCell<JavaHelper.JavaVersion> {
-        private final StringConverter<JavaHelper.JavaVersion> converter;
+    private static class JavaVersionListCell extends ListCell<LauncherBackendAPI.Java> {
+        private final StringConverter<LauncherBackendAPI.Java> converter;
 
-        public JavaVersionListCell(StringConverter<JavaHelper.JavaVersion> converter) {
+        public JavaVersionListCell(StringConverter<LauncherBackendAPI.Java> converter) {
             this.converter = converter;
         }
 
         @Override
-        protected void updateItem(JavaHelper.JavaVersion item, boolean empty) {
+        protected void updateItem(LauncherBackendAPI.Java item, boolean empty) {
             super.updateItem(item, empty);
 
             if (empty || item == null) {
@@ -125,7 +108,7 @@ public class JavaSelectorComponent {
                 setTooltip(null);
             } else {
                 setText(converter.toString(item));
-                Tooltip tooltip = new Tooltip(item.jvmDir.toString());
+                Tooltip tooltip = new Tooltip(item.getPath().toString());
                 tooltip.setAnchorLocation(Tooltip.AnchorLocation.WINDOW_BOTTOM_LEFT);
                 setTooltip(tooltip);
             }

@@ -7,6 +7,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import pro.gravit.launcher.base.profiles.optional.OptionalFile;
 import pro.gravit.launcher.base.profiles.optional.OptionalView;
+import pro.gravit.launcher.core.api.features.ProfileFeatureAPI;
+import pro.gravit.launcher.core.backend.LauncherBackendAPI;
 import pro.gravit.launcher.gui.JavaFXApplication;
 
 import java.util.Arrays;
@@ -19,16 +21,15 @@ public class OptionsTab {
     private final TabPane tabPane;
     private final JavaFXApplication application;
     private final Map<String, Tab> tabs = new HashMap<>();
-    private OptionalView optionalView;
-    private final Map<OptionalFile, Consumer<Boolean>> watchers = new HashMap<>();
+    private final Map<ProfileFeatureAPI.OptionalMod, Consumer<Boolean>> watchers = new HashMap<>();
 
     public OptionsTab(JavaFXApplication application, TabPane tabPane) {
         this.tabPane = tabPane;
         this.application = application;
     }
 
-    void callWatcher(OptionalFile file, Boolean value) {
-        for (Map.Entry<OptionalFile, Consumer<Boolean>> v : watchers.entrySet()) {
+    void callWatcher(ProfileFeatureAPI.OptionalMod file, Boolean value) {
+        for (Map.Entry<ProfileFeatureAPI.OptionalMod, Consumer<Boolean>> v : watchers.entrySet()) {
             if (v.getKey() == file) {
                 v.getValue().accept(value);
                 break;
@@ -36,21 +37,23 @@ public class OptionsTab {
         }
     }
 
-    public void addProfileOptionals(OptionalView view) {
-        this.optionalView = new OptionalView(view);
+    public void addProfileOptionals(LauncherBackendAPI.ClientProfileSettings profileSettings) {
         watchers.clear();
-        for (OptionalFile optionalFile : optionalView.all) {
-            if (!optionalFile.visible) continue;
-            List<String> libraries = optionalFile.dependencies == null ? List.of() : Arrays.stream(
-                    optionalFile.dependencies).map(OptionalFile::getName).toList();
+        for (ProfileFeatureAPI.OptionalMod optionalFile : profileSettings.getAllOptionals()) {
+            if (!optionalFile.isVisible()) continue;
+            List<String> libraries = optionalFile.getDependencies() == null ? List.of() :
+                    optionalFile.getDependencies()
+                                .stream()
+                                .map(ProfileFeatureAPI.OptionalMod::getName)
+                                .toList();
 
             Consumer<Boolean> setCheckBox =
-                    add(optionalFile.category == null ? "GLOBAL" : optionalFile.category, optionalFile.name,
-                        optionalFile.info, optionalView.enabled.contains(optionalFile),
-                        optionalFile.subTreeLevel,
+                    add(optionalFile.getCategory() == null ? "GLOBAL" : optionalFile.getCategory(), optionalFile.getName(),
+                        optionalFile.getDescription(), profileSettings.getEnabledOptionals().contains(optionalFile),
+                        0,
                         (isSelected) -> {
-                            if (isSelected) optionalView.enable(optionalFile, true, this::callWatcher);
-                            else optionalView.disable(optionalFile, this::callWatcher);
+                            if (isSelected) profileSettings.enableOptional(optionalFile, this::callWatcher);
+                            else profileSettings.disableOptional(optionalFile, this::callWatcher);
                         }, libraries);
             watchers.put(optionalFile, setCheckBox);
         }
@@ -125,9 +128,5 @@ public class OptionsTab {
     public void clear() {
         tabPane.getTabs().clear();
         tabs.clear();
-    }
-
-    public OptionalView getOptionalView() {
-        return optionalView;
     }
 }

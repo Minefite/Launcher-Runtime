@@ -60,18 +60,15 @@ public class JavaFXApplication extends Application {
     public RequestService service;
     public GuiObjectsContainer gui;
     public AuthService authService;
-    public ProfilesService profilesService;
-    public LaunchService launchService;
+    public ProfileService profileService;
     public GuiModuleConfig guiModuleConfig;
     public MessageManager messageManager;
     public RuntimeSecurityService securityService;
     public SkinManager skinManager;
     public FXMLFactory fxmlFactory;
-    public JavaService javaService;
     public PingService pingService;
     public OfflineService offlineService;
     public BackendCallbackService backendCallbackService;
-    public TriggerManager triggerManager;
     private PrimaryStage mainStage;
     private boolean debugMode;
     private ResourceBundle resources;
@@ -106,15 +103,11 @@ public class JavaFXApplication extends Application {
                 ? DirBridge.defaultUpdatesDir
                 : runtimeSettings.updatesDir;
         service = Request.getRequestService();
-        service.registerEventHandler(new GuiEventHandler(this));
         authService = new AuthService(this);
-        launchService = new LaunchService(this);
-        profilesService = new ProfilesService(this);
+        profileService = new ProfileService(this);
         messageManager = new MessageManager(this);
         securityService = new RuntimeSecurityService(this);
         skinManager = new SkinManager(this);
-        triggerManager = new TriggerManager(this);
-        javaService = new JavaService(this);
         offlineService = new OfflineService(this);
         pingService = new PingService();
         LauncherBackendAPIHolder.getApi().setCallback(backendCallbackService);
@@ -248,7 +241,6 @@ public class JavaFXApplication extends Application {
     @Override
     public void stop() {
         LogHelper.debug("JavaFX method stop invoked");
-        LauncherBackendAPIHolder.getApi().shutdown();
         LauncherEngine.modulesManager.invokeEvent(new ClientExitPhase(0));
     }
 
@@ -286,21 +278,6 @@ public class JavaFXApplication extends Application {
 
     }
 
-    public RuntimeSettings.ProfileSettings getProfileSettings() {
-        return getProfileSettings(profilesService.getProfile());
-    }
-
-    public RuntimeSettings.ProfileSettings getProfileSettings(ClientProfile profile) {
-        if (profile == null) throw new NullPointerException("ClientProfile not selected");
-        UUID uuid = profile.getUUID();
-        RuntimeSettings.ProfileSettings settings = runtimeSettings.profileSettings.get(uuid);
-        if (settings == null) {
-            settings = RuntimeSettings.ProfileSettings.getDefault(javaService, profile);
-            runtimeSettings.profileSettings.put(uuid, settings);
-        }
-        return settings;
-    }
-
     public void setMainScene(AbstractScene scene) throws Exception {
         mainStage.setScene(scene, true);
     }
@@ -335,16 +312,6 @@ public class JavaFXApplication extends Application {
         } catch (Throwable e) {
             LogHelper.error(e);
             return false;
-        }
-    }
-
-    public void saveSettings() throws IOException {
-        if (profilesService != null) {
-            try {
-                profilesService.saveAll();
-            } catch (Throwable ex) {
-                LogHelper.error(ex);
-            }
         }
     }
 }
