@@ -78,34 +78,6 @@ public class LoginScene extends AbstractScene {
         getAvailabilityAuth();
     }
 
-//    private void launcherRequest() {
-//        processRequest(application.getTranslation("runtime.overlay.processing.text.launcher"), LauncherAPIHolder.core().checkUpdates(),
-//                       (result) -> {
-//                           if (result.required()) {
-//                               try {
-//                                   LogHelper.debug("Start update processing");
-//                                   disable();
-//                                   StdJavaRuntimeProvider.updatePath = LauncherUpdater.prepareUpdate(
-//                                           new URI(result.url()).toURL());
-//                                   LogHelper.debug("Exit with Platform.exit");
-//                                   Platform.exit();
-//                                   return;
-//                               } catch (Throwable e) {
-//                                   contextHelper.runInFxThread(() -> errorHandle(e));
-//                                   try {
-//                                       Thread.sleep(1500);
-//                                       LauncherEngine.modulesManager.invokeEvent(new ClientExitPhase(0));
-//                                       Platform.exit();
-//                                   } catch (Throwable ex) {
-//                                       LauncherEngine.exitLauncher(0);
-//                                   }
-//                               }
-//                           }
-//                           LogHelper.dev("Launcher update processed");
-//                           getAvailabilityAuth();
-//                       }, (event) -> LauncherEngine.exitLauncher(0));
-//    }
-
     private void getAvailabilityAuth() {
         processing(application.backendCallbackService.initDataCallback,
                    application.getTranslation("runtime.overlay.processing.text.launcher"),
