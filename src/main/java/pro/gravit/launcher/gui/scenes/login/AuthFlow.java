@@ -1,16 +1,7 @@
 package pro.gravit.launcher.gui.scenes.login;
 
 import pro.gravit.launcher.base.events.request.AuthRequestEvent;
-import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
-import pro.gravit.launcher.base.request.Request;
 import pro.gravit.launcher.base.request.RequestException;
-import pro.gravit.launcher.base.request.auth.AuthRequest;
-import pro.gravit.launcher.base.request.auth.RefreshTokenRequest;
-import pro.gravit.launcher.base.request.auth.password.Auth2FAPassword;
-import pro.gravit.launcher.base.request.auth.password.AuthMultiPassword;
-import pro.gravit.launcher.base.request.auth.password.AuthOAuthPassword;
-import pro.gravit.launcher.core.api.LauncherAPIHolder;
-import pro.gravit.launcher.core.api.features.AuthFeatureAPI;
 import pro.gravit.launcher.core.api.method.AuthMethod;
 import pro.gravit.launcher.core.api.method.AuthMethodDetails;
 import pro.gravit.launcher.core.api.method.AuthMethodPassword;
@@ -20,7 +11,6 @@ import pro.gravit.launcher.core.api.method.details.AuthTotpDetails;
 import pro.gravit.launcher.core.api.method.details.AuthWebDetails;
 import pro.gravit.launcher.core.api.method.password.AuthChainPassword;
 import pro.gravit.launcher.core.api.model.SelfUser;
-import pro.gravit.launcher.core.api.model.User;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.gui.scenes.login.methods.*;
 import pro.gravit.utils.helper.LogHelper;

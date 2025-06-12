@@ -1,37 +1,26 @@
 package pro.gravit.launcher.gui.scenes.login;
 
-import javafx.application.Platform;
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
-import pro.gravit.launcher.client.events.ClientExitPhase;
-import pro.gravit.launcher.core.api.LauncherAPIHolder;
-import pro.gravit.launcher.core.api.features.AuthFeatureAPI;
+import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
+import pro.gravit.launcher.base.request.Request;
+import pro.gravit.launcher.base.request.WebSocketEvent;
+import pro.gravit.launcher.base.request.update.ProfilesRequest;
 import pro.gravit.launcher.core.api.method.AuthMethod;
 import pro.gravit.launcher.core.api.model.Texture;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
-import pro.gravit.launcher.gui.StdJavaRuntimeProvider;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
 import pro.gravit.launcher.gui.scenes.AbstractScene;
-import pro.gravit.launcher.runtime.LauncherEngine;
-import pro.gravit.launcher.runtime.utils.LauncherUpdater;
-import pro.gravit.launcher.base.events.request.AuthRequestEvent;
-import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
-import pro.gravit.launcher.base.request.Request;
-import pro.gravit.launcher.base.request.WebSocketEvent;
-import pro.gravit.launcher.base.request.auth.AuthRequest;
-import pro.gravit.launcher.base.request.auth.GetAvailabilityAuthRequest;
-import pro.gravit.launcher.base.request.auth.details.AuthPasswordDetails;
-import pro.gravit.launcher.base.request.auth.password.*;
-import pro.gravit.launcher.base.request.update.LauncherRequest;
-import pro.gravit.launcher.base.request.update.ProfilesRequest;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.net.URI;
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 

@@ -1,11 +1,12 @@
 package pro.gravit.launcher.gui;
 
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.runtime.utils.HWIDProvider;
 import pro.gravit.launcher.base.request.secure.GetSecureLevelInfoRequest;
 import pro.gravit.launcher.base.request.secure.HardwareReportRequest;
 import pro.gravit.launcher.base.request.secure.VerifySecureLevelKeyRequest;
-import pro.gravit.utils.helper.*;
+import pro.gravit.launcher.runtime.utils.HWIDProvider;
+import pro.gravit.utils.helper.CommonHelper;
+import pro.gravit.utils.helper.LogHelper;
+import pro.gravit.utils.helper.SecurityHelper;
 
 import java.io.IOException;
 

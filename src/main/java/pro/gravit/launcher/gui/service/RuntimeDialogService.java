@@ -1,8 +1,8 @@
 package pro.gravit.launcher.gui.service;
 
+import pro.gravit.launcher.base.events.NotificationEvent;
 import pro.gravit.launcher.client.api.DialogService;
 import pro.gravit.launcher.gui.impl.MessageManager;
-import pro.gravit.launcher.base.events.NotificationEvent;
 
 import java.util.function.Consumer;
 

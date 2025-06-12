@@ -3,16 +3,14 @@ package pro.gravit.launcher.gui.overlays;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Labeled;
-import pro.gravit.launcher.core.api.LauncherAPIHolder;
+import pro.gravit.launcher.base.request.Request;
+import pro.gravit.launcher.base.request.WebSocketEvent;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.impl.AbstractStage;
 import pro.gravit.launcher.gui.impl.ContextHelper;
-import pro.gravit.launcher.base.request.Request;
-import pro.gravit.launcher.base.request.WebSocketEvent;
 import pro.gravit.utils.helper.LogHelper;
 
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 

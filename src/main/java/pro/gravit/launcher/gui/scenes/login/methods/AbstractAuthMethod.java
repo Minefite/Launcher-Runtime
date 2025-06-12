@@ -2,7 +2,6 @@ package pro.gravit.launcher.gui.scenes.login.methods;
 
 import pro.gravit.launcher.core.api.method.AuthMethodDetails;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
-import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
 
 import java.util.concurrent.CompletableFuture;
 

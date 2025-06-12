@@ -1,6 +1,11 @@
 package pro.gravit.launcher.gui;
 
 import javafx.stage.Stage;
+import pro.gravit.launcher.base.modules.LauncherInitContext;
+import pro.gravit.launcher.base.modules.LauncherModule;
+import pro.gravit.launcher.base.modules.LauncherModuleInfo;
+import pro.gravit.launcher.base.modules.events.OfflineModeEvent;
+import pro.gravit.launcher.base.request.websockets.OfflineRequestService;
 import pro.gravit.launcher.client.events.ClientExitPhase;
 import pro.gravit.launcher.client.events.ClientUnlockConsoleEvent;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
@@ -9,11 +14,6 @@ import pro.gravit.launcher.runtime.LauncherEngine;
 import pro.gravit.launcher.runtime.client.events.ClientEngineInitPhase;
 import pro.gravit.launcher.runtime.client.events.ClientPreGuiPhase;
 import pro.gravit.launcher.runtime.gui.RuntimeProvider;
-import pro.gravit.launcher.base.modules.LauncherInitContext;
-import pro.gravit.launcher.base.modules.LauncherModule;
-import pro.gravit.launcher.base.modules.LauncherModuleInfo;
-import pro.gravit.launcher.base.modules.events.OfflineModeEvent;
-import pro.gravit.launcher.base.request.websockets.OfflineRequestService;
 import pro.gravit.utils.Version;
 import pro.gravit.utils.helper.JVMHelper;
 import pro.gravit.utils.helper.LogHelper;

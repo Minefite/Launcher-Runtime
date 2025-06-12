@@ -1,7 +1,6 @@
 package pro.gravit.launcher.gui;
 
 import javafx.application.Application;
-import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.runtime.LauncherEngine;
 import pro.gravit.launcher.runtime.gui.RuntimeProvider;
 import pro.gravit.launcher.runtime.utils.LauncherUpdater;

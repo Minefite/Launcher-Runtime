@@ -1,20 +1,19 @@
 package pro.gravit.launcher.gui.service;
 
 import pro.gravit.launcher.base.Launcher;
+import pro.gravit.launcher.base.profiles.ClientProfile;
 import pro.gravit.launcher.base.profiles.ClientProfileBuilder;
+import pro.gravit.launcher.base.profiles.ClientProfileVersions;
 import pro.gravit.launcher.base.profiles.PlayerProfile;
-import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
+import pro.gravit.launcher.base.profiles.optional.OptionalView;
+import pro.gravit.launcher.base.request.auth.SetProfileRequest;
+import pro.gravit.launcher.core.hasher.HashedDir;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.config.RuntimeSettings;
 import pro.gravit.launcher.gui.impl.AbstractStage;
 import pro.gravit.launcher.gui.impl.ContextHelper;
 import pro.gravit.launcher.runtime.client.ClientLauncherProcess;
 import pro.gravit.launcher.runtime.client.DirBridge;
-import pro.gravit.launcher.core.hasher.HashedDir;
-import pro.gravit.launcher.base.profiles.ClientProfile;
-import pro.gravit.launcher.base.profiles.ClientProfileVersions;
-import pro.gravit.launcher.base.profiles.optional.OptionalView;
-import pro.gravit.launcher.base.request.auth.SetProfileRequest;
 import pro.gravit.utils.helper.*;
 
 import java.io.EOFException;

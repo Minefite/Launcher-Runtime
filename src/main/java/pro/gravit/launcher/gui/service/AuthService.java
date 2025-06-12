@@ -2,22 +2,14 @@ package pro.gravit.launcher.gui.service;
 
 import pro.gravit.launcher.base.Launcher;
 import pro.gravit.launcher.base.LauncherConfig;
-import pro.gravit.launcher.core.api.features.AuthFeatureAPI;
+import pro.gravit.launcher.base.request.auth.password.AuthAESPassword;
+import pro.gravit.launcher.base.request.auth.password.AuthPlainPassword;
 import pro.gravit.launcher.core.api.method.AuthMethod;
 import pro.gravit.launcher.core.api.method.AuthMethodPassword;
 import pro.gravit.launcher.core.api.model.SelfUser;
 import pro.gravit.launcher.core.api.model.User;
 import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.base.events.request.AuthRequestEvent;
-import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
-import pro.gravit.launcher.base.profiles.PlayerProfile;
-import pro.gravit.launcher.base.request.Request;
-import pro.gravit.launcher.base.request.auth.AuthRequest;
-import pro.gravit.launcher.base.request.auth.password.*;
 import pro.gravit.utils.helper.SecurityHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AuthService {
     private final LauncherConfig config = Launcher.getConfig();
