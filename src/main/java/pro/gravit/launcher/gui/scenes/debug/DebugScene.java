@@ -23,6 +23,7 @@ public class DebugScene extends AbstractScene {
 
     @Override
     protected void doInit() {
+        output = LookupHelper.lookup(layout, "#output");
         processLogOutput = new ProcessLogOutput(output);
         LookupHelper.<ButtonBase>lookupIfPossible(header, "#controls", "#kill").ifPresent((x) -> x.setOnAction((e) -> {
             processLogOutput.terminate();

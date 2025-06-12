@@ -42,18 +42,6 @@ public class SettingsScene extends BaseSettingsScene implements SceneSupportUser
 
         ramSlider = LookupHelper.lookup(componentList, "#ramSlider");
         ramLabel = LookupHelper.lookup(componentList, "#ramLabel");
-        long maxSystemMemory;
-        try {
-            SystemInfo systemInfo = new SystemInfo();
-            maxSystemMemory = (systemInfo.getHardware().getMemory().getTotal() >> 20);
-        } catch (Throwable ignored) {
-            try {
-                maxSystemMemory = (SystemMemory.getPhysicalMemorySize() >> 20);
-            } catch (Throwable ignored1) {
-                maxSystemMemory = 2048;
-            }
-        }
-        ramSlider.setMax(Math.min(maxSystemMemory, getJavaMaxMemory()));
 
         ramSlider.setSnapToTicks(true);
         ramSlider.setShowTickMarks(true);
@@ -83,10 +71,6 @@ public class SettingsScene extends BaseSettingsScene implements SceneSupportUser
         reset();
     }
 
-    private long getJavaMaxMemory() {
-        return profileSettings.getMaxMemoryBytes(LauncherBackendAPI.ClientProfileSettings.MemoryClass.TOTAL);
-    }
-
     @Override
     public void reset() {
         super.reset();
@@ -94,9 +78,10 @@ public class SettingsScene extends BaseSettingsScene implements SceneSupportUser
         profileSettings = LauncherBackendAPIHolder.getApi().makeClientProfileSettings(profile);
         javaSelector = new JavaSelectorComponent(componentList, profileSettings, profile);
         ramSlider.setValue(getReservedMemoryMbs());
+        ramSlider.setMax(profileSettings.getMaxMemoryBytes(LauncherBackendAPI.ClientProfileSettings.MemoryClass.TOTAL) >> 20);
         ramSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             profileSettings.setReservedMemoryBytes(LauncherBackendAPI.ClientProfileSettings.MemoryClass.TOTAL,
-                                                   (long) newValue.intValue() << 10);
+                                                   (long) newValue.intValue() << 20);
             updateRamLabel();
         });
         updateRamLabel();
@@ -126,7 +111,7 @@ public class SettingsScene extends BaseSettingsScene implements SceneSupportUser
     }
 
     private long getReservedMemoryMbs() {
-        return profileSettings.getReservedMemoryBytes(LauncherBackendAPI.ClientProfileSettings.MemoryClass.TOTAL) >> 10;
+        return profileSettings.getReservedMemoryBytes(LauncherBackendAPI.ClientProfileSettings.MemoryClass.TOTAL) >> 20;
     }
 
     @Override

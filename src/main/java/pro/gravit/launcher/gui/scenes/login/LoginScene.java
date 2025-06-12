@@ -205,6 +205,7 @@ public class LoginScene extends AbstractScene {
                            if (application.getCurrentScene() instanceof LoginScene loginScene) {
                                loginScene.authFlow.isLoginStarted = false;
                            }
+                           application.profileService.setProfiles(profiles);
                            application.setMainScene(application.gui.serverMenuScene);
                        });
                    }, null);
