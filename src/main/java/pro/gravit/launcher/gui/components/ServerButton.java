@@ -53,7 +53,7 @@ public class ServerButton extends AbstractVisualComponent {
     @Override
     protected void doInit() {
         LookupHelper.<Labeled>lookup(layout, "#nameServer").setText(profile.getName());
-        //LookupHelper.<Labeled>lookup(layout, "#genreServer").setText(profile.getVersion().toString());
+        LookupHelper.<Labeled>lookup(layout, "#genreServer").setText(profile.getMinecraftVersion());
         this.serverLogo = LookupHelper.lookup(layout, "#serverLogo");
         URL logo = application.tryResource(String.format(SERVER_BUTTON_CUSTOM_IMAGE, profile.getUUID().toString()));
         if(logo == null) {
