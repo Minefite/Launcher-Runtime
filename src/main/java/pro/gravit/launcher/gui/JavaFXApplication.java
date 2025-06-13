@@ -63,7 +63,6 @@ public class JavaFXApplication extends Application {
     public ProfileService profileService;
     public GuiModuleConfig guiModuleConfig;
     public MessageManager messageManager;
-    public RuntimeSecurityService securityService;
     public SkinManager skinManager;
     public FXMLFactory fxmlFactory;
     public PingService pingService;
@@ -106,7 +105,6 @@ public class JavaFXApplication extends Application {
         authService = new AuthService(this);
         profileService = new ProfileService(this);
         messageManager = new MessageManager(this);
-        securityService = new RuntimeSecurityService(this);
         skinManager = new SkinManager(this);
         offlineService = new OfflineService(this);
         pingService = new PingService();
