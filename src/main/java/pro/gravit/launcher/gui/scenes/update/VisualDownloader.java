@@ -54,7 +54,7 @@ public class VisualDownloader extends LauncherBackendAPI.DownloadCallback {
     @Override
     public void onCurrentDownloaded(long current) {
         super.onCurrentDownloaded(current);
-        updateProgress(current);
+        updateProgress(totalDownloaded.addAndGet(current));
     }
 
     private void resetProgress() {

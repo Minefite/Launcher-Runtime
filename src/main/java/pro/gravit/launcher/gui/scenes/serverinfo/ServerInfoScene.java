@@ -81,6 +81,11 @@ public class ServerInfoScene extends AbstractScene implements SceneSupportUserBl
                 contextHelper.runInFxThread(() -> {
                     switchScene(application.gui.debugScene);
                     application.gui.debugScene.run(readyProfile);
+                }).handle((success, error) -> {
+                    if(error != null) {
+                        errorHandle(error);
+                    }
+                    return null;
                 });
         });
 
