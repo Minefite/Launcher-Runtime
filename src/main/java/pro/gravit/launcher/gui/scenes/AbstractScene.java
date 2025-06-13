@@ -60,18 +60,6 @@ public abstract class AbstractScene extends AbstractVisualComponent {
         overlay.show(currentStage, onFinished);
     }
 
-    @Deprecated
-    protected final <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
-            Consumer<T> onSuccess, EventHandler<ActionEvent> onError) {
-        application.gui.processingOverlay.processRequest(currentStage, message, request, onSuccess, onError);
-    }
-
-    @Deprecated
-    protected final <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
-            Consumer<T> onSuccess, Consumer<Throwable> onException, EventHandler<ActionEvent> onError) {
-        application.gui.processingOverlay.processRequest(currentStage, message, request, onSuccess, onException, onError);
-    }
-
     protected final <T> void processRequest(String message, CompletableFuture<T> request,
             Consumer<T> onSuccess, EventHandler<ActionEvent> onError) {
         application.gui.processingOverlay.processRequest(currentStage, message, request, onSuccess, onError);
@@ -155,18 +143,6 @@ public abstract class AbstractScene extends AbstractVisualComponent {
 
         public void runInFxThread(ContextHelper.GuiExceptionRunnable runnable) {
             contextHelper.runInFxThread(runnable);
-        }
-
-        @Deprecated
-        public <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
-                Consumer<T> onSuccess, EventHandler<ActionEvent> onError) {
-            AbstractScene.this.processRequest(message, request, onSuccess, onError);
-        }
-
-        @Deprecated
-        public final <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
-                Consumer<T> onSuccess, Consumer<Throwable> onException, EventHandler<ActionEvent> onError) {
-            AbstractScene.this.processRequest(message, request, onSuccess, onException, onError);
         }
 
         public <T> void processRequest(String message, CompletableFuture<T> request,

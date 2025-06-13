@@ -127,12 +127,6 @@ public class LoginScene extends AbstractScene {
         LogHelper.info("Added %s: %s", authAvailability.getName(), authAvailability.getDisplayName());
     }
 
-    @Deprecated
-    public <T extends WebSocketEvent> void processing(Request<T> request, String text, Consumer<T> onSuccess,
-            Consumer<String> onError) {
-        processRequest(text, request, onSuccess, (thr) -> onError.accept(thr.getCause().getMessage()), null);
-    }
-
     public <T> void processing(CompletableFuture<T> request, String text, Consumer<T> onSuccess,
             Consumer<String> onError) {
         processRequest(text, request, onSuccess, (thr) -> onError.accept(thr.getCause().getMessage()), null);
@@ -194,7 +188,7 @@ public class LoginScene extends AbstractScene {
                        application.profilesService.setProfilesResult(profiles);
                        application.runtimeSettings.profiles = profiles.profiles;*/
                        contextHelper.runInFxThread(() -> {
-                           application.securityService.startRequest();/*
+                           /*
                            if (application.gui.optionsScene != null) {
                                try {
                                    application.profilesService.loadAll();
@@ -258,12 +252,6 @@ public class LoginScene extends AbstractScene {
 
         public void clearContent() {
             content.getChildren().clear();
-        }
-
-        @Deprecated
-        public <T extends WebSocketEvent> void processing(Request<T> request, String text, Consumer<T> onSuccess,
-                Consumer<String> onError) {
-            LoginScene.this.processing(request, text, onSuccess, onError);
         }
 
         public <T> void processing(CompletableFuture<T> request, String text, Consumer<T> onSuccess,

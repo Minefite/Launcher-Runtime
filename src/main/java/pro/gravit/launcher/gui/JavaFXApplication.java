@@ -101,7 +101,6 @@ public class JavaFXApplication extends Application {
         DirBridge.dirUpdates = runtimeSettings.updatesDir == null
                 ? DirBridge.defaultUpdatesDir
                 : runtimeSettings.updatesDir;
-        service = Request.getRequestService();
         authService = new AuthService(this);
         profileService = new ProfileService(this);
         messageManager = new MessageManager(this);
@@ -110,18 +109,6 @@ public class JavaFXApplication extends Application {
         pingService = new PingService();
         LauncherBackendAPIHolder.getApi().setCallback(backendCallbackService);
         registerCommands();
-    }
-
-    @Deprecated
-    public final <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
-            Consumer<T> onSuccess, EventHandler<ActionEvent> onError) {
-        gui.processingOverlay.processRequest(getMainStage(), message, request, onSuccess, onError);
-    }
-
-    @Deprecated
-    public final <T extends WebSocketEvent> void processRequest(String message, Request<T> request,
-            Consumer<T> onSuccess, Consumer<Throwable> onException, EventHandler<ActionEvent> onError) {
-        gui.processingOverlay.processRequest(getMainStage(), message, request, onSuccess, onException, onError);
     }
 
     @Override
