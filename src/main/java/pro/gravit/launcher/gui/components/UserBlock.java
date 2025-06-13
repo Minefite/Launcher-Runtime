@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import pro.gravit.launcher.base.events.request.GetAssetUploadUrlRequestEvent;
 import pro.gravit.launcher.base.request.cabinet.AssetUploadInfoRequest;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
+import pro.gravit.launcher.core.backend.extensions.TextureUploadExtension;
 import pro.gravit.launcher.gui.JavaFXApplication;
 import pro.gravit.launcher.gui.config.DesignConstants;
 import pro.gravit.launcher.gui.helper.LookupHelper;
@@ -45,10 +47,15 @@ public class UserBlock {
                     .ifPresent((e) -> e.setText(application.authService.getMainRole()));
         avatar.setImage(originalAvatarImage);
         resetAvatar();
-        if(application.authService.isFeatureAvailable(GetAssetUploadUrlRequestEvent.FEATURE_NAME)) {
+        TextureUploadExtension extension = LauncherBackendAPIHolder.getApi().getExtension(TextureUploadExtension.class);
+        if(extension != null) {
             LookupHelper.<Button>lookupIfPossible(layout, "#customization").ifPresent((h) -> {
                 h.setVisible(true);
-                h.setOnAction((a) -> sceneAccessor.processRequest(application.getTranslation("runtime.overlay.processing.text.uploadassetinfo"), new AssetUploadInfoRequest(), (info) -> sceneAccessor.runInFxThread(() -> sceneAccessor.showOverlay(application.gui.uploadAssetOverlay, (f) -> application.gui.uploadAssetOverlay.onAssetUploadInfo(info))), sceneAccessor::errorHandle, (e) -> {}));
+                h.setOnAction((a) -> sceneAccessor.processRequest(
+                        application.getTranslation("runtime.overlay.processing.text.uploadassetinfo"),
+                        extension.fetchTextureUploadInfo(), (info) ->
+                                sceneAccessor.runInFxThread(() ->
+                                                                    sceneAccessor.showOverlay(application.gui.uploadAssetOverlay, (f) -> application.gui.uploadAssetOverlay.onAssetUploadInfo(info))), sceneAccessor::errorHandle, (e) -> {}));
             });
         }
     }
