@@ -12,7 +12,7 @@ import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.components.ServerButton;
 import pro.gravit.launcher.gui.components.UserBlock;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.gui.scenes.interfaces.SceneSupportUserBlock;
 import pro.gravit.utils.helper.CommonHelper;
 
@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServerMenuScene extends AbstractScene implements SceneSupportUserBlock {
+public class ServerMenuScene extends FxScene implements SceneSupportUserBlock {
     private UserBlock userBlock;
 
     public ServerMenuScene(JavaFXApplication application) {

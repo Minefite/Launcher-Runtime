@@ -1,9 +1,15 @@
 package pro.gravit.launcher.gui.core.utils;
 
+import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+import pro.gravit.launcher.gui.DesignConstants;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 
 import java.io.FileNotFoundException;
@@ -12,6 +18,7 @@ import java.net.URL;
 import java.nio.file.NoSuchFileException;
 
 public class JavaFxUtils {
+
     private JavaFxUtils() {
 
     }
@@ -57,5 +64,16 @@ public class JavaFxUtils {
             globalCss = JavaFXApplication.getResourceURL(url+".css");
         }
         return globalCss;
+    }
+
+    public static FadeTransition fade(Node region, double delay, double from, double to,
+            EventHandler<ActionEvent> onFinished) {
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(DesignConstants.FADE_TRANSITION_MS), region);
+        if (onFinished != null) fadeTransition.setOnFinished(onFinished);
+        fadeTransition.setDelay(Duration.millis(delay));
+        fadeTransition.setFromValue(from);
+        fadeTransition.setToValue(to);
+        fadeTransition.play();
+        return fadeTransition;
     }
 }

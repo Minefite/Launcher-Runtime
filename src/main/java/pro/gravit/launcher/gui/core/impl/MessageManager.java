@@ -7,7 +7,6 @@ import pro.gravit.launcher.gui.dialogs.ApplyDialog;
 import pro.gravit.launcher.gui.dialogs.InfoDialog;
 import pro.gravit.launcher.gui.dialogs.NotificationDialog;
 import pro.gravit.launcher.gui.helper.PositionHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
 import pro.gravit.launcher.gui.stage.DialogStage;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -23,7 +22,7 @@ public class MessageManager {
         createNotification(head, message, application.getCurrentScene() != null);
     }
 
-    public void initDialogInScene(AbstractScene scene, AbstractDialog dialog) {
+    public void initDialogInScene(FxScene scene, AbstractDialog dialog) {
         Pane dialogRoot = (Pane) dialog.getFxmlRootPrivate();
         if (!dialog.isInit()) {
             try {
@@ -44,7 +43,7 @@ public class MessageManager {
     public void createNotification(String head, String message, boolean isLauncher) {
         NotificationDialog dialog = new NotificationDialog(application, head, message);
         if (isLauncher) {
-            AbstractStage stage = application.getMainStage();
+            FxStage stage = application.getMainStage();
             if (stage == null)
                 throw new NullPointerException("Try show launcher notification in application.getMainStage() == null");
             ContextHelper.runInFxThreadStatic(() -> {
@@ -89,7 +88,7 @@ public class MessageManager {
 
     public void showAbstractDialog(AbstractDialog dialog, String header, boolean isLauncher) {
         if (isLauncher) {
-            AbstractScene scene = application.getCurrentScene();
+            FxScene scene = application.getCurrentScene();
             if (scene == null)
                 throw new NullPointerException("Try show launcher dialog in application.getCurrentScene() == null");
             ContextHelper.runInFxThreadStatic(() -> initDialogInScene(scene, dialog));

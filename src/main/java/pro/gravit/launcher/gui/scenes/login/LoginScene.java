@@ -13,7 +13,7 @@ import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.core.impl.UIComponent;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.net.URI;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-public class LoginScene extends AbstractScene {
+public class LoginScene extends FxScene {
     private List<AuthMethod> auth; //TODO: FIX? Field is assigned but never accessed.
     private CheckBox savePasswordCheckBox;
     private CheckBox autoenter;

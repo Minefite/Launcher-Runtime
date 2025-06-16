@@ -1,16 +1,14 @@
 package pro.gravit.launcher.gui.core.impl;
 
-import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import pro.gravit.launcher.base.request.RequestException;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
-import pro.gravit.launcher.gui.overlays.AbstractOverlay;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.internal.FXExecutorService;
+import pro.gravit.launcher.gui.core.internal.FXMLFactory;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.util.concurrent.CompletableFuture;
@@ -23,7 +21,7 @@ public abstract class FxComponent extends VisualComponentBase {
     protected final JavaFXApplication application;
     protected final ContextHelper contextHelper;
     protected final FXExecutorService fxExecutor;
-    protected AbstractStage currentStage;
+    protected FxStage currentStage;
     private final String sysFxmlPath;
     private Parent sysFxmlRoot;
     private CompletableFuture<Node> sysFxmlFuture;
@@ -45,17 +43,6 @@ public abstract class FxComponent extends VisualComponentBase {
         this.contextHelper = new ContextHelper(this);
         this.layout = layout;
         this.fxExecutor = new FXExecutorService(contextHelper);
-    }
-
-    public static FadeTransition fade(Node region, double delay, double from, double to,
-            EventHandler<ActionEvent> onFinished) {
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(100), region);
-        if (onFinished != null) fadeTransition.setOnFinished(onFinished);
-        fadeTransition.setDelay(Duration.millis(delay));
-        fadeTransition.setFromValue(from);
-        fadeTransition.setToValue(to);
-        fadeTransition.play();
-        return fadeTransition;
     }
 
     protected<T> Void errorHandle(T value, Throwable e) {
@@ -107,7 +94,7 @@ public abstract class FxComponent extends VisualComponentBase {
         isInit = true;
     }
 
-    protected void switchScene(AbstractScene scene) throws Exception {
+    protected void switchScene(FxScene scene) throws Exception {
         currentStage.setScene(scene, true);
         if(currentStage.getVisualComponent() != null) {
             currentStage.getVisualComponent().onHide();
@@ -143,7 +130,7 @@ public abstract class FxComponent extends VisualComponentBase {
         return getFxmlRoot();
     }
 
-    public void showOverlay(AbstractOverlay overlay, EventHandler<ActionEvent> onFinished) throws Exception {
+    public void showOverlay(FxOverlay overlay, EventHandler<ActionEvent> onFinished) throws Exception {
         overlay.show(currentStage, onFinished);
     }
 

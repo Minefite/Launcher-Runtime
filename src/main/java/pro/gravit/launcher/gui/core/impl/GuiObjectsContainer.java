@@ -1,5 +1,6 @@
 package pro.gravit.launcher.gui.core.impl;
 
+import pro.gravit.launcher.gui.components.FxSceneBackground;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.overlays.ProcessingOverlay;
 import pro.gravit.launcher.gui.overlays.UploadAssetOverlay;
@@ -25,7 +26,7 @@ import java.util.Map;
 
 public class GuiObjectsContainer {
     private final JavaFXApplication application;
-    private final Map<String, UIComponent> components = new HashMap<>();
+    private final Map<String, FxComponent> components = new HashMap<>();
     public ProcessingOverlay processingOverlay;
     public WelcomeOverlay welcomeOverlay;
     public UploadAssetOverlay uploadAssetOverlay;
@@ -42,14 +43,14 @@ public class GuiObjectsContainer {
 
     public ConsoleStage consoleStage;
     public BrowserScene browserScene;
-    public BackgroundComponent background;
+    public FxSceneBackground background;
 
     public GuiObjectsContainer(JavaFXApplication application) {
         this.application = application;
     }
 
     public void init() {
-        background = registerComponent(BackgroundComponent.class);
+        background = registerComponent(FxSceneBackground.class);
         loginScene = registerComponent(LoginScene.class);
         processingOverlay = registerComponent(ProcessingOverlay.class);
         welcomeOverlay = registerComponent(WelcomeOverlay.class);
@@ -67,7 +68,7 @@ public class GuiObjectsContainer {
         browserScene = registerComponent(BrowserScene.class);
     }
 
-    public Collection<UIComponent> getComponents() {
+    public Collection<FxComponent> getComponents() {
         return components.values();
     }
 

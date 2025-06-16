@@ -4,9 +4,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.DesignConstants;
-import pro.gravit.launcher.gui.core.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.FxStage;
 
-public class ConsoleStage extends AbstractStage {
+public class ConsoleStage extends FxStage {
     public ConsoleStage(JavaFXApplication application) {
         super(application, application.newStage());
         stage.initStyle(StageStyle.TRANSPARENT);

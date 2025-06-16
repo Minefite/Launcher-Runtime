@@ -7,13 +7,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.DesignConstants;
-import pro.gravit.launcher.gui.core.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.FxStage;
 import pro.gravit.launcher.gui.core.impl.UIComponent;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.io.IOException;
 
-public class PrimaryStage extends AbstractStage {
+public class PrimaryStage extends FxStage {
     public PrimaryStage(JavaFXApplication application, Stage primaryStage, String title) {
         super(application, primaryStage);
         primaryStage.setTitle(title);

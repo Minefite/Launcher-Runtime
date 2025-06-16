@@ -5,11 +5,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.DesignConstants;
+import pro.gravit.launcher.gui.core.impl.FxOverlay;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 import pro.gravit.utils.helper.LogHelper;
 
-public class WelcomeOverlay extends AbstractOverlay {
+public class WelcomeOverlay extends FxOverlay {
     private Image originalImage;
     public WelcomeOverlay(JavaFXApplication application) {
         super("overlay/welcome/welcome.fxml", application);

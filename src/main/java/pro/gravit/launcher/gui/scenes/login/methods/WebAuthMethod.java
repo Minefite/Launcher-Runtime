@@ -10,7 +10,7 @@ import pro.gravit.launcher.core.api.method.details.AuthWebDetails;
 import pro.gravit.launcher.core.api.method.password.AuthOAuthPassword;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.overlays.AbstractOverlay;
+import pro.gravit.launcher.gui.core.impl.FxOverlay;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
 import pro.gravit.launcher.gui.scenes.login.LoginScene;
 import pro.gravit.utils.helper.LogHelper;
@@ -82,7 +82,7 @@ public class WebAuthMethod extends AbstractAuthMethod<AuthWebDetails> {
         return true;
     }
 
-    public static class WebAuthOverlay extends AbstractOverlay {
+    public static class WebAuthOverlay extends FxOverlay {
         private WebView webView;
         private LoginScene.LoginSceneAccessor accessor;
         private CompletableFuture<AuthFlow.LoginAndPasswordResult> future;

@@ -6,8 +6,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.core.impl.FxOverlay;
 
-public abstract class CenterOverlay extends AbstractOverlay {
+public abstract class CenterOverlay extends FxOverlay {
     private volatile Pane overrideFxmlRoot;
     public CenterOverlay(String fxmlPath, JavaFXApplication application) {
         super(fxmlPath, application);

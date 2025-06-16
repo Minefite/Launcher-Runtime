@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public abstract class AbstractStage {
+public abstract class FxStage {
     protected final JavaFXApplication application;
     protected final Stage stage;
     protected final Scene scene;
@@ -35,7 +35,7 @@ public abstract class AbstractStage {
     protected final AtomicInteger scenePosition = new AtomicInteger(0);
     protected List<String> sceneFlow = new LinkedList<>();
 
-    protected AbstractStage(JavaFXApplication application, Stage stage) {
+    protected FxStage(JavaFXApplication application, Stage stage) {
         this.application = application;
         this.stage = stage;
         this.stackPane = new StackPane();

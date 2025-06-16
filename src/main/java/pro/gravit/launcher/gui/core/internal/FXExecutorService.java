@@ -1,4 +1,6 @@
-package pro.gravit.launcher.gui.core.impl;
+package pro.gravit.launcher.gui.core.internal;
+
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;

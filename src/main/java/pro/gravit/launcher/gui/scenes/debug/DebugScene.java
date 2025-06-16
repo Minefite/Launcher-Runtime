@@ -7,12 +7,12 @@ import pro.gravit.launcher.core.backend.LauncherBackendAPI;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.JavaRuntimeModule;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.io.EOFException;
 
-public class DebugScene extends AbstractScene {
+public class DebugScene extends FxScene {
     private volatile ProcessLogOutput processLogOutput;
     private TextArea output;
 

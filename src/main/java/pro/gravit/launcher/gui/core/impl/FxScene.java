@@ -1,4 +1,4 @@
-package pro.gravit.launcher.gui.scenes;
+package pro.gravit.launcher.gui.core.impl;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,26 +8,23 @@ import pro.gravit.launcher.base.Launcher;
 import pro.gravit.launcher.base.LauncherConfig;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.components.BasicUserControls;
+import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.core.impl.AbstractStage;
-import pro.gravit.launcher.gui.core.impl.FxComponent;
-import pro.gravit.launcher.gui.core.impl.ContextHelper;
-import pro.gravit.launcher.gui.overlays.AbstractOverlay;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-public abstract class AbstractScene extends FxComponent {
+public abstract class FxScene extends FxComponent {
     protected final LauncherConfig launcherConfig;
     protected Pane header;
     protected BasicUserControls basicUserControls;
 
-    protected AbstractScene(String fxmlPath, JavaFXApplication application) {
+    protected FxScene(String fxmlPath, JavaFXApplication application) {
         super(fxmlPath, application);
         this.launcherConfig = Launcher.getConfig();
     }
 
-    protected AbstractStage getCurrentStage() {
+    protected FxStage getCurrentStage() {
         return currentStage;
     }
 
@@ -39,11 +36,6 @@ public abstract class AbstractScene extends FxComponent {
     }
 
     protected abstract void doInit();
-
-    @Override
-    protected void doPostInit() {
-
-    }
 
     protected void sceneBaseInit() {
         basicUserControls = use(header, BasicUserControls::new);
@@ -65,7 +57,7 @@ public abstract class AbstractScene extends FxComponent {
     }
 
     public static void runLater(double delay, EventHandler<ActionEvent> callback) {
-        fade(null, delay, 0.0, 1.0, callback);
+        JavaFxUtils.fade(null, delay, 0.0, 1.0, callback);
     }
 
     public class SceneAccessor {
@@ -73,8 +65,8 @@ public abstract class AbstractScene extends FxComponent {
         }
 
 
-        public void showOverlay(AbstractOverlay overlay, EventHandler<ActionEvent> onFinished) throws Exception {
-            AbstractScene.this.showOverlay(overlay, onFinished);
+        public void showOverlay(FxOverlay overlay, EventHandler<ActionEvent> onFinished) throws Exception {
+            FxScene.this.showOverlay(overlay, onFinished);
         }
 
         public JavaFXApplication getApplication() {
@@ -82,7 +74,7 @@ public abstract class AbstractScene extends FxComponent {
         }
 
         public void errorHandle(Throwable e) {
-            AbstractScene.this.errorHandle(e);
+            FxScene.this.errorHandle(e);
         }
 
         public void runInFxThread(ContextHelper.GuiExceptionRunnable runnable) {
@@ -91,12 +83,12 @@ public abstract class AbstractScene extends FxComponent {
 
         public <T> void processRequest(String message, CompletableFuture<T> request,
                 Consumer<T> onSuccess, EventHandler<ActionEvent> onError) {
-            AbstractScene.this.processRequest(message, request, onSuccess, onError);
+            FxScene.this.processRequest(message, request, onSuccess, onError);
         }
 
         public final <T> void processRequest(String message, CompletableFuture<T> request,
                 Consumer<T> onSuccess, Consumer<Throwable> onException, EventHandler<ActionEvent> onError) {
-            AbstractScene.this.processRequest(message, request, onSuccess, onException, onError);
+            FxScene.this.processRequest(message, request, onSuccess, onException, onError);
         }
     }
 }

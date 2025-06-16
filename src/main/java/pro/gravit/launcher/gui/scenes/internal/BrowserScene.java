@@ -6,9 +6,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 
-public class BrowserScene extends AbstractScene {
+public class BrowserScene extends FxScene {
     private TextField address;
     private Button browseButton;
     private StackPane stackPane;

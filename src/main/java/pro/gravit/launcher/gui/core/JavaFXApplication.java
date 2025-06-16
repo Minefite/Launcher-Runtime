@@ -17,10 +17,10 @@ import pro.gravit.launcher.gui.core.commands.VersionCommand;
 import pro.gravit.launcher.gui.core.config.GuiModuleConfig;
 import pro.gravit.launcher.gui.core.config.RuntimeSettings;
 import pro.gravit.launcher.gui.helper.EnFSHelper;
-import pro.gravit.launcher.gui.core.impl.FXMLFactory;
+import pro.gravit.launcher.gui.core.internal.FXMLFactory;
 import pro.gravit.launcher.gui.core.impl.GuiObjectsContainer;
 import pro.gravit.launcher.gui.core.impl.MessageManager;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.gui.core.service.*;
 import pro.gravit.launcher.gui.stage.PrimaryStage;
 import pro.gravit.launcher.runtime.LauncherEngine;
@@ -74,8 +74,8 @@ public class JavaFXApplication extends Application {
         return INSTANCE.get();
     }
 
-    public AbstractScene getCurrentScene() {
-        return (AbstractScene) mainStage.getVisualComponent();
+    public FxScene getCurrentScene() {
+        return (FxScene) mainStage.getVisualComponent();
     }
 
     public PrimaryStage getMainStage() {
@@ -255,7 +255,7 @@ public class JavaFXApplication extends Application {
 
     }
 
-    public void setMainScene(AbstractScene scene) throws Exception {
+    public void setMainScene(FxScene scene) throws Exception {
         mainStage.setScene(scene, true);
     }
 

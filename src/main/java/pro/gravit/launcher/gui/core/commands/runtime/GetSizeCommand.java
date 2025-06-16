@@ -2,7 +2,7 @@ package pro.gravit.launcher.gui.core.commands.runtime;
 
 import javafx.scene.layout.Pane;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
-import pro.gravit.launcher.gui.core.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.FxStage;
 import pro.gravit.utils.command.Command;
 import pro.gravit.utils.helper.LogHelper;
 
@@ -25,8 +25,8 @@ public class GetSizeCommand extends Command {
 
     @Override
     public void invoke(String... args) throws Exception {
-        AbstractStage abstractStage = application.getMainStage();
-        var stage = abstractStage.getStage();
+        FxStage fxStage = application.getMainStage();
+        var stage = fxStage.getStage();
         LogHelper.info("Stage: H: %f W: %f", stage.getHeight(), stage.getWidth());
         var scene = stage.getScene();
         LogHelper.info("Scene: H: %f W: %f", scene.getHeight(), scene.getWidth());

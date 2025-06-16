@@ -7,10 +7,10 @@ import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.components.ServerButton;
 import pro.gravit.launcher.gui.components.UserBlock;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.gui.scenes.interfaces.SceneSupportUserBlock;
 
-public class OptionsScene extends AbstractScene implements SceneSupportUserBlock {
+public class OptionsScene extends FxScene implements SceneSupportUserBlock {
     private OptionsTab optionsTab;
     private UserBlock userBlock;
 

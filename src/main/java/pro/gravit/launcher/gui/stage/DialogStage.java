@@ -10,12 +10,12 @@ import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.DesignConstants;
 import pro.gravit.launcher.gui.dialogs.AbstractDialog;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.core.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.FxStage;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.io.IOException;
 
-public class DialogStage extends AbstractStage {
+public class DialogStage extends FxStage {
     public DialogStage(JavaFXApplication application, String title, AbstractDialog dialog) throws Exception {
         super(application, application.newStage());
         stage.setTitle(title);

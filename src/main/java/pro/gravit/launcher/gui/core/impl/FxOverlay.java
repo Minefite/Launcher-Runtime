@@ -1,4 +1,4 @@
-package pro.gravit.launcher.gui.overlays;
+package pro.gravit.launcher.gui.core.impl;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -7,17 +7,16 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.util.Duration;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
-import pro.gravit.launcher.gui.core.impl.AbstractStage;
-import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public abstract class AbstractOverlay extends FxComponent {
+public abstract class FxOverlay extends FxComponent {
     private final AtomicInteger useCounter = new AtomicInteger(0);
     private final AtomicReference<FadeTransition> fadeTransition = new AtomicReference<>();
 
-    protected AbstractOverlay(String fxmlPath, JavaFXApplication application) {
+    protected FxOverlay(String fxmlPath, JavaFXApplication application) {
         super(fxmlPath, application);
     }
 
@@ -38,7 +37,7 @@ public abstract class AbstractOverlay extends FxComponent {
             return;
         }
         if (!isInit()) throw new IllegalStateException("Using method hide before init");
-        fadeTransition.set(fade(getFxmlRoot(), delay, 1.0, 0.0, (f) -> {
+        fadeTransition.set(JavaFxUtils.fade(getFxmlRoot(), delay, 1.0, 0.0, (f) -> {
             if (onFinished != null) {
                 onFinished.handle(f);
             }
@@ -52,7 +51,7 @@ public abstract class AbstractOverlay extends FxComponent {
 
     public abstract void reset();
 
-    public void show(AbstractStage stage, EventHandler<ActionEvent> onFinished) throws Exception {
+    public void show(FxStage stage, EventHandler<ActionEvent> onFinished) throws Exception {
         if(!Platform.isFxApplicationThread()) {
             throw new RuntimeException("show() called from non FX application thread");
         }
@@ -84,7 +83,7 @@ public abstract class AbstractOverlay extends FxComponent {
         currentStage.enableMouseDrag(layout);
         currentStage.push(root);
         currentStage.disable();
-        fade(root, 100, 0.0, 1.0, (f) -> {
+        JavaFxUtils.fade(root, 100, 0.0, 1.0, (f) -> {
             if (onFinished != null) {
                 onFinished.handle(f);
             }

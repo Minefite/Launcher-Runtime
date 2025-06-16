@@ -2,8 +2,8 @@ package pro.gravit.launcher.gui.core.commands.runtime;
 
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.core.impl.ContextHelper;
-import pro.gravit.launcher.gui.overlays.AbstractOverlay;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxOverlay;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.gui.stage.PrimaryStage;
 import pro.gravit.utils.command.Command;
 
@@ -29,7 +29,7 @@ public class WarpCommand extends Command {
         verifyArgs(args, 2);
         if (application == null) application = JavaFXApplication.getInstance();
         if (args[0].equals("scene")) {
-            AbstractScene scene = (AbstractScene) application.gui.getByName(args[1]);
+            FxScene scene = (FxScene) application.gui.getByName(args[1]);
             if (scene == null) throw new IllegalArgumentException("Scene %s not found".formatted(args[1]));
             PrimaryStage stage = application.getMainStage();
             ContextHelper.runInFxThreadStatic(() -> {
@@ -39,11 +39,11 @@ public class WarpCommand extends Command {
                 }
             });
         } else if (args[0].equals("overlay")) {
-            AbstractOverlay overlay = (AbstractOverlay) application.gui.getByName(args[1]);
+            FxOverlay overlay = (FxOverlay) application.gui.getByName(args[1]);
             if (overlay == null) throw new IllegalArgumentException("Overlay %s not found".formatted(args[1]));
             PrimaryStage stage = application.getMainStage();
             if (stage.isNullScene()) throw new IllegalStateException("Please wrap to scene before");
-            AbstractScene scene = (AbstractScene) stage.getVisualComponent();
+            FxScene scene = (FxScene) stage.getVisualComponent();
             ContextHelper.runInFxThreadStatic(() -> scene.showOverlay(overlay, e -> {
             }));
         } else throw new IllegalArgumentException("%s not found".formatted(args[0]));

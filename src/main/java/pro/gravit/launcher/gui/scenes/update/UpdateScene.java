@@ -5,12 +5,12 @@ import javafx.scene.layout.Pane;
 import pro.gravit.launcher.core.backend.LauncherBackendAPI;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.util.concurrent.CompletionException;
 
-public class UpdateScene extends AbstractScene {
+public class UpdateScene extends FxScene {
     private ProgressBar progressBar;
     private Label speed;
     private Label volume;

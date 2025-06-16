@@ -6,11 +6,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.runtime.managers.ConsoleManager;
 import pro.gravit.utils.helper.LogHelper;
 
-public class ConsoleScene extends AbstractScene {
+public class ConsoleScene extends FxScene {
     private static final long MAX_LENGTH = 16384;
     private static final int REMOVE_LENGTH = 1024;
     private TextField commandLine;
