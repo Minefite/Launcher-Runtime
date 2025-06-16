@@ -2,9 +2,9 @@ package pro.gravit.launcher.gui.stage;
 
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.DesignConstants;
-import pro.gravit.launcher.gui.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.DesignConstants;
+import pro.gravit.launcher.gui.core.impl.AbstractStage;
 
 public class ConsoleStage extends AbstractStage {
     public ConsoleStage(JavaFXApplication application) {

@@ -3,10 +3,10 @@ package pro.gravit.launcher.gui.overlays;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.DesignConstants;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.DesignConstants;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.utils.JavaFxUtils;
+import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 import pro.gravit.utils.helper.LogHelper;
 
 public class WelcomeOverlay extends AbstractOverlay {

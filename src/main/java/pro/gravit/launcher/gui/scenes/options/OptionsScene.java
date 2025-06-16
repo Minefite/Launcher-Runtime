@@ -3,7 +3,7 @@ package pro.gravit.launcher.gui.scenes.options;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.components.ServerButton;
 import pro.gravit.launcher.gui.components.UserBlock;
 import pro.gravit.launcher.gui.helper.LookupHelper;

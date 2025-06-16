@@ -4,7 +4,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import pro.gravit.launcher.core.backend.LauncherBackendAPI;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

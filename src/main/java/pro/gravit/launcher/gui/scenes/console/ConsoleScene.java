@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.scenes.AbstractScene;
 import pro.gravit.launcher.runtime.managers.ConsoleManager;

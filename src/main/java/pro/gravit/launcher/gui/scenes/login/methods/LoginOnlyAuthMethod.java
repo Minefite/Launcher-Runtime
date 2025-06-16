@@ -2,10 +2,10 @@ package pro.gravit.launcher.gui.scenes.login.methods;
 
 import javafx.scene.control.TextField;
 import pro.gravit.launcher.core.api.method.details.AuthLoginOnlyDetails;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
 import pro.gravit.launcher.gui.scenes.login.LoginAuthButtonComponent;
 import pro.gravit.launcher.gui.scenes.login.LoginScene;
@@ -80,7 +80,7 @@ public class LoginOnlyAuthMethod extends AbstractAuthMethod<AuthLoginOnlyDetails
         return false;
     }
 
-    public class LoginOnlyOverlay extends AbstractVisualComponent {
+    public class LoginOnlyOverlay extends FxComponent {
         private static final UserAuthCanceledException USER_AUTH_CANCELED_EXCEPTION = new UserAuthCanceledException();
         private TextField login;
         private CompletableFuture<AuthFlow.LoginAndPasswordResult> future;

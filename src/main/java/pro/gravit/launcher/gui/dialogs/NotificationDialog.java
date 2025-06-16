@@ -3,7 +3,7 @@ package pro.gravit.launcher.gui.dialogs;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.helper.PositionHelper;
 import pro.gravit.utils.helper.LogHelper;

@@ -6,11 +6,11 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.StageStyle;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.DesignConstants;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.DesignConstants;
 import pro.gravit.launcher.gui.dialogs.AbstractDialog;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.AbstractStage;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.io.IOException;

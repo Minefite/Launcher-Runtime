@@ -8,16 +8,16 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import pro.gravit.launcher.core.api.features.ProfileFeatureAPI;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.utils.JavaFxUtils;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class ServerButton extends AbstractVisualComponent {
+public class ServerButton extends FxComponent {
     private static final String SERVER_BUTTON_FXML = "components/serverButton.fxml";
     private static final String SERVER_BUTTON_CUSTOM_FXML = "components/serverButton/%s.fxml";
     private static final String SERVER_BUTTON_DEFAULT_IMAGE = "images/servers/example.png";

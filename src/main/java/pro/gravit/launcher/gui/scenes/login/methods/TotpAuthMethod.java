@@ -4,10 +4,10 @@ import javafx.scene.control.TextField;
 import pro.gravit.launcher.base.request.auth.password.AuthTOTPPassword;
 import pro.gravit.launcher.core.api.method.details.AuthTotpDetails;
 import pro.gravit.launcher.core.api.method.password.AuthTotpPassword;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
 import pro.gravit.launcher.gui.scenes.login.LoginScene;
 
@@ -80,7 +80,7 @@ public class TotpAuthMethod extends AbstractAuthMethod<AuthTotpDetails> {
         return true;
     }
 
-    public static class TotpOverlay extends AbstractVisualComponent {
+    public static class TotpOverlay extends FxComponent {
         private static final UserAuthCanceledException USER_AUTH_CANCELED_EXCEPTION = new UserAuthCanceledException();
         private TextField totpField;
         private CompletableFuture<AuthFlow.LoginAndPasswordResult> future;

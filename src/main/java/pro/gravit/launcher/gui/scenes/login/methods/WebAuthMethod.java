@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import pro.gravit.launcher.core.api.method.details.AuthWebDetails;
 import pro.gravit.launcher.core.api.method.password.AuthOAuthPassword;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.overlays.AbstractOverlay;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;

@@ -3,24 +3,21 @@ package pro.gravit.launcher.gui.scenes;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.layout.Pane;
 import pro.gravit.launcher.base.Launcher;
 import pro.gravit.launcher.base.LauncherConfig;
-import pro.gravit.launcher.core.api.LauncherAPIHolder;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.components.BasicUserControls;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractStage;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 import pro.gravit.launcher.gui.overlays.AbstractOverlay;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-public abstract class AbstractScene extends AbstractVisualComponent {
+public abstract class AbstractScene extends FxComponent {
     protected final LauncherConfig launcherConfig;
     protected Pane header;
     protected BasicUserControls basicUserControls;

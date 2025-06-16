@@ -3,13 +3,12 @@ package pro.gravit.launcher.gui.components;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.layout.Pane;
 import pro.gravit.launcher.core.api.LauncherAPIHolder;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.impl.ContextHelper;
-import pro.gravit.utils.helper.LogHelper;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 
-public class BasicUserControls extends AbstractVisualComponent {
+public class BasicUserControls extends FxComponent {
 
     public BasicUserControls(Pane layout, JavaFXApplication application) {
         super(layout, application);

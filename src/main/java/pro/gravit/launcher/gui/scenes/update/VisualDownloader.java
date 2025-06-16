@@ -4,8 +4,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import pro.gravit.launcher.core.backend.LauncherBackendAPI;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;

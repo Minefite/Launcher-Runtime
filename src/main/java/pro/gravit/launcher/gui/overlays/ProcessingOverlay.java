@@ -3,10 +3,10 @@ package pro.gravit.launcher.gui.overlays;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Labeled;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractStage;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.util.concurrent.CompletableFuture;

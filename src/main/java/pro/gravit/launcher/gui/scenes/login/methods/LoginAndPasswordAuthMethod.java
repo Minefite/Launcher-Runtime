@@ -4,10 +4,10 @@ import javafx.scene.control.TextField;
 import pro.gravit.launcher.core.api.method.AuthMethodPassword;
 import pro.gravit.launcher.core.api.method.details.AuthPasswordDetails;
 import pro.gravit.launcher.core.api.method.password.AuthPlainPassword;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
 import pro.gravit.launcher.gui.scenes.login.LoginAuthButtonComponent;
 import pro.gravit.launcher.gui.scenes.login.LoginScene;
@@ -86,7 +86,7 @@ public class LoginAndPasswordAuthMethod extends AbstractAuthMethod<AuthPasswordD
         return false;
     }
 
-    public class LoginAndPasswordOverlay extends AbstractVisualComponent {
+    public class LoginAndPasswordOverlay extends FxComponent {
         private static final UserAuthCanceledException USER_AUTH_CANCELED_EXCEPTION = new UserAuthCanceledException();
         private TextField login;
         private TextField password;

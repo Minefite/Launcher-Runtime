@@ -7,14 +7,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.core.backend.extensions.TextureUploadExtension;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.DesignConstants;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.DesignConstants;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.utils.JavaFxUtils;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 import pro.gravit.utils.helper.LogHelper;
 
-public class UserBlock extends AbstractVisualComponent {
+public class UserBlock extends FxComponent {
     private ImageView avatar;
     private Image originalAvatarImage;
 

@@ -10,9 +10,9 @@ import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
 import pro.gravit.launcher.core.api.method.AuthMethod;
 import pro.gravit.launcher.core.api.model.Texture;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.core.impl.UIComponent;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
 import pro.gravit.launcher.gui.scenes.AbstractScene;
 import pro.gravit.utils.helper.LogHelper;
 
@@ -26,7 +26,7 @@ public class LoginScene extends AbstractScene {
     private CheckBox savePasswordCheckBox;
     private CheckBox autoenter;
     private Pane content;
-    private AbstractVisualComponent contentComponent;
+    private UIComponent contentComponent;
     private LoginAuthButtonComponent authButton;
     private ComboBox<AuthMethod> authList;
     private AuthMethod authAvailability;
@@ -225,7 +225,7 @@ public class LoginScene extends AbstractScene {
 
     public class LoginSceneAccessor extends SceneAccessor {
 
-        public void showContent(AbstractVisualComponent component) throws Exception {
+        public void showContent(UIComponent component) throws Exception {
             component.init();
             component.postInit();
             if (contentComponent != null) {

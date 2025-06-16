@@ -6,14 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.util.Duration;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.impl.AbstractStage;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.core.impl.AbstractStage;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public abstract class AbstractOverlay extends AbstractVisualComponent {
+public abstract class AbstractOverlay extends FxComponent {
     private final AtomicInteger useCounter = new AtomicInteger(0);
     private final AtomicReference<FadeTransition> fadeTransition = new AtomicReference<>();
 

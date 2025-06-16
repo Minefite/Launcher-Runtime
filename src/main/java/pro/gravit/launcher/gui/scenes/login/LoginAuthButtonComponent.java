@@ -3,7 +3,7 @@ package pro.gravit.launcher.gui.scenes.login;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 
 public class LoginAuthButtonComponent {
     private final JavaFXApplication application;

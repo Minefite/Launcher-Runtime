@@ -3,8 +3,8 @@ package pro.gravit.launcher.gui.scenes.settings.components;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.RuntimeSettings;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.core.config.RuntimeSettings;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.utils.helper.LogHelper;
 
