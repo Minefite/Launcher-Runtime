@@ -7,7 +7,6 @@ import javafx.stage.StageStyle;
 import pro.gravit.launcher.base.Launcher;
 import pro.gravit.launcher.base.LauncherConfig;
 import pro.gravit.launcher.base.request.auth.AuthRequest;
-import pro.gravit.launcher.client.api.DialogService;
 import pro.gravit.launcher.client.events.ClientExitPhase;
 import pro.gravit.launcher.core.backend.LauncherBackendAPI;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
@@ -49,7 +48,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class JavaFXApplication extends Application {
     private static final AtomicReference<JavaFXApplication> INSTANCE = new AtomicReference<>();
-    private static Path runtimeDirectory = null;
     public final LauncherConfig config = Launcher.getConfig();
     public final ExecutorService workers = Executors.newWorkStealingPool(4);
     public RuntimeSettings runtimeSettings;
@@ -86,7 +84,7 @@ public class JavaFXApplication extends Application {
     @Override
     public void init() throws Exception {
         UserSettings.providers.register(JavaRuntimeModule.RUNTIME_NAME, RuntimeSettings.class);
-        backendCallbackService = new BackendCallbackService();
+        backendCallbackService = new BackendCallbackService(this);
         backendCallbackService.initDataCallback = LauncherBackendAPIHolder.getApi().init();
         guiModuleConfig = new GuiModuleConfig();
         runtimeSettings = (RuntimeSettings) LauncherBackendAPIHolder.getApi().getUserSettings("stdruntime", (a) -> RuntimeSettings.getDefault(guiModuleConfig));
@@ -106,18 +104,7 @@ public class JavaFXApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        // If debugging
-        try {
-            Class.forName("pro.gravit.launcher.runtime.debug.DebugMain", false, JavaFXApplication.class.getClassLoader());
-            if (DebugMain.IS_DEBUG.get()) {
-                runtimeDirectory = IOHelper.WORKING_DIR.resolve("runtime");
-                debugMode = true;
-            }
-        } catch (Throwable e) {
-            if (!(e instanceof ClassNotFoundException) && !(e instanceof NoClassDefFoundError)) {
-                LogHelper.error(e);
-            }
-        }
+        debugMode = LauncherBackendAPIHolder.getApi().isTestMode();
         resetDirectory();
         // System loading
         if (runtimeSettings.locale == null) runtimeSettings.locale = RuntimeSettings.DEFAULT_LOCALE;
@@ -129,11 +116,6 @@ public class JavaFXApplication extends Application {
                 LogHelper.error(e);
             }
             Platform.exit();
-        }
-        {
-            RuntimeDialogService dialogService = new RuntimeDialogService(messageManager);
-            DialogService.setDialogImpl(dialogService);
-            DialogService.setNotificationImpl(dialogService);
         }
         /*if (offlineService.isOfflineMode()) {
             if (!offlineService.isAvailableOfflineMode() && !debugMode) {
