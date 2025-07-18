@@ -9,6 +9,7 @@ import pro.gravit.launcher.base.LauncherConfig;
 import pro.gravit.launcher.base.request.auth.AuthRequest;
 import pro.gravit.launcher.client.api.DialogService;
 import pro.gravit.launcher.client.events.ClientExitPhase;
+import pro.gravit.launcher.core.backend.LauncherBackendAPI;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.core.backend.UserSettings;
 import pro.gravit.launcher.gui.JavaRuntimeModule;
@@ -16,7 +17,6 @@ import pro.gravit.launcher.gui.core.commands.RuntimeCommand;
 import pro.gravit.launcher.gui.core.commands.VersionCommand;
 import pro.gravit.launcher.gui.core.config.GuiModuleConfig;
 import pro.gravit.launcher.gui.core.config.RuntimeSettings;
-import pro.gravit.launcher.gui.helper.EnFSHelper;
 import pro.gravit.launcher.gui.core.internal.FXMLFactory;
 import pro.gravit.launcher.gui.core.impl.GuiObjectsContainer;
 import pro.gravit.launcher.gui.core.impl.MessageManager;
@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -64,7 +65,7 @@ public class JavaFXApplication extends Application {
     private PrimaryStage mainStage;
     private boolean debugMode;
     private ResourceBundle resources;
-    private static Path enfsDirectory;
+    private static volatile LauncherBackendAPI.ResourceLayer resourceLayer;
 
     public JavaFXApplication() {
         INSTANCE.set(this);
@@ -117,20 +118,7 @@ public class JavaFXApplication extends Application {
                 LogHelper.error(e);
             }
         }
-        try {
-            Class.forName("pro.gravit.utils.enfs.EnFS", false, JavaFXApplication.class.getClassLoader());
-            EnFSHelper.initEnFS();
-            String themeDir = runtimeSettings.theme == null ? RuntimeSettings.LAUNCHER_THEME.COMMON.name :
-                    runtimeSettings.theme.name;
-            enfsDirectory = EnFSHelper.initEnFSDirectory(config, themeDir, runtimeDirectory);
-        } catch (Throwable e) {
-            if (!(e instanceof ClassNotFoundException)) {
-                LogHelper.error(e);
-            }
-            if(config.runtimeEncryptKey != null) {
-                JavaRuntimeModule.noEnFSAlert();
-            }
-        }
+        resetDirectory();
         // System loading
         if (runtimeSettings.locale == null) runtimeSettings.locale = RuntimeSettings.DEFAULT_LOCALE;
         try {
@@ -186,12 +174,10 @@ public class JavaFXApplication extends Application {
         fxmlFactory = new FXMLFactory(resources, workers);
     }
 
-    public void resetDirectory() throws IOException {
-        if (enfsDirectory != null) {
-            String themeDir = runtimeSettings.theme == null ? RuntimeSettings.LAUNCHER_THEME.COMMON.name :
-                    runtimeSettings.theme.name;
-            enfsDirectory = EnFSHelper.initEnFSDirectory(config, themeDir, runtimeDirectory);
-        }
+    public void resetDirectory() {
+        String themeDir = runtimeSettings.theme == null ? RuntimeSettings.LAUNCHER_THEME.COMMON.name :
+                runtimeSettings.theme.name;
+        resourceLayer = LauncherBackendAPIHolder.getApi().makeResourceLayer(List.of(Path.of("themes/"+themeDir)));
     }
 
     private CommandCategory runtimeCategory;
@@ -210,10 +196,6 @@ public class JavaFXApplication extends Application {
         runtimeCategory.registerCommand("runtime", new RuntimeCommand(this));
     }
 
-    public boolean isThemeSupport() {
-        return enfsDirectory != null;
-    }
-
 
     @Override
     public void stop() {
@@ -230,20 +212,7 @@ public class JavaFXApplication extends Application {
     }
 
     public static URL getResourceURL(String name) throws IOException {
-        if (enfsDirectory != null) {
-            return getResourceEnFs(name);
-        } else if (runtimeDirectory != null) {
-            Path target = runtimeDirectory.resolve(name);
-            if (!Files.exists(target)) throw new FileNotFoundException("File runtime/%s not found".formatted(name));
-            return target.toUri().toURL();
-        } else  {
-            return Launcher.getResourceURL(name);
-        }
-    }
-
-    private static URL getResourceEnFs(String name) throws IOException {
-        return EnFSHelper.getURL(enfsDirectory.resolve(name).toString().replaceAll("\\\\", "/"));
-        //return EnFS.main.getURL(enfsDirectory.resolve(name));
+        return resourceLayer.getURL(Path.of(name));
     }
 
     public URL tryResource(String name) {

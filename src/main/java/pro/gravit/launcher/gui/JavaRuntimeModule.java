@@ -59,14 +59,6 @@ public class JavaRuntimeModule extends LauncherModule {
         JOptionPane.showMessageDialog(null, message, "GravitLauncher", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void noEnFSAlert() {
-        String message = """
-                Запуск лаунчера невозможен из-за ошибки расшифровки рантайма.
-                Администраторам: установите библиотеку EnFS для исправления этой проблемы
-                """;
-        JOptionPane.showMessageDialog(null, message, "GravitLauncher", JOptionPane.ERROR_MESSAGE);
-    }
-
     public static void errorHandleAlert(Throwable e) {
         String message = """
                 Произошла серьезная ошибка при инициализации интерфейса лаунчера.
