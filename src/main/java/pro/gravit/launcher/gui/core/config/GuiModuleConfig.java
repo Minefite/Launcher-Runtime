@@ -34,8 +34,8 @@ public class GuiModuleConfig {
 
     public static Object getDefault() {
         GuiModuleConfig config = new GuiModuleConfig();
-        config.createAccountURL = "https://gravit.pro/createAccount.php";
-        config.forgotPassURL = "https://gravit.pro/fogotPass.php";
+        config.createAccountURL = "https://gravitlauncher.com/createAccount.php";
+        config.forgotPassURL = "https://gravitlauncher.com/fogotPass.php";
         config.hastebinServer = "https://hastebin.com";
         config.lazy = false;
         config.javaList = new HashMap<>();
