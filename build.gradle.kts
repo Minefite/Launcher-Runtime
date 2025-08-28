@@ -9,6 +9,16 @@ java {
     }
 }
 
+tasks.jar {
+    manifest {
+        attributes(
+            "Module-Main-Class" to "pro.gravit.launcher.gui.JavaRuntimeModule",
+            "Module-Config-Class" to "pro.gravit.launcher.gui.core.config.GuiModuleConfig",
+            "Module-Config-Name" to "JavaRuntime"
+        )
+    }
+}
+
 javafx {
     version = "22"
     modules("javafx.fxml", "javafx.controls", "javafx.web")
