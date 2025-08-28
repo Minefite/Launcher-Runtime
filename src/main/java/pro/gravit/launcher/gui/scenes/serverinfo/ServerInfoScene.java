@@ -1,21 +1,20 @@
 package pro.gravit.launcher.gui.scenes.serverinfo;
 
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.core.api.features.ProfileFeatureAPI;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.components.ServerButton;
 import pro.gravit.launcher.gui.components.UserBlock;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
-import pro.gravit.launcher.gui.components.ServerButton;
+import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.gui.scenes.interfaces.SceneSupportUserBlock;
-import pro.gravit.launcher.base.profiles.ClientProfile;
-import pro.gravit.utils.helper.*;
 
-public class ServerInfoScene extends AbstractScene implements SceneSupportUserBlock {
+public class ServerInfoScene extends FxScene implements SceneSupportUserBlock {
     private ServerButton serverButton;
     private UserBlock userBlock;
 
@@ -25,7 +24,7 @@ public class ServerInfoScene extends AbstractScene implements SceneSupportUserBl
 
     @Override
     protected void doInit() {
-        this.userBlock = new UserBlock(layout, new SceneAccessor());
+        this.userBlock = use(layout, UserBlock::new);
         LookupHelper.<Button>lookup(layout, "#back").setOnAction((e) -> {
             try {
                 switchToBackScene();
@@ -36,7 +35,7 @@ public class ServerInfoScene extends AbstractScene implements SceneSupportUserBl
 
         LookupHelper.<ButtonBase>lookup(header, "#controls", "#clientSettings").setOnAction((e) -> {
             try {
-                if (application.profilesService.getProfile() == null) return;
+                if (application.profileService.getCurrentProfile() == null) return;
                 switchScene(application.gui.optionsScene);
                 application.gui.optionsScene.reset();
             } catch (Exception ex) {
@@ -56,11 +55,11 @@ public class ServerInfoScene extends AbstractScene implements SceneSupportUserBl
 
     @Override
     public void reset() {
-        ClientProfile profile = application.profilesService.getProfile();
-        LookupHelper.<Label>lookupIfPossible(layout, "#serverName").ifPresent((e) -> e.setText(profile.getTitle()));
+        ProfileFeatureAPI.ClientProfile profile = application.profileService.getCurrentProfile();
+        LookupHelper.<Label>lookupIfPossible(layout, "#serverName").ifPresent((e) -> e.setText(profile.getName()));
         LookupHelper.<ScrollPane>lookupIfPossible(layout, "#serverDescriptionPane").ifPresent((e) -> {
             var label = (Label) e.getContent();
-            label.setText(profile.getInfo());
+            label.setText(profile.getDescription());
         });
         Pane serverButtonContainer = LookupHelper.lookup(layout, "#serverButton");
         serverButtonContainer.getChildren().clear();
@@ -72,7 +71,26 @@ public class ServerInfoScene extends AbstractScene implements SceneSupportUserBl
     }
 
     private void runClient() {
-        application.launchService.launchClient().thenAccept((clientInstance -> {
+        var profile = application.profileService.getCurrentProfile();
+        contextHelper.runInFxThread(() -> {
+            switchScene(application.gui.updateScene);
+            var downloadProfile = LauncherBackendAPIHolder.getApi().downloadProfile(profile,
+                                                                                   LauncherBackendAPIHolder.getApi().makeClientProfileSettings(profile),
+                                                                                   application.gui.updateScene.makeDownloadCallback());
+            downloadProfile.thenAccept((readyProfile) -> {
+                contextHelper.runInFxThread(() -> {
+                    switchScene(application.gui.debugScene);
+                    application.gui.debugScene.run(readyProfile);
+                }).handle((success, error) -> {
+                    if(error != null) {
+                        errorHandle(error);
+                    }
+                    return null;
+                });
+        });
+
+        });
+        /*application.launchService.launchClient().thenAccept((clientInstance -> {
             if (application.runtimeSettings.globalSettings.debugAllClients || clientInstance.getSettings().debug) {
                 contextHelper.runInFxThread(() -> {
                     try {
@@ -95,7 +113,7 @@ public class ServerInfoScene extends AbstractScene implements SceneSupportUserBl
         })).exceptionally((ex) -> {
             contextHelper.runInFxThread(() -> errorHandle(ex));
             return null;
-        });
+        });*/
     }
 
     @Override

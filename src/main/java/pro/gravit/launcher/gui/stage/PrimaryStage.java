@@ -2,19 +2,18 @@ package pro.gravit.launcher.gui.stage;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.DesignConstants;
-import pro.gravit.launcher.gui.impl.AbstractStage;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.DesignConstants;
+import pro.gravit.launcher.gui.core.impl.FxStage;
+import pro.gravit.launcher.gui.core.impl.UIComponent;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.io.IOException;
 
-public class PrimaryStage extends AbstractStage {
+public class PrimaryStage extends FxStage {
     public PrimaryStage(JavaFXApplication application, Stage primaryStage, String title) {
         super(application, primaryStage);
         primaryStage.setTitle(title);
@@ -31,12 +30,12 @@ public class PrimaryStage extends AbstractStage {
         setClipRadius(DesignConstants.SCENE_CLIP_RADIUS, DesignConstants.SCENE_CLIP_RADIUS);
     }
 
-    public void pushBackground(AbstractVisualComponent component) {
+    public void pushBackground(UIComponent component) {
         scenePosition.incrementAndGet();
         addBefore(visualComponent.getLayout(), component.getLayout());
     }
 
-    public void pullBackground(AbstractVisualComponent component) {
+    public void pullBackground(UIComponent component) {
         scenePosition.decrementAndGet();
         pull(component.getLayout());
     }

@@ -3,12 +3,11 @@ package pro.gravit.launcher.gui.scenes.settings;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.DirectoryChooser;
-import pro.gravit.launcher.base.profiles.ClientProfile;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.RuntimeSettings;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.core.config.RuntimeSettings;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.settings.components.LanguageSelectorComponent;
-import pro.gravit.launcher.gui.scenes.settings.components.ThemeSelectorComponent;
+import pro.gravit.launcher.gui.scenes.settings.components.LanguageSelector;
+import pro.gravit.launcher.gui.scenes.settings.components.ThemeSelector;
 import pro.gravit.launcher.gui.stage.ConsoleStage;
 import pro.gravit.launcher.runtime.client.DirBridge;
 import pro.gravit.utils.helper.IOHelper;
@@ -19,8 +18,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class GlobalSettingsScene extends BaseSettingsScene {
-    private ThemeSelectorComponent themeSelector;
-    private LanguageSelectorComponent languageSelectorComponent;
+    private ThemeSelector themeSelector;
+    private LanguageSelector languageSelector;
     public GlobalSettingsScene(JavaFXApplication application) {
         super("scenes/settings/globalsettings.fxml", application);
     }
@@ -33,8 +32,8 @@ public class GlobalSettingsScene extends BaseSettingsScene {
     @Override
     protected void doInit() {
         super.doInit();
-        themeSelector = new ThemeSelectorComponent(application, componentList);
-        languageSelectorComponent = new LanguageSelectorComponent(application, componentList);
+        themeSelector = new ThemeSelector(application, componentList);
+        languageSelector = new LanguageSelector(application, componentList);
         LookupHelper.<ButtonBase>lookup(header, "#controls", "#console").setOnAction((e) -> {
             try {
                 if (application.gui.consoleStage == null) application.gui.consoleStage = new ConsoleStage(application);
@@ -68,13 +67,14 @@ public class GlobalSettingsScene extends BaseSettingsScene {
             application.runtimeSettings.updatesDir = newDir;
             String oldDir = DirBridge.dirUpdates.toString();
             DirBridge.dirUpdates = newDir;
-            for (ClientProfile profile : application.profilesService.getProfiles()) {
+            // TODO changeDir Java update
+            /*for (ClientProfile profile : application.profilesService.getProfiles()) {
                 RuntimeSettings.ProfileSettings settings = application.getProfileSettings(profile);
                 if (settings.javaPath != null && settings.javaPath.startsWith(oldDir)) {
                     settings.javaPath = newDir.toString().concat(settings.javaPath.substring(oldDir.length()));
                 }
             }
-            application.javaService.update();
+            application.javaService.update();*/
             updateDirLink.setText(application.runtimeSettings.updatesDirPath);
         });
         LookupHelper.<ButtonBase>lookupIfPossible(layout, "#deleteDir").ifPresent(a -> a.setOnAction(

@@ -1,14 +1,14 @@
 package pro.gravit.launcher.gui.scenes.login.methods;
 
 import javafx.scene.control.TextField;
-import pro.gravit.launcher.gui.JavaFXApplication;
+import pro.gravit.launcher.core.api.method.details.AuthLoginOnlyDetails;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.impl.AbstractVisualComponent;
-import pro.gravit.launcher.gui.impl.ContextHelper;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.impl.ContextHelper;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
-import pro.gravit.launcher.gui.scenes.login.LoginAuthButtonComponent;
+import pro.gravit.launcher.gui.scenes.login.AuthButton;
 import pro.gravit.launcher.gui.scenes.login.LoginScene;
-import pro.gravit.launcher.base.request.auth.details.AuthLoginOnlyDetails;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.util.concurrent.CompletableFuture;
@@ -80,7 +80,7 @@ public class LoginOnlyAuthMethod extends AbstractAuthMethod<AuthLoginOnlyDetails
         return false;
     }
 
-    public class LoginOnlyOverlay extends AbstractVisualComponent {
+    public class LoginOnlyOverlay extends FxComponent {
         private static final UserAuthCanceledException USER_AUTH_CANCELED_EXCEPTION = new UserAuthCanceledException();
         private TextField login;
         private CompletableFuture<AuthFlow.LoginAndPasswordResult> future;
@@ -103,13 +103,13 @@ public class LoginOnlyAuthMethod extends AbstractAuthMethod<AuthLoginOnlyDetails
         protected void doInit() {
             login = LookupHelper.lookup(layout, "#login");
             login.textProperty().addListener(l -> accessor.getAuthButton().setState(login.getText().isEmpty()
-                                                                                            ? LoginAuthButtonComponent.AuthButtonState.UNACTIVE
-                                                                                            : LoginAuthButtonComponent.AuthButtonState.ACTIVE));
+                                                                                            ? AuthButton.AuthButtonState.UNACTIVE
+                                                                                            : AuthButton.AuthButtonState.ACTIVE));
             if (application.runtimeSettings.login != null) {
                 login.setText(application.runtimeSettings.login);
-                accessor.getAuthButton().setState(LoginAuthButtonComponent.AuthButtonState.ACTIVE);
+                accessor.getAuthButton().setState(AuthButton.AuthButtonState.ACTIVE);
             } else {
-                accessor.getAuthButton().setState(LoginAuthButtonComponent.AuthButtonState.UNACTIVE);
+                accessor.getAuthButton().setState(AuthButton.AuthButtonState.UNACTIVE);
             }
         }
 

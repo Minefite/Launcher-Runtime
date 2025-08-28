@@ -5,26 +5,30 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import pro.gravit.launcher.base.events.request.GetAssetUploadUrlRequestEvent;
-import pro.gravit.launcher.base.request.cabinet.AssetUploadInfoRequest;
-import pro.gravit.launcher.gui.JavaFXApplication;
-import pro.gravit.launcher.gui.config.DesignConstants;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
+import pro.gravit.launcher.core.backend.extensions.TextureUploadExtension;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.DesignConstants;
 import pro.gravit.launcher.gui.helper.LookupHelper;
-import pro.gravit.launcher.gui.scenes.AbstractScene;
-import pro.gravit.launcher.gui.utils.JavaFxUtils;
+import pro.gravit.launcher.gui.core.impl.FxComponent;
+import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 import pro.gravit.utils.helper.LogHelper;
 
-public class UserBlock {
-    private final JavaFXApplication application;
-    private final Pane layout;
-    private final AbstractScene.SceneAccessor sceneAccessor;
-    private final ImageView avatar;
-    private final Image originalAvatarImage;
+public class UserBlock extends FxComponent {
+    private ImageView avatar;
+    private Image originalAvatarImage;
 
-    public UserBlock(Pane layout, AbstractScene.SceneAccessor sceneAccessor) {
-        this.application = sceneAccessor.getApplication();
-        this.layout = layout;
-        this.sceneAccessor = sceneAccessor;
+    public UserBlock(Pane layout, JavaFXApplication application) {
+        super(layout, application);
+    }
+
+    @Override
+    public String getName() {
+        return "userBlock";
+    }
+
+    @Override
+    protected void doInit() {
         avatar = LookupHelper.lookup(layout, "#avatar");
         originalAvatarImage = avatar.getImage();
         LookupHelper.<ImageView>lookupIfPossible(layout, "#avatar").ifPresent((h) -> {
@@ -40,15 +44,20 @@ public class UserBlock {
 
     public void reset() {
         LookupHelper.<Label>lookupIfPossible(layout, "#nickname")
-                    .ifPresent((e) -> e.setText(application.authService.getUsername()));
+                    .ifPresent((e) -> e.textProperty().bind(application.authService.username));
         LookupHelper.<Label>lookupIfPossible(layout, "#role")
                     .ifPresent((e) -> e.setText(application.authService.getMainRole()));
         avatar.setImage(originalAvatarImage);
         resetAvatar();
-        if(application.authService.isFeatureAvailable(GetAssetUploadUrlRequestEvent.FEATURE_NAME)) {
+        TextureUploadExtension extension = LauncherBackendAPIHolder.getApi().getExtension(TextureUploadExtension.class);
+        if(extension != null) {
             LookupHelper.<Button>lookupIfPossible(layout, "#customization").ifPresent((h) -> {
                 h.setVisible(true);
-                h.setOnAction((a) -> sceneAccessor.processRequest(application.getTranslation("runtime.overlay.processing.text.uploadassetinfo"), new AssetUploadInfoRequest(), (info) -> sceneAccessor.runInFxThread(() -> sceneAccessor.showOverlay(application.gui.uploadAssetOverlay, (f) -> application.gui.uploadAssetOverlay.onAssetUploadInfo(info))), sceneAccessor::errorHandle, (e) -> {}));
+                h.setOnAction((a) -> application.gui.processingOverlay.processRequest(currentStage,
+                        application.getTranslation("runtime.overlay.processing.text.uploadassetinfo"),
+                        extension.fetchTextureUploadInfo(), (info) ->
+                                contextHelper.runInFxThread(() ->
+                                                                    application.gui.uploadAssetOverlay.show(currentStage, (f) -> application.gui.uploadAssetOverlay.onAssetUploadInfo(info))), this::errorHandle, (e) -> {}));
             });
         }
     }
