@@ -10,6 +10,7 @@ java {
 }
 
 tasks.jar {
+    archiveFileName.set(project.name+".jar")
     manifest {
         attributes(
             "Module-Main-Class" to "pro.gravit.launcher.gui.JavaRuntimeModule",
