@@ -37,8 +37,8 @@ public class JavaSelector {
                     continue;
                 }
                 comboBox.getItems().add(version);
-                comboBox.setValue(profileSettings.getSelectedJava());
             }
+            comboBox.setValue(profileSettings.getSelectedJava());
             if (comboBox.getTooltip() != null && profileSettings.getSelectedJava() != null) {
                 comboBox.getTooltip().setText(profileSettings.getSelectedJava().getPath().toAbsolutePath().toString());
             }
