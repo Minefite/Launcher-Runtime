@@ -4,6 +4,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import pro.gravit.launcher.core.backend.LauncherBackendAPI;
+import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.core.impl.ContextHelper;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,11 +17,14 @@ public class ProcessLogOutput extends LauncherBackendAPI.RunCallback {
     private String appendString = "";
     private boolean isOutputRunned;
     private Runnable terminateProcessCallback;
+    private boolean exitWhenStarted;
+    private AtomicBoolean isReadyToExit = new AtomicBoolean();
     private AtomicBoolean isRunned = new AtomicBoolean();
     private AtomicBoolean isAttached = new AtomicBoolean(true);
 
-    public ProcessLogOutput(TextArea output) {
+    public ProcessLogOutput(TextArea output, boolean exitWhenStarted) {
         this.output = output;
+        this.exitWhenStarted = exitWhenStarted;
     }
 
     public String getText() {
@@ -114,5 +118,13 @@ public class ProcessLogOutput extends LauncherBackendAPI.RunCallback {
 
     public void detach() {
         isAttached.set(false);
+    }
+
+    @Override
+    public void onReadyToExit() {
+        isReadyToExit.set(true);
+        if(exitWhenStarted) {
+            JavaFXApplication.getInstance().getMainStage().close();
+        }
     }
 }

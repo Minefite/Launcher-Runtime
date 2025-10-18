@@ -24,7 +24,7 @@ public class DebugScene extends FxScene {
     @Override
     protected void doInit() {
         output = LookupHelper.lookup(layout, "#output");
-        processLogOutput = new ProcessLogOutput(output);
+        processLogOutput = new ProcessLogOutput(output, !application.runtimeSettings.globalSettings.debugAllClients);
         LookupHelper.<ButtonBase>lookupIfPossible(header, "#controls", "#kill").ifPresent((x) -> x.setOnAction((e) -> {
             processLogOutput.terminate();
         }));
@@ -34,7 +34,7 @@ public class DebugScene extends FxScene {
         LookupHelper.<ButtonBase>lookupIfPossible(header, "#controls", "#copy").ifPresent((x) -> x.setOnAction((e) -> processLogOutput.copyToClipboard()));
         LookupHelper.<ButtonBase>lookup(header, "#back").setOnAction((e) -> {
             processLogOutput.detach();
-            processLogOutput = new ProcessLogOutput(output);
+            processLogOutput = new ProcessLogOutput(output, !application.runtimeSettings.globalSettings.debugAllClients);
             try {
                 switchToBackScene();
             } catch (Exception ex) {

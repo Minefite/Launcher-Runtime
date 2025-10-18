@@ -34,7 +34,7 @@ public class RuntimeSettings extends UserSettings {
     @LauncherNetworkAPI
     public List<ClientProfile> profiles;
     @LauncherNetworkAPI
-    public GlobalSettings globalSettings = new GlobalSettings();
+    public GlobalSettings globalSettings = GlobalSettings.makeGlobalSettings(new GuiModuleConfig());
 
     public static RuntimeSettings getDefault(GuiModuleConfig config) {
         RuntimeSettings runtimeSettings = new RuntimeSettings();
@@ -86,6 +86,12 @@ public class RuntimeSettings extends UserSettings {
         @LauncherNetworkAPI
         public boolean prismVSync = true;
         @LauncherNetworkAPI
-        public boolean debugAllClients = false;
+        public boolean debugAllClients = true;
+
+        public static GlobalSettings makeGlobalSettings(GuiModuleConfig config) {
+            GlobalSettings settings = new GlobalSettings();
+            settings.debugAllClients = !config.disableDebugByDefault;
+            return settings;
+        }
     }
 }
