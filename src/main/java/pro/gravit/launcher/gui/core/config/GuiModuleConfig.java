@@ -14,6 +14,8 @@ public class GuiModuleConfig {
     public boolean lazy;
     @LauncherInject(value = "modules.javaruntime.disableofflinemode")
     public boolean disableOfflineMode;
+    @LauncherInject(value = "modules.javaruntime.disabledebugbydefault")
+    public boolean disableDebugByDefault;
     @LauncherInject(value = "modules.javaruntime.disabledebugpermissions")
     public boolean disableDebugPermissions;
 

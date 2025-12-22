@@ -37,6 +37,7 @@ public class VisualDownloader extends LauncherBackendAPI.DownloadCallback {
     public void onStage(String stage) {
         super.onStage(stage);
         addLog.accept(String.format("Stage %s", stage));
+        ContextHelper.runInFxThreadStatic(this::resetProgress);
     }
 
     @Override
