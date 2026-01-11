@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane fx:id="layout" prefHeight="560.0" prefWidth="930.0" styleClass="background" stylesheets="@debug.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="layout" prefHeight="468.0" prefWidth="850.0" styleClass="background" stylesheets="@debug.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
 
    <!-- Навбар -->
    <AnchorPane id="header" prefHeight="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

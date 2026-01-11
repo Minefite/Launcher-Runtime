@@ -116,6 +116,10 @@ public abstract class FxStage {
         stage.sizeToScene();
         visualComponent.postInit();
         this.visualComponent = visualComponent;
+
+        LogHelper.debug("Stage: H: %f W: %f", stage.getHeight(), stage.getWidth());
+        LogHelper.debug("Scene: H: %f W: %f", scene.getHeight(), scene.getWidth());
+        LogHelper.debug("Layout: H: %f W: %f", visualComponent.layout.getHeight(), visualComponent.layout.getWidth());
     }
 
     public UIComponent back() throws Exception {

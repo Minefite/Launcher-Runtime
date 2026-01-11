@@ -73,8 +73,8 @@ ComboBox .arrow-button {
 }
 /*-- Импорт фона --*/
 .background {
-    -fx-background-image: url('../images/background.png');
-    -fx-background-size: cover;
+    /*-fx-background-image: url('../images/background.png');*/
+    /*-fx-background-size: cover;*/
 }
 .scene-background {
     -fx-background-color: -fx-colors-base;
@@ -300,4 +300,31 @@ Separator:vertical .line {
     -fx-background-color: -fx-colors-text-secondary;
     -fx-border-color: transparent;
     -fx-background-insets: 2;
+}
+
+.mf-button,
+.mf-back-button,
+.mf-close-button,
+.mf-hide-button {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+}
+
+.mf-back-button {
+    -fx-background-image: url('../minefite/images/buttons/back.png');
+}
+
+.mf-close-button {
+    -fx-background-image: url('../minefite/images/buttons/close.png');
+}
+
+.mf-hide-button {
+    -fx-background-image: url('../minefite/images/buttons/hide.png');
+}
+
+.mf-servermenu-background {
+    -fx-background-image: url('../minefite/images/background/servermenu.png');
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
 }

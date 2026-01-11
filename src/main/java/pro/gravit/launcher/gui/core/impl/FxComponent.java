@@ -46,7 +46,7 @@ public abstract class FxComponent extends VisualComponentBase {
         this.fxExecutor = new FXExecutorService(contextHelper);
     }
 
-    protected<T> Void errorHandle(T value, Throwable e) {
+    protected <T> Void errorHandle(T value, Throwable e) {
         errorHandle(e);
         return null;
     }
@@ -74,10 +74,10 @@ public abstract class FxComponent extends VisualComponentBase {
         }
     }
 
-    protected<T extends UIComponent> T use(Pane layout, BiFunction<Pane, JavaFXApplication, T> constructor) {
+    protected <T extends UIComponent> T use(Pane layout, BiFunction<Pane, JavaFXApplication, T> constructor) {
         T object = constructor.apply(layout, application);
         try {
-            if(object instanceof FxComponent fxComponent) {
+            if (object instanceof FxComponent fxComponent) {
                 fxComponent.currentStage = currentStage;
             }
             object.init();
@@ -88,9 +88,10 @@ public abstract class FxComponent extends VisualComponentBase {
         return null;
     }
 
-    protected<T extends ValueComponent<V>, V> T use(Pane layout, BiFunction<Pane, JavaFXApplication, T> constructor, V value) {
+    protected <T extends ValueComponent<V>, V> T use(Pane layout, BiFunction<Pane, JavaFXApplication, T> constructor,
+            V value) {
         T object = use(layout, constructor);
-        if(object != null) {
+        if (object != null) {
             object.onValue(value);
         }
         return object;
@@ -107,7 +108,8 @@ public abstract class FxComponent extends VisualComponentBase {
 
     protected void switchScene(FxScene scene) throws Exception {
         currentStage.setScene(scene, true);
-        if(currentStage.getVisualComponent() != null) {
+
+        if (currentStage.getVisualComponent() != null) {
             currentStage.getVisualComponent().onHide();
             scene.onShow();
         }
@@ -157,6 +159,7 @@ public abstract class FxComponent extends VisualComponentBase {
 
     protected final <T> void processRequest(String message, CompletableFuture<T> request,
             Consumer<T> onSuccess, Consumer<Throwable> onException, EventHandler<ActionEvent> onError) {
-        application.gui.processingOverlay.processRequest(currentStage, message, request, onSuccess, onException, onError);
+        application.gui.processingOverlay.processRequest(currentStage, message, request, onSuccess, onException,
+                                                         onError);
     }
 }

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 
-<AnchorPane fx:id="layout" prefHeight="560.0" prefWidth="930.0" styleClass="background" stylesheets="@settings.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="layout" prefHeight="468.0" prefWidth="850.0" styleClass="background" stylesheets="@settings.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <AnchorPane id="header" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <fx:include source="../../components/buttons/back.fxml" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="34.0" />
         <Label maxWidth="400.0" prefHeight="32.0" styleClass="scene-header" text="%runtime.scenes.settings.header" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="34.0" />

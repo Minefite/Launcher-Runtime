@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="900.0" stylesheets="@webauth.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="468.0" prefWidth="850.0" stylesheets="@webauth.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
     <!-- Описание браузера -->
     <Label id="headerDescription" alignment="CENTER" contentDisplay="CENTER" layoutY="1.0" prefHeight="62.0" prefWidth="600.0" text="%runtime.overlay.webauth.webauth.web-description" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

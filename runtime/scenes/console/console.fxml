@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="layout" prefHeight="560.0" prefWidth="930.0" styleClass="background" stylesheets="@console.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="layout" prefHeight="468.0" prefWidth="850.0" styleClass="background" stylesheets="@console.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
 
     <!-- Навбар -->
     <AnchorPane id="header" layoutX="523.2000122070312" layoutY="30.0" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -27,7 +27,7 @@
         <children>
             <!-- Поле ввода -->
             <Pane id="cmdinput" styleClass="transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                <TextField id="commandInput" prefHeight="60.0" prefWidth="930.0" promptText="%runtime.scenes.console.textInput">
+                <TextField id="commandInput" prefHeight="60.0" prefWidth="850.0" promptText="%runtime.scenes.console.textInput">
                     <padding>
                         <Insets left="29.0" />
                     </padding>
