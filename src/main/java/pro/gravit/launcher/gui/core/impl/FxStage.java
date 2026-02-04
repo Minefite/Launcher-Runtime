@@ -113,10 +113,17 @@ public abstract class FxStage {
             }
             stackPane.getChildren().set(scenePosition.get(), visualComponent.getFxmlRoot());
         }
+
+        //TODO WTF FIX
+        stage.setMaxHeight(468);
+        stage.setMaxWidth(850);
+        //
+
         stage.sizeToScene();
         visualComponent.postInit();
         this.visualComponent = visualComponent;
 
+        LogHelper.debug("Stage: %s Scene: %s, Layout: %s", stage, scene, visualComponent.layout);
         LogHelper.debug("Stage: H: %f W: %f", stage.getHeight(), stage.getWidth());
         LogHelper.debug("Scene: H: %f W: %f", scene.getHeight(), scene.getWidth());
         LogHelper.debug("Layout: H: %f W: %f", visualComponent.layout.getHeight(), visualComponent.layout.getWidth());
