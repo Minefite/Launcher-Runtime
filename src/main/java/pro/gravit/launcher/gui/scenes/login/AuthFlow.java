@@ -27,8 +27,10 @@ public class AuthFlow {
             8);
     private final LoginScene.LoginSceneAccessor accessor;
     private final List<Integer> authFlow = new ArrayList<>();
-    private AuthMethod authAvailability;
-    private volatile AbstractAuthMethod<AuthMethodDetails> authMethodOnShow;
+    //TODO ZeyCodeReplace private on public
+    public AuthMethod authAvailability;
+    //TODO ZeyCodeReplace private on public
+    public volatile AbstractAuthMethod<AuthMethodDetails> authMethodOnShow;
     private final Consumer<SuccessAuth> onSuccessAuth;
     public boolean isLoginStarted;
 
@@ -190,8 +192,8 @@ public class AuthFlow {
         });
     }
 
-
-    private boolean tryOAuthLogin() {
+    //TODO ZeyCodeReplace private -> public
+    public boolean tryOAuthLogin() {
         var application = accessor.getApplication();
         accessor.processing(LauncherBackendAPIHolder.getApi().tryAuthorize(), application.getTranslation("runtime.overlay.processing.text.auth"),
                             (result) -> accessor.runInFxThread(

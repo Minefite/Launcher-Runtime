@@ -106,13 +106,18 @@ public abstract class FxComponent extends VisualComponentBase {
         isInit = true;
     }
 
-    protected void switchScene(FxScene scene) throws Exception {
+    //TODO ZeyCodeReplace protected -> public
+    public void switchScene(FxScene scene) throws Exception {
         currentStage.setScene(scene, true);
 
         if (currentStage.getVisualComponent() != null) {
             currentStage.getVisualComponent().onHide();
             scene.onShow();
         }
+
+        //TODO ZeyCodeStart
+        this.currentStage.stage.centerOnScreen();
+        //TODO ZeyCodeEnd
     }
 
     protected void switchToBackScene() throws Exception {

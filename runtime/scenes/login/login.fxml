@@ -68,4 +68,10 @@
             <Button id="authButton" defaultButton="true" prefHeight="20.0" prefWidth="300.0" styleClass="unactiveButton" text="%runtime.scenes.login.goAuth" />
         </children>
     </VBox>
+    <Pane id="twoFAPane" layoutX="255.5" layoutY="80.0" prefHeight="308.0" prefWidth="339.0" visible="false">
+        <ImageView>
+            <Image url="@../../../minefite/images/fastlogin/2fa.png"/>
+        </ImageView>
+        <TextField id="twoFAField" layoutX="74.0" layoutY="213.0" prefHeight="25.0" prefWidth="190.0"/>
+    </Pane>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package pro.gravit.launcher.gui.core.impl;
 
+import com.zeydie.launcher.gui.scenes.FastLoginScene;
 import pro.gravit.launcher.gui.components.FxSceneBackground;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.overlays.ProcessingOverlay;
@@ -45,6 +46,10 @@ public class GuiObjectsContainer {
     public BrowserScene browserScene;
     public FxSceneBackground background;
 
+    //TODO ZeyCodeStart
+    public FastLoginScene fastLoginScene;
+    //TODO ZeyCodeEnd
+
     public GuiObjectsContainer(JavaFXApplication application) {
         this.application = application;
     }
@@ -66,6 +71,10 @@ public class GuiObjectsContainer {
         updateScene = registerComponent(UpdateScene.class);
         debugScene = registerComponent(DebugScene.class);
         browserScene = registerComponent(BrowserScene.class);
+
+        //TODO ZeyCodeStart
+        this.fastLoginScene = this.registerComponent(FastLoginScene.class);
+        //TODO ZeyCodeEnd
     }
 
     public Collection<FxComponent> getComponents() {

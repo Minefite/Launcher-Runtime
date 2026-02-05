@@ -1,13 +1,19 @@
 package pro.gravit.launcher.gui.scenes.login;
 
+import com.zeydie.launcher.gui.Accounts;
+import com.zeydie.launcher.gui.http.HttpClientAPI;
 import javafx.application.Platform;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
+import lombok.NonNull;
+import lombok.val;
+import org.jetbrains.annotations.Nullable;
 import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
 import pro.gravit.launcher.core.api.method.AuthMethod;
 import pro.gravit.launcher.core.api.model.Texture;
@@ -16,6 +22,7 @@ import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.core.impl.UIComponent;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.core.impl.FxScene;
+import pro.gravit.launcher.gui.scenes.login.methods.LoginAndPasswordAuthMethod;
 import pro.gravit.utils.helper.LogHelper;
 
 import java.net.URI;
@@ -24,7 +31,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class LoginScene extends FxScene {
-    private List<AuthMethod> auth; //TODO: FIX? Field is assigned but never accessed.
+    //TODO ZeyCodeModified from private to public
+    public List<AuthMethod> auth; //TODO: FIX? Field is assigned but never accessed.
     private CheckBox savePasswordCheckBox;
     private CheckBox autoenter;
     private Pane content;
@@ -34,6 +42,12 @@ public class LoginScene extends FxScene {
     private AuthMethod authAvailability;
     private final AuthFlow authFlow;
 
+    //TODO ZeyCodeStart
+    private Pane overlayPane;
+    private Pane twoFAPane;
+    private TextField twoFATextField;
+    //TODO ZeyCodeEnd
+
     public LoginScene(JavaFXApplication application) {
         super("scenes/login/login.fxml", application);
         LoginSceneAccessor accessor = new LoginSceneAccessor();
@@ -42,6 +56,12 @@ public class LoginScene extends FxScene {
 
     @Override
     public void doInit() {
+        //TODO ZeyCodeStart
+        this.overlayPane = LookupHelper.lookup(super.layout, "#layout");
+        this.twoFAPane = LookupHelper.lookup(super.layout, "#twoFAPane");
+        this.twoFATextField = LookupHelper.lookup(super.layout, "#twoFAPane", "#twoFAField");
+        //TODO ZeyCodeEnd
+
         LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
             try {
                 switchScene(application.gui.globalSettingsScene);
@@ -50,9 +70,18 @@ public class LoginScene extends FxScene {
             }
         });
         authButton = use(layout, AuthButton::new);
-        authButton.setOnAction((e) -> contextHelper.runCallback(authFlow::loginWithGui));
+        //TODO ZeyCodeStart
+        authButton.setOnAction((e) -> this.check2FA());
+        //TODO ZeyCodeEnd
+        //TODO ZeyCodeClear
+        //authButton.setOnAction((e) -> contextHelper.runCallback(authFlow::loginWithGui));
         savePasswordCheckBox = LookupHelper.lookup(layout, "#savePassword");
         autoenter = LookupHelper.lookup(layout, "#autoenter");
+
+        //TODO ZeyCodeStart
+        this.application.runtimeSettings.autoAuth = true;
+        //TODO ZeyCodeEnd
+
         autoenter.setSelected(application.runtimeSettings.autoAuth);
         autoenter.setOnAction((event) -> application.runtimeSettings.autoAuth = autoenter.isSelected());
         content = LookupHelper.lookup(layout, "#content");
@@ -94,7 +123,7 @@ public class LoginScene extends FxScene {
                                }
                            } else if (authAvailability.getName().equals(application.runtimeSettings.lastAuth))
                                changeAuthAvailability(authAvailability);
-                           if(authAvailability.isVisible()) {
+                           if (authAvailability.isVisible()) {
                                addAuthAvailability(authAvailability);
                            }
                        }
@@ -103,11 +132,11 @@ public class LoginScene extends FxScene {
                        }
                        runAutoAuth();
                    }), (e) -> {
-                        errorHandle(e);
-                        contextHelper.runAfterTimeout(Duration.seconds(2), () -> {
-                            Platform.exit();
-                            return null;
-                        });
+                    errorHandle(e);
+                    contextHelper.runAfterTimeout(Duration.seconds(2), () -> {
+                        Platform.exit();
+                        return null;
+                    });
                 });
     }
 
@@ -149,6 +178,10 @@ public class LoginScene extends FxScene {
     @Override
     public void reset() {
         authFlow.reset();
+
+        //TODO ZeyCodeStart
+        this.twoFAPane.setVisible(false);
+        //TODO ZeyCodeEnd
     }
 
     @Override
@@ -164,13 +197,17 @@ public class LoginScene extends FxScene {
             application.runtimeSettings.login = successAuth.recentLogin();
             application.runtimeSettings.password = null;
             application.runtimeSettings.lastAuth = authAvailability.getName();
+
+            //TODO ZeyCodeStart
+            Accounts.authed(successAuth);
+            //TODO ZeyCodeEnd
         }
         if (user != null
                 && user.getAssets() != null) {
             try {
                 Texture skin = user.getAssets().get("SKIN");
                 Texture avatar = user.getAssets().get("AVATAR");
-                if(skin != null || avatar != null) {
+                if (skin != null || avatar != null) {
                     application.skinManager.addSkinWithAvatar(user.getUsername(),
                                                               skin != null ? new URI(skin.getUrl()) : null,
                                                               avatar != null ? new URI(avatar.getUrl()) : null);
@@ -181,16 +218,18 @@ public class LoginScene extends FxScene {
             }
         }
         contextHelper.runInFxThread(() -> {
-            if(application.gui.welcomeOverlay.isInit()) {
+            if (application.gui.welcomeOverlay.isInit()) {
                 application.gui.welcomeOverlay.reset();
             }
             showOverlay(application.gui.welcomeOverlay,
-                                                      (e) -> application.gui.welcomeOverlay.hide(2000,
-                                                                                                 (f) -> onGetProfiles()));});
+                        (e) -> application.gui.welcomeOverlay.hide(2000,
+                                                                   (f) -> onGetProfiles()));
+        });
     }
 
     public void onGetProfiles() {
-        processing(LauncherBackendAPIHolder.getApi().fetchProfiles(), application.getTranslation("runtime.overlay.processing.text.profiles"),
+        processing(LauncherBackendAPIHolder.getApi().fetchProfiles(),
+                   application.getTranslation("runtime.overlay.processing.text.profiles"),
                    (profiles) -> {/*
                        application.profilesService.setProfilesResult(profiles);
                        application.runtimeSettings.profiles = profiles.profiles;*/
@@ -220,6 +259,41 @@ public class LoginScene extends FxScene {
     public AuthFlow getAuthFlow() {
         return authFlow;
     }
+
+    //TODO ZeyCodeStart
+    private void check2FA() {
+        @NonNull val httpClient = HttpClientAPI.getInstance();
+        @Nullable val authMethods = this.authFlow.authAvailability;
+
+        if (authMethods instanceof final LoginAndPasswordAuthMethod loginAndPasswordAuthMethod) {
+            @NonNull val overlay = loginAndPasswordAuthMethod.overlay;
+
+            @NonNull val future = overlay.future;
+            @NonNull val login = overlay.login.getText();
+            @NonNull val result = overlay.getResult();
+
+            if (!httpClient.has2FA(login)) {
+                future.complete(result);
+                return;
+            }
+
+            this.overlayPane.setVisible(false);
+            this.twoFAPane.setVisible(true);
+            this.twoFATextField.textProperty()
+                               .addListener(
+                                       (observable, oldValue, newValue) -> {
+                                           if (newValue.length() == 6)
+                                               if (httpClient.isValid2FA(login, newValue)) {
+                                                   this.overlayPane.setVisible(true);
+                                                   this.twoFAPane.setVisible(false);
+
+                                                   future.complete(result);
+                                               }
+                                       }
+                               );
+        }
+    }
+    //TODO ZeyCodeEnd
 
     private static class AuthAvailabilityStringConverter extends StringConverter<AuthMethod> {
         @Override

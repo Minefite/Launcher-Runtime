@@ -1,6 +1,12 @@
 package pro.gravit.launcher.gui.scenes.login.methods;
 
+import com.zeydie.launcher.gui.configs.ReferenceConfig;
+import com.zeydie.launcher.gui.http.HttpClientAPI;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import lombok.NonNull;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
 import pro.gravit.launcher.core.api.method.AuthMethodPassword;
 import pro.gravit.launcher.core.api.method.details.AuthPasswordDetails;
 import pro.gravit.launcher.core.api.method.password.AuthPlainPassword;
@@ -16,7 +22,8 @@ import pro.gravit.utils.helper.LogHelper;
 import java.util.concurrent.CompletableFuture;
 
 public class LoginAndPasswordAuthMethod extends AbstractAuthMethod<AuthPasswordDetails> {
-    private final LoginAndPasswordOverlay overlay;
+    //TODO ZeyCodeReplace private -> public
+    public final LoginAndPasswordOverlay overlay;
     private final JavaFXApplication application;
     private final LoginScene.LoginSceneAccessor accessor;
 
@@ -68,12 +75,27 @@ public class LoginAndPasswordAuthMethod extends AbstractAuthMethod<AuthPasswordD
 
     @Override
     public void onAuthClicked() {
-        overlay.future.complete(overlay.getResult());
+        //TODO ZeyCodeStart
+        this.check2FA();
+        //TODO ZeyCodeEnd
+
+        //TODO ZeyCodeClear
+        //overlay.future.complete(overlay.getResult());
     }
 
     @Override
     public void onUserCancel() {
         overlay.future.completeExceptionally(LoginAndPasswordOverlay.USER_AUTH_CANCELED_EXCEPTION);
+
+        //TODO ZeyCodeStart
+        try {
+            JavaFXApplication.getInstance()
+                             .getCurrentScene()
+                             .switchScene(JavaFXApplication.getInstance().gui.fastLoginScene);
+        } catch (final Exception exception) {
+            exception.printStackTrace();
+        }
+        //TODO ZeyCodeStart
     }
 
     @Override
@@ -86,11 +108,14 @@ public class LoginAndPasswordAuthMethod extends AbstractAuthMethod<AuthPasswordD
         return false;
     }
 
+
     public class LoginAndPasswordOverlay extends FxComponent {
         private static final UserAuthCanceledException USER_AUTH_CANCELED_EXCEPTION = new UserAuthCanceledException();
-        private TextField login;
+        //TODO ZeyCodeReplace private -> public
+        public TextField login;
         private TextField password;
-        private CompletableFuture<AuthFlow.LoginAndPasswordResult> future;
+        //TODO ZeyCodeReplace private -> public
+        public CompletableFuture<AuthFlow.LoginAndPasswordResult> future;
 
         public LoginAndPasswordOverlay(JavaFXApplication application) {
             super("scenes/login/methods/loginpassword.fxml", application);

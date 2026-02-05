@@ -1,5 +1,6 @@
 package pro.gravit.launcher.gui.core.utils;
 
+import com.zeydie.launcher.gui.http.HttpClientAPI;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
@@ -15,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -55,7 +58,17 @@ public class SkinUtils {
         if(url == null) {
             return null;
         }
+
         try {
+            //TODO ZeyCodeStart
+            if (url.getPath().endsWith("default.png"))
+                try {
+                    url = new URL(String.format(HttpClientAPI.getInstance().getSkinUrl(), "default")).toURI();
+                } catch (URISyntaxException exception) {
+                    exception.printStackTrace();
+                }
+            //TODO ZeyCodeEnd
+
             var response = client.send(HttpRequest.newBuilder()
                                                   .uri(url)
                                                   .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36")

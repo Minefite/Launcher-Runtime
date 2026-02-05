@@ -1,5 +1,6 @@
 package pro.gravit.launcher.gui.core;
 
+import com.zeydie.launcher.gui.Accounts;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -100,6 +101,10 @@ public class JavaFXApplication extends Application {
         pingService = new PingService();
         LauncherBackendAPIHolder.getApi().setCallback(backendCallbackService);
         registerCommands();
+
+        //TODO ZeyCodeStart
+        Accounts.load();
+        //TODO ZeyCodeEnd
     }
 
     @Override
@@ -131,7 +136,13 @@ public class JavaFXApplication extends Application {
             gui = new GuiObjectsContainer(this);
             gui.init();
             //
-            mainStage.setScene(gui.loginScene, true);
+            mainStage.setScene(
+                    //TODO ZeyCodeStart
+                    Accounts.getAccountsConfig().getAccounts().isEmpty() ? this.gui.loginScene : this.gui.fastLoginScene
+                    //TODO ZeyCodeEnd
+                    //TODO ZeyCodeClear
+                    //gui.loginScene
+                    , true);
             gui.background.init();
             mainStage.pushBackground(gui.background);
             mainStage.show();

@@ -43,7 +43,10 @@ public class BasicUserControls extends FxComponent {
                                application.gui.loginScene.reset();
                                try {
                                    application.authService.exit();
-                                   switchScene(application.gui.loginScene);
+                                   //TODO ZeyCodeReplace loginScene on fastLoginScene
+                                   this.switchScene(this.application.gui.fastLoginScene);
+                                   //TODO ZeyCodeClear
+                                   //switchScene(application.gui.loginScene);
                                } catch (Exception ex) {
                                    errorHandle(ex);
                                }
