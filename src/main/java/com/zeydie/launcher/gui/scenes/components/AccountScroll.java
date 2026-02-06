@@ -146,9 +146,10 @@ public class AccountScroll {
 
         exitButton.setOnMouseClicked(
                 event -> {
-                    runtimeSettings.oauthAccessToken = null;
-                    runtimeSettings.oauthRefreshToken = null;
-                    runtimeSettings.oauthExpire = 0;
+                    //TODO
+                    //runtimeSettings.oauthAccessToken = null;
+                    //runtimeSettings.oauthRefreshToken = null;
+                    //runtimeSettings.oauthExpire = 0;
 
                     accountList.removeIf(entry -> entry.equals(account));
                     accountsConfig.save();

@@ -138,7 +138,7 @@ public class JavaFXApplication extends Application {
             //
             mainStage.setScene(
                     //TODO ZeyCodeStart
-                    Accounts.getAccountsConfig().getAccounts().isEmpty() ? this.gui.loginScene : this.gui.fastLoginScene
+                    this.gui.fastLoginScene //Accounts.getAccountsConfig().getAccounts().isEmpty() ? this.gui.loginScene : this.gui.fastLoginScene
                     //TODO ZeyCodeEnd
                     //TODO ZeyCodeClear
                     //gui.loginScene

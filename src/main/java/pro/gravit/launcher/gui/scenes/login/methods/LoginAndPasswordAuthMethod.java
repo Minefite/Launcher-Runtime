@@ -75,12 +75,7 @@ public class LoginAndPasswordAuthMethod extends AbstractAuthMethod<AuthPasswordD
 
     @Override
     public void onAuthClicked() {
-        //TODO ZeyCodeStart
-        this.check2FA();
-        //TODO ZeyCodeEnd
-
-        //TODO ZeyCodeClear
-        //overlay.future.complete(overlay.getResult());
+        overlay.future.complete(overlay.getResult());
     }
 
     @Override

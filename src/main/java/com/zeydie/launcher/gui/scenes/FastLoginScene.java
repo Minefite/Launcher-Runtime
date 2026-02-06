@@ -34,7 +34,7 @@ public class FastLoginScene extends FxScene {
     private int scene = 1;
 
     public FastLoginScene(@NonNull final JavaFXApplication application) {
-        super("scenes/login/fastlogin.fxml", application);
+        super("minefite/scenes/login/fastlogin.fxml", application);
     }
 
     @Override
@@ -77,9 +77,10 @@ public class FastLoginScene extends FxScene {
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
         @NonNull val runtimeSettings = javaFXApplication.runtimeSettings;
 
-        runtimeSettings.oauthAccessToken = this.selectedAccount.getOauthAccessToken();
-        runtimeSettings.oauthRefreshToken = this.selectedAccount.getOauthRefreshToken();
-        runtimeSettings.oauthExpire = this.selectedAccount.getOauthExpire();
+        //TODO
+        //runtimeSettings.oauthAccessToken = this.selectedAccount.getOauthAccessToken();
+        //runtimeSettings.oauthRefreshToken = this.selectedAccount.getOauthRefreshToken();
+        //runtimeSettings.oauthExpire = this.selectedAccount.getOauthExpire();
 
         ContextHelper.runInFxThreadStatic(
                 () -> {
@@ -100,9 +101,10 @@ public class FastLoginScene extends FxScene {
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
         @NonNull val runtimeSettings = javaFXApplication.runtimeSettings;
 
-        runtimeSettings.oauthAccessToken = null;
-        runtimeSettings.oauthRefreshToken = null;
-        runtimeSettings.oauthExpire = 0;
+        //TODO
+        //runtimeSettings.oauthAccessToken = null;
+       // runtimeSettings.oauthRefreshToken = null;
+        //runtimeSettings.oauthExpire = 0;
 
         ContextHelper.runInFxThreadStatic(
                 () -> {

@@ -1,0 +1,97 @@
+@import "../../../styles/global.css";
+@import "../../../styles/variables.css";
+
+#authButton {
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url('../../images/fastlogin/auth.png');
+}
+
+#authButton:hover {
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url('../../images/fastlogin/auth_hover.png');
+}
+
+.accountButton-hovered,
+.accountButton {
+    -fx-background-color: transparent;
+    -fx-font-family: "Gilroy-SemiBold";
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 17px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-graphic-text-gap: 15px;
+}
+
+.accountButton-hovered,
+.accountButton:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 12px;
+}
+
+#addAccountButton {
+    -fx-background-color: transparent;
+    -fx-font-family: "Gilroy-SemiBold";
+    -fx-text-fill: #949393;
+    -fx-font-size: 15px;
+    -fx-font-style: italic;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-text-alignment: right;
+}
+
+.serverImage,
+.exitButton {
+    -fx-background-color: transparent;
+}
+
+#addAccountButton:hover,
+.serverImage:hover,
+.exitButton:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0);
+    -fx-scale-y: 1.15;
+    -fx-scale-x: 1.15;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: derive(#ffffff, 10.0%);
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: derive(#ffffff, 90.0%);
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:vertical .thumb,
+.scroll-bar:vertical .thumb:hover,
+.scroll-bar:vertical .corner {
+    -fx-background-insets: 2.0, 0.0, 0.0;
+    -fx-background-radius: 2.0em;
+}
+
+.tm-1,
+.tm-2,
+.tm-3,
+.tm-4 {
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+.tm-1 {
+    -fx-background-image: url('../../images/fastlogin/newyear/1.png');
+}
+
+.tm-2 {
+    -fx-background-image: url('../../images/fastlogin/newyear/2.png');
+}
+
+.tm-3 {
+    -fx-background-image: url('../../images/fastlogin/newyear/3.png');
+}
+
+.tm-3 {
+    -fx-background-image: url('../../images/fastlogin/newyear/4.png');
+}

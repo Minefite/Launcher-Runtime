@@ -58,7 +58,7 @@ public class ReferenceConfig {
     }
 
     public static @Nullable AccountData getAuthedAccount() {
-        @Nullable val oauthRefreshToken = JavaFXApplication.getInstance().runtimeSettings.oauthRefreshToken;
+        @Nullable val oauthRefreshToken = "";//TODO JavaFXApplication.getInstance().runtimeSettings.oauthRefreshToken;
 
         LogHelper.debug("OauthRefreshToken %s", oauthRefreshToken);
 
@@ -71,6 +71,4 @@ public class ReferenceConfig {
                        .findFirst()
                        .orElse(null);
     }
-
-
 }
