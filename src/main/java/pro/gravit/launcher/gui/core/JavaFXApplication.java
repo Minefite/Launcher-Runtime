@@ -136,16 +136,20 @@ public class JavaFXApplication extends Application {
             gui = new GuiObjectsContainer(this);
             gui.init();
             //
-            mainStage.setScene(
-                    //TODO ZeyCodeStart
-                    this.gui.fastLoginScene //Accounts.getAccountsConfig().getAccounts().isEmpty() ? this.gui.loginScene : this.gui.fastLoginScene
-                    //TODO ZeyCodeEnd
-                    //TODO ZeyCodeClear
-                    //gui.loginScene
-                    , true);
+
+            //TODO ZeyCodeStart
+            mainStage.setScene(this.gui.fastLoginScene, true);
+            //this.gui.background.init();
+            //mainStage.pushBackground(this.gui.background);
+            mainStage.getStage().centerOnScreen();
+            mainStage.show();
+            //TODO ZeyCodeEnd
+            //TODO ZeyCodeClear
+            /*mainStage.setScene(gui.loginScene, true);
             gui.background.init();
             mainStage.pushBackground(gui.background);
-            mainStage.show();
+            mainStage.show();*/
+
             /*if (offlineService.isOfflineMode()) {
                 messageManager.createNotification(getTranslation("runtime.offline.notification.header"),
                                                   getTranslation("runtime.offline.notification.text"));

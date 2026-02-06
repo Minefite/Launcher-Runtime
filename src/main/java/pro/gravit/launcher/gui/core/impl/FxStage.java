@@ -89,11 +89,11 @@ public abstract class FxStage {
 
     public void setScene(FxComponent visualComponent, boolean addToFlow) throws Exception {
         if (visualComponent == null) {
-            if(!stackPane.getChildren().isEmpty()) {
+            if (!stackPane.getChildren().isEmpty()) {
                 stackPane.getChildren().set(scenePosition.get(), new Pane());
             }
             return;
-        } else if(addToFlow) {
+        } else if (addToFlow) {
             sceneFlow.add(visualComponent.getName());
         }
         visualComponent.currentStage = this;
@@ -107,17 +107,12 @@ public abstract class FxStage {
             stackPane.getChildren().add(visualComponent.getFxmlRoot());
         } else {
             var old = stackPane.getChildren().get(scenePosition.get());
-            if(old.getEffect() instanceof GaussianBlur blur) {
+            if (old.getEffect() instanceof GaussianBlur blur) {
                 old.setEffect(null);
                 visualComponent.getFxmlRootPrivate().setEffect(blur);
             }
             stackPane.getChildren().set(scenePosition.get(), visualComponent.getFxmlRoot());
         }
-
-        //TODO WTF FIX
-        stage.setMaxHeight(468);
-        stage.setMaxWidth(850);
-        //
 
         stage.sizeToScene();
         visualComponent.postInit();
@@ -130,18 +125,18 @@ public abstract class FxStage {
     }
 
     public UIComponent back() throws Exception {
-        if(sceneFlow.size() <= 1) {
+        if (sceneFlow.size() <= 1) {
             return null;
         }
         FxComponent component;
         do {
             String name = sceneFlow.get(sceneFlow.size() - 2);
             component = application.gui.getByName(name);
-            if(component == null) {
+            if (component == null) {
                 return null;
             }
             sceneFlow.remove(sceneFlow.get(sceneFlow.size() - 1));
-        } while(component.isDisableReturnBack());
+        } while (component.isDisableReturnBack());
         setScene(component, false);
         return component;
     }
@@ -217,7 +212,8 @@ public abstract class FxStage {
 
     public void disable() {
         var value = disableCounter.incrementAndGet();
-        LogHelper.dev("Disable scene: stack_num: %s | blur: %s | counter: %s",stackPane.getChildren().size(), disablePane == null ? "null" : "not null", value);
+        LogHelper.dev("Disable scene: stack_num: %s | blur: %s | counter: %s", stackPane.getChildren().size(),
+                      disablePane == null ? "null" : "not null", value);
         if (value != 1) return;
         Pane layout = (Pane) stackPane.getChildren().get(scenePosition.get());
         layout.setEffect(new GaussianBlur(150));
@@ -232,7 +228,8 @@ public abstract class FxStage {
 
     public void enable() {
         var value = disableCounter.decrementAndGet();
-        LogHelper.dev("Enable scene: stack_num: %s | blur: %s | counter: %s",stackPane.getChildren().size(), disablePane == null ? "null" : "not null", value);
+        LogHelper.dev("Enable scene: stack_num: %s | blur: %s | counter: %s", stackPane.getChildren().size(),
+                      disablePane == null ? "null" : "not null", value);
         if (value != 0) return;
         Pane layout = (Pane) stackPane.getChildren().get(scenePosition.get());
         layout.setEffect(null);

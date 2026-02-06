@@ -13,6 +13,7 @@ import pro.gravit.launcher.gui.core.impl.ContextHelper;
 import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.scenes.login.LoginScene;
+import pro.gravit.utils.helper.LogHelper;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,8 +50,12 @@ public class FastLoginScene extends FxScene {
 
         this.newyearPane = LookupHelper.lookup(super.layout, "#newyearPane");
 
-        if (Accounts.getAccountsConfig().getAccounts().isEmpty())
+        //TODO Fix
+        /*if (Accounts.getAccountsConfig().getAccounts().isEmpty()) {
+            LogHelper.debug("No accounts found, switching to logging");
+
             this.switchToLogging();
+        }*/
 
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -63,6 +68,8 @@ public class FastLoginScene extends FxScene {
                 if (scene > 3) scene = 1;
             }
         }, 0, 500);
+
+
     }
 
     @Override
@@ -103,19 +110,33 @@ public class FastLoginScene extends FxScene {
 
         //TODO
         //runtimeSettings.oauthAccessToken = null;
-       // runtimeSettings.oauthRefreshToken = null;
+        // runtimeSettings.oauthRefreshToken = null;
         //runtimeSettings.oauthExpire = 0;
 
         ContextHelper.runInFxThreadStatic(
                 () -> {
-                    @NonNull val loginScene = JavaFXApplication.getInstance().gui.loginScene;
+                    @NonNull val fx = JavaFXApplication.getInstance();
+                    @NonNull val gui = fx.gui;
 
-                    if (loginScene.auth == null)
+                    @NonNull val background = gui.background;
+
+                    if (!background.isInit()) {
+                        background.init();
+                        fx.getMainStage().pushBackground(background);
+                    }
+
+                    @NonNull val loginScene = gui.loginScene;
+
+                    super.switchScene(loginScene);
+
+                    loginScene.postInit();
+
+                    /*if (loginScene.auth == null)
                         super.switchScene(loginScene);
                     else {
                         super.switchScene(loginScene);
                         loginScene.postInit();
-                    }
+                    }*/
                 }
         );
     }

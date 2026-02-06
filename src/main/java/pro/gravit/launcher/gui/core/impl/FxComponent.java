@@ -117,6 +117,8 @@ public abstract class FxComponent extends VisualComponentBase {
 
         //TODO ZeyCodeStart
         this.currentStage.stage.centerOnScreen();
+
+        LogHelper.debug("Switching to scene: %s %s", scene.getName(), scene.toString());
         //TODO ZeyCodeEnd
     }
 

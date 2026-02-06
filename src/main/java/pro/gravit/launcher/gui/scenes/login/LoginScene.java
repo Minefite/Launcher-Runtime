@@ -16,12 +16,15 @@ import lombok.val;
 import org.jetbrains.annotations.Nullable;
 import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
 import pro.gravit.launcher.core.api.method.AuthMethod;
+import pro.gravit.launcher.core.api.method.AuthMethodDetails;
+import pro.gravit.launcher.core.api.method.details.AuthPasswordDetails;
 import pro.gravit.launcher.core.api.model.Texture;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.core.impl.UIComponent;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.core.impl.FxScene;
+import pro.gravit.launcher.gui.scenes.login.methods.AbstractAuthMethod;
 import pro.gravit.launcher.gui.scenes.login.methods.LoginAndPasswordAuthMethod;
 import pro.gravit.utils.helper.LogHelper;
 
@@ -263,9 +266,12 @@ public class LoginScene extends FxScene {
     //TODO ZeyCodeStart
     private void check2FA() {
         @NonNull val httpClient = HttpClientAPI.getInstance();
-        @Nullable val authMethods = this.authFlow.authAvailability;
+        @Nullable val authMethods = this.authFlow.authMethodOnShow;
 
-        if (authMethods instanceof final LoginAndPasswordAuthMethod loginAndPasswordAuthMethod) {
+        LogHelper.debug("authMethods: %s", authMethods);
+
+        if (authMethods instanceof final AbstractAuthMethod<?> authMethod && authMethod.getClass() == LoginAndPasswordAuthMethod.class) {
+            @NonNull val loginAndPasswordAuthMethod = (LoginAndPasswordAuthMethod) authMethod;
             @NonNull val overlay = loginAndPasswordAuthMethod.overlay;
 
             @NonNull val future = overlay.future;
@@ -273,6 +279,7 @@ public class LoginScene extends FxScene {
             @NonNull val result = overlay.getResult();
 
             if (!httpClient.has2FA(login)) {
+                LogHelper.debug("%s has not 2FA", login);
                 future.complete(result);
                 return;
             }
@@ -283,12 +290,15 @@ public class LoginScene extends FxScene {
                                .addListener(
                                        (observable, oldValue, newValue) -> {
                                            if (newValue.length() == 6)
-                                               if (httpClient.isValid2FA(login, newValue)) {
-                                                   this.overlayPane.setVisible(true);
-                                                   this.twoFAPane.setVisible(false);
+                                               LogHelper.debug(
+                                                       "2FA is valid " + httpClient.isValid2FA(login, newValue));
 
-                                                   future.complete(result);
-                                               }
+                                           if (httpClient.isValid2FA(login, newValue)) {
+                                               this.overlayPane.setVisible(true);
+                                               this.twoFAPane.setVisible(false);
+
+                                               future.complete(result);
+                                           }
                                        }
                                );
         }

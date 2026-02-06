@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pro.gravit.launcher.base.Downloader;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.utils.helper.LogHelper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -83,7 +84,13 @@ public class HttpClientAPI {
                     httpRequest,
                     HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)
             );
-            @NonNull val result = new Result(response.statusCode(), response.body());
+
+            val statusCode = response.statusCode();
+            @NonNull val body = response.body();
+
+            LogHelper.debug("[HttpClient] Status code: %d, body: %s", statusCode, body);
+
+            return new Result(statusCode, body);
         } catch (final Exception exception) {
             exception.printStackTrace();
         }

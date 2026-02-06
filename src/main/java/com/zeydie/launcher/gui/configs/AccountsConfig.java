@@ -18,13 +18,20 @@ public class AccountsConfig {
     private @NotNull List<AccountData> accounts = new ArrayList<>();
 
     public void load() throws IOException {
-        if (ReferenceConfig.defaultAccountConfig.toFile().exists()) {
-            Files.move(ReferenceConfig.defaultLauncherDirectory, ReferenceConfig.accountConfig, StandardCopyOption.REPLACE_EXISTING);
+        @NonNull val source = ReferenceConfig.defaultAccountConfig;
+        @NonNull val destination = ReferenceConfig.accountConfig;
 
-            ReferenceConfig.defaultLauncherDirectory.toFile().delete();
+        if (Files.exists(source)) {
+            if (!Files.exists(destination)) {
+                Files.createDirectories(destination.getParent());
+
+                Files.move(source, destination, StandardCopyOption.ATOMIC_MOVE);
+
+                source.toFile().delete();
+            }
         }
 
-        this.accounts = new SGsonFile(ReferenceConfig.accountConfig).fromJsonToObject(this).getAccounts();
+        this.accounts = new SGsonFile(destination).fromJsonToObject(this).getAccounts();
     }
 
     public void save() {
