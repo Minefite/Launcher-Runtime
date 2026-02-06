@@ -2,6 +2,7 @@ package pro.gravit.launcher.gui.core.internal;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import lombok.NonNull;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.utils.helper.IOHelper;
 import pro.gravit.utils.helper.LogHelper;
@@ -21,6 +22,16 @@ public class FXMLFactory {
         this.resources = resources;
         this.executorService = executorService;
     }
+
+    //TODO ZeyCodeStart
+    public <T extends Node> T getSync(@NonNull final String url) {
+        try {
+            return this.get(url);
+        } catch (final IOException e) {
+            throw new FXMLLoadException(e);
+        }
+    }
+    //TODO ZeyCodeEnd
 
     public <T extends Node> CompletableFuture<T> getAsync(String url) {
         return CompletableFuture.supplyAsync(() -> {

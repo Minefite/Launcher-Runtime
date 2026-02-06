@@ -42,14 +42,31 @@ public class ServerInfoScene extends FxScene implements SceneSupportUserBlock {
                 errorHandle(ex);
             }
         });
-        LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
+
+        //TODO ZeyCodeStart
+        LookupHelper.<ButtonBase>lookupIfPossible(layout, "#controls", "#settings")
+                    .ifPresent(
+                            (b) -> b.setOnAction(
+                                    (e) -> {
+                                        try {
+                                            switchScene(application.gui.settingsScene);
+                                            application.gui.settingsScene.reset();
+                                        } catch (Exception exception) {
+                                            errorHandle(exception);
+                                        }
+                                    }
+                            )
+                    );
+        //TODO ZeyCodeEnd
+        //TODO ZeyCodeClear
+        /*LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
             try {
                 switchScene(application.gui.settingsScene);
                 application.gui.settingsScene.reset();
             } catch (Exception exception) {
                 errorHandle(exception);
             }
-        });
+        });*/
         reset();
     }
 

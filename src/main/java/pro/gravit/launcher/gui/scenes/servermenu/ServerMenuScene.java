@@ -28,13 +28,29 @@ public class ServerMenuScene extends FxScene implements SceneSupportUserBlock {
     @Override
     public void doInit() {
         this.userBlock = use(layout, UserBlock::new);
-        LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
+
+        //TODO ZeyCodeStart
+        LookupHelper.<ButtonBase>lookupIfPossible(layout, "#controls", "#settings")
+                    .ifPresent(
+                            (b) -> b.setOnAction(
+                                    (e) -> {
+                                        try {
+                                            switchScene(application.gui.settingsScene);
+                                        } catch (Exception exception) {
+                                            errorHandle(exception);
+                                        }
+                                    }
+                            )
+                    );
+        //TODO ZeyCodeEnd
+        //TODO ZeyCodeClear
+        /*LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
             try {
-                switchScene(application.gui.globalSettingsScene);
+                switchScene(application.gui.settingsScene);
             } catch (Exception exception) {
                 errorHandle(exception);
             }
-        });
+        });*/
         ScrollPane scrollPane = LookupHelper.lookup(layout, "#servers");
         scrollPane.setOnScroll(e -> {
             double widthContent = scrollPane.getWidth();

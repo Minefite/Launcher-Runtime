@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
 
-<AnchorPane id="serverButton" fx:id="serverButton" minWidth="-Infinity" prefHeight="350.0" prefWidth="175.0" styleClass="b-20" stylesheets="@components.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <Region id="serverLogo" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
+<AnchorPane id="serverButton" fx:id="serverButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="214.0" styleClass="b-20" stylesheets="@components.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <Region id="serverLogo" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" />
 
     <!-- Информация сервера -->
-    <Label id="nameServer" alignment="CENTER" prefHeight="29.0" text="SERVERNAME" textAlignment="CENTER" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-    <Label id="genreServer" alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="HITECH" textAlignment="CENTER" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <Label visible="false" id="nameServer" alignment="CENTER" prefHeight="29.0" text="SERVERNAME" textAlignment="CENTER" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+    <Label visible="false" id="genreServer" alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="HITECH" textAlignment="CENTER" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
     <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
         <children>
-            <Label id="online" alignment="CENTER" maxWidth="40.0" prefWidth="40.0" styleClass="online-green" text="?" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="-6.0" />
+            <Label id="online" alignment="CENTER" maxWidth="40.0" prefWidth="40.0" text="?" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="3.0" />
             <Label id="speedLoad" alignment="CENTER" maxWidth="75.0" prefWidth="75.0" styleClass="online-violet" text="0 m/s" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="-6.0" />
             <Button id="reset" maxWidth="75.0" prefWidth="75.0" text="%runtime.components.serverButton.reset" visible="false" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="-6.0">
                 <tooltip>

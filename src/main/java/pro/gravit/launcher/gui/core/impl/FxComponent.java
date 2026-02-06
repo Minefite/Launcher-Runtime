@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import lombok.NonNull;
+import lombok.val;
 import pro.gravit.launcher.base.request.RequestException;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.core.interfaces.ValueComponent;
@@ -52,7 +54,17 @@ public abstract class FxComponent extends VisualComponentBase {
     }
 
     protected synchronized Parent getFxmlRoot() {
-        try {
+        //TODO ZeyCodeStart
+        if (this.sysFxmlRoot == null)
+            this.sysFxmlRoot = this.application.fxmlFactory.getSync(this.sysFxmlPath);
+
+        LogHelper.debug("Sys FXML Root %s", this.sysFxmlPath);
+
+        return sysFxmlRoot;
+        //TODO ZeyCodeEnd
+
+        //TODO ZeyCodeClear
+        /*try {
             if (sysFxmlRoot == null) {
                 if (sysFxmlFuture == null) {
                     this.sysFxmlFuture = application.fxmlFactory.getAsync(sysFxmlPath);
@@ -71,7 +83,7 @@ public abstract class FxComponent extends VisualComponentBase {
                 throw runtimeException;
             }
             throw new FXMLFactory.FXMLLoadException(cause);
-        }
+        }*/
     }
 
     protected <T extends UIComponent> T use(Pane layout, BiFunction<Pane, JavaFXApplication, T> constructor) {
@@ -116,7 +128,29 @@ public abstract class FxComponent extends VisualComponentBase {
         }
 
         //TODO ZeyCodeStart
-        this.currentStage.stage.centerOnScreen();
+        @NonNull val stage = this.currentStage.stage;
+
+        //TODO ZeyCodeStart
+        @NonNull val config = application.guiModuleConfig;
+
+        val fixedWidth = config.fixedWidth;
+        val fixedHeight = config.fixedHeight;
+
+        /*if (fixedWidth > 0) {
+            if (stage.getWidth() > fixedWidth)
+                stage.setWidth(fixedWidth);
+
+            stage.setMaxWidth(fixedWidth);
+        }
+        if (fixedHeight > 0) {
+            if (stage.getHeight() > fixedHeight)
+                stage.setHeight(fixedHeight);
+
+            stage.setMaxHeight(fixedHeight);
+        }*/
+        //TODO ZeyCodeEnd
+
+        stage.centerOnScreen();
 
         LogHelper.debug("Switching to scene: %s %s", scene.getName(), scene.toString());
         //TODO ZeyCodeEnd

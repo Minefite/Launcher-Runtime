@@ -63,15 +63,28 @@ public class LoginScene extends FxScene {
         this.overlayPane = LookupHelper.lookup(super.layout, "#layout");
         this.twoFAPane = LookupHelper.lookup(super.layout, "#twoFAPane");
         this.twoFATextField = LookupHelper.lookup(super.layout, "#twoFAPane", "#twoFAField");
-        //TODO ZeyCodeEnd
 
-        LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
+        LookupHelper.<ButtonBase>lookupIfPossible(layout, "#controls", "#settings")
+                    .ifPresent(
+                            (b) -> b.setOnAction(
+                                    (e) -> {
+                                        try {
+                                            switchScene(application.gui.globalSettingsScene);
+                                        } catch (Exception exception) {
+                                            errorHandle(exception);
+                                        }
+                                    }
+                            )
+                    );
+        //TODO ZeyCodeEnd
+        //TODO ZeyCodeClear
+        /*LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
             try {
                 switchScene(application.gui.globalSettingsScene);
             } catch (Exception exception) {
                 errorHandle(exception);
             }
-        });
+        });*/
         authButton = use(layout, AuthButton::new);
         //TODO ZeyCodeStart
         authButton.setOnAction((e) -> this.check2FA());
@@ -221,12 +234,27 @@ public class LoginScene extends FxScene {
             }
         }
         contextHelper.runInFxThread(() -> {
+            //TODO ZeyCodeStart
+            @NonNull val config = this.application.guiModuleConfig;
+
+            if (!config.welcomeOverlayEnable) {
+                this.onGetProfiles();
+                return;
+            }
+            //TODO ZeyCodeEnd
+
             if (application.gui.welcomeOverlay.isInit()) {
                 application.gui.welcomeOverlay.reset();
             }
             showOverlay(application.gui.welcomeOverlay,
-                        (e) -> application.gui.welcomeOverlay.hide(2000,
-                                                                   (f) -> onGetProfiles()));
+                        (e) -> application.gui.welcomeOverlay.hide(
+                                //TODO ZeyCodeStart
+                                config.welcomeOverlayDelay,
+                                //TODO ZeyCodeEnd
+                                //TODO ZeyCodeClear
+                                //2000,
+
+                                (f) -> onGetProfiles()));
         });
     }
 
@@ -270,7 +298,8 @@ public class LoginScene extends FxScene {
 
         LogHelper.debug("authMethods: %s", authMethods);
 
-        if (authMethods instanceof final AbstractAuthMethod<?> authMethod && authMethod.getClass() == LoginAndPasswordAuthMethod.class) {
+        if (authMethods instanceof final AbstractAuthMethod<?> authMethod
+                && authMethod.getClass() == LoginAndPasswordAuthMethod.class) {
             @NonNull val loginAndPasswordAuthMethod = (LoginAndPasswordAuthMethod) authMethod;
             @NonNull val overlay = loginAndPasswordAuthMethod.overlay;
 

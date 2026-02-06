@@ -1,0 +1,6 @@
+.mf-servermenu-background {
+    -fx-background-image: url('../../minefite/images/background/servermenu.png');
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+}
