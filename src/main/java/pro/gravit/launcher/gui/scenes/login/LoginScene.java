@@ -234,27 +234,12 @@ public class LoginScene extends FxScene {
             }
         }
         contextHelper.runInFxThread(() -> {
-            //TODO ZeyCodeStart
-            @NonNull val config = this.application.guiModuleConfig;
-
-            if (!config.welcomeOverlayEnable) {
-                this.onGetProfiles();
-                return;
-            }
-            //TODO ZeyCodeEnd
 
             if (application.gui.welcomeOverlay.isInit()) {
                 application.gui.welcomeOverlay.reset();
             }
             showOverlay(application.gui.welcomeOverlay,
-                        (e) -> application.gui.welcomeOverlay.hide(
-                                //TODO ZeyCodeStart
-                                config.welcomeOverlayDelay,
-                                //TODO ZeyCodeEnd
-                                //TODO ZeyCodeClear
-                                //2000,
-
-                                (f) -> onGetProfiles()));
+                        (e) -> application.gui.welcomeOverlay.hide(2000, (f) -> onGetProfiles()));
         });
     }
 

@@ -130,26 +130,6 @@ public abstract class FxComponent extends VisualComponentBase {
         //TODO ZeyCodeStart
         @NonNull val stage = this.currentStage.stage;
 
-        //TODO ZeyCodeStart
-        @NonNull val config = application.guiModuleConfig;
-
-        val fixedWidth = config.fixedWidth;
-        val fixedHeight = config.fixedHeight;
-
-        /*if (fixedWidth > 0) {
-            if (stage.getWidth() > fixedWidth)
-                stage.setWidth(fixedWidth);
-
-            stage.setMaxWidth(fixedWidth);
-        }
-        if (fixedHeight > 0) {
-            if (stage.getHeight() > fixedHeight)
-                stage.setHeight(fixedHeight);
-
-            stage.setMaxHeight(fixedHeight);
-        }*/
-        //TODO ZeyCodeEnd
-
         stage.centerOnScreen();
 
         LogHelper.debug("Switching to scene: %s %s", scene.getName(), scene.toString());
