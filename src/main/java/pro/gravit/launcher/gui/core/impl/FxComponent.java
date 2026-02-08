@@ -130,11 +130,15 @@ public abstract class FxComponent extends VisualComponentBase {
         //TODO ZeyCodeStart
         @NonNull val stage = this.currentStage.stage;
 
-        stage.centerOnScreen();
-
         LogHelper.debug("Switching to scene: %s %s", scene.getName(), scene.toString());
         //TODO ZeyCodeEnd
     }
+
+    //TODO ZeyCodeStart
+    public void centerScene() {
+        this.currentStage.stage.centerOnScreen();
+    }
+    //TODO ZeyCodeEnd
 
     protected void switchToBackScene() throws Exception {
         currentStage.back();

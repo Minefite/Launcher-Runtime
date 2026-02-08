@@ -322,6 +322,16 @@ Separator:vertical .line {
     -fx-background-image: url('../minefite/images/buttons/hide.png');
 }
 
+.mf-deauth-button {
+    -fx-background-image: url('../minefite/images/buttons/deauth/deauth.png');
+}
+.mf-deauth-button:hover {
+    -fx-background-image: url('../minefite/images/buttons/deauth/deauth.png');
+}
+.mf-deauth-button:pressed {
+    -fx-background-image: url('../minefite/images/buttons/deauth/deauth.png');
+}
+
 .mf-servermenu-background {
     -fx-background-image: url('../minefite/images/background/servermenu.png');
     -fx-background-color: transparent;

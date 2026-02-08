@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="serverPane" prefHeight="468.0" prefWidth="850.0" maxWidth="850" maxHeight="468" styleClass="mf-servermenu-background" stylesheets="@servermenu.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="serverPane" maxHeight="468" maxWidth="850" prefHeight="468.0" prefWidth="850.0" styleClass="mf-servermenu-background" stylesheets="@servermenu.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <!-- Навбар -->
     <AnchorPane id="header" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Pane id="userBlock" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="34.0">
+        <Pane id="userBlock" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="33.0">
             <fx:include source="../../components/userBlock.fxml" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="34.0" />
+
         </Pane>
+        <fx:include source="../../components/buttons/deauth.fxml" AnchorPane.leftAnchor="260" AnchorPane.topAnchor="45.0" />
         <!-- Кнопки управления -->
-        <HBox id="controls" spacing="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="17.0">
-            <fx:include source="../../components/buttons/minimize.fxml" />
-            <fx:include source="../../components/buttons/close.fxml" />
+        <HBox id="controls" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="17.0">
+            <fx:include source="../../components/buttons/minimize.fxml" AnchorPane.rightAnchor="-40.0" AnchorPane.topAnchor="17.0" />
+            <fx:include source="../../components/buttons/exit.fxml" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="17.0" />
         </HBox>
     </AnchorPane>
 

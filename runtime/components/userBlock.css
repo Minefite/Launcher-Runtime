@@ -1,15 +1,49 @@
+@font-face {
+    -fx-font-family: 'Gilroy-Bold';
+    src: url('../minefite/fonts/Gilroy-Bold.ttf');
+}
+@font-face {
+    -fx-font-family: 'Gilroy-Extrabold';
+    src: url('../minefite/fonts/Gilroy-Extrabold.ttf');
+}
+@font-face {
+    -fx-font-family: 'Gilroy-Medium';
+    src: url('../minefite/fonts/Gilroy-Medium.ttf');
+}
+@font-face {
+    -fx-font-family: 'Gilroy-Regular';
+    src: url('../minefite/fonts/Gilroy-Regular.ttf');
+}
+@font-face {
+    -fx-font-family: 'Gilroy-RegularItalic';
+    src: url('../minefite/fonts/Gilroy-RegularItalic.ttf');
+}
+@font-face {
+    -fx-font-family: 'Gilroy-Semibold';
+    src: url('../minefite/fonts/Gilroy-Semibold.ttf');
+}
+
 #avatar {
     -fx-background-position: center;
     -fx-background-color: transparent;
     -fx-font-smoothing-type: lcd;
+    -fx-border-radius: 20px;
 }
+
 #nickname {
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-    -fx-text-fill: -fx-colors-text;
+    -fx-font-family: "Gilroy-Bold";
+    -fx-font-size: 17px;
+    -fx-text-fill: #fff;
 }
+
 #role {
     -fx-font-weight: normal;
     -fx-font-size: 12px;
     -fx-text-fill: -fx-colors-text;
+}
+
+#welcome_servmenu {
+    -fx-font-family: "Gilroy-Medium";
+    -fx-font-size: 15px;
+    -fx-fill: rgba(255, 255, 255, 0.5);
 }

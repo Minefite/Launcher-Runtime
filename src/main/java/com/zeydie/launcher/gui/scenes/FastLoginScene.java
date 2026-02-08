@@ -128,6 +128,7 @@ public class FastLoginScene extends FxScene {
                     @NonNull val loginScene = gui.loginScene;
 
                     super.switchScene(loginScene);
+                    super.centerScene();
 
                     loginScene.postInit();
 
