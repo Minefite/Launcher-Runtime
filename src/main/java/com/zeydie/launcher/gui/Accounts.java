@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.core.backend.UserSettings;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
@@ -73,7 +74,7 @@ public final class Accounts {
         return (BackendSettings) (LauncherBackendAPIHolder.getApi().getUserSettings("backend", s -> new BackendSettings()));
     }
 
-    public static @NotNull BackendSettings.AuthorizationData getAuthData() {
+    public static @Nullable BackendSettings.AuthorizationData getAuthData() {
         return getBackendSettings().auth;
     }
 }

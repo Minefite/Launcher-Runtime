@@ -50,13 +50,6 @@ public class FastLoginScene extends FxScene {
 
         this.newyearPane = LookupHelper.lookup(super.layout, "#newyearPane");
 
-        //TODO Fix
-        /*if (Accounts.getAccountsConfig().getAccounts().isEmpty()) {
-            LogHelper.debug("No accounts found, switching to logging");
-
-            this.switchToLogging();
-        }*/
-
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -71,6 +64,17 @@ public class FastLoginScene extends FxScene {
     }
 
     @Override
+    public void postInit() throws Exception {
+        super.postInit();
+
+        if (Accounts.getAccountsConfig().getAccounts().isEmpty()) {
+            LogHelper.debug("No accounts found, switching to logging");
+
+            this.switchToLogging();
+        }
+    }
+
+    @Override
     public void reset() {
         this.selectedAccount = null;
         this.accountsScroll.updateGrid();
@@ -80,11 +84,13 @@ public class FastLoginScene extends FxScene {
         if (this.selectedAccount == null) return;
 
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
-        @NonNull val authData = Accounts.getAuthData();
+        @Nullable val authData = Accounts.getAuthData();
 
-        authData.accessToken = this.selectedAccount.getOauthAccessToken();
-        authData.refreshToken = this.selectedAccount.getOauthRefreshToken();
-        authData.expireIn = this.selectedAccount.getOauthExpire();
+        if (authData != null) {
+            authData.accessToken = this.selectedAccount.getOauthAccessToken();
+            authData.refreshToken = this.selectedAccount.getOauthRefreshToken();
+            authData.expireIn = this.selectedAccount.getOauthExpire();
+        }
 
         ContextHelper.runInFxThreadStatic(
                 () -> {
@@ -105,37 +111,34 @@ public class FastLoginScene extends FxScene {
     @SneakyThrows
     public void switchToLogging() {
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
-        @NonNull val authData = Accounts.getAuthData();
+        @Nullable val authData = Accounts.getAuthData();
 
-        authData.accessToken = null;
-        authData.refreshToken = null;
-        authData.expireIn = 0;
+        if (authData != null) {
+            authData.accessToken = null;
+            authData.refreshToken = null;
+            authData.expireIn = 0;
+        }
 
         ContextHelper.runInFxThreadStatic(
                 () -> {
                     @NonNull val fx = JavaFXApplication.getInstance();
                     @NonNull val gui = fx.gui;
-
-                    @NonNull val background = gui.background;
+                    @NonNull val loginScene = gui.loginScene;
+                    /*@NonNull val background = gui.background;
 
                     if (!background.isInit()) {
                         background.init();
                         fx.getMainStage().pushBackground(background);
                     }
 
-                    @NonNull val loginScene = gui.loginScene;
+
 
                     super.switchScene(loginScene);
                     super.centerScene();
 
-                    loginScene.postInit();
+                    loginScene.postInit();*/
 
-                    /*if (loginScene.auth == null)
-                        super.switchScene(loginScene);
-                    else {
-                        super.switchScene(loginScene);
-                        loginScene.postInit();
-                    }*/
+                    super.switchScene(loginScene);
                 }
         );
     }
