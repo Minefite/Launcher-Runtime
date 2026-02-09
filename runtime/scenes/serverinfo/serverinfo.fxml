@@ -34,8 +34,10 @@
         </children>
     </AnchorPane>
     <Pane id="profileButtons" layoutX="509.0" layoutY="360.0" prefHeight="45.0">
-        <Button id="clientSettings" minHeight="45.0" minWidth="143.0" mnemonicParsing="false" prefWidth="143.0"  />
+        <Button id="clientSettings" minHeight="45.0" minWidth="143.0" mnemonicParsing="false" prefWidth="143.0" />
         <Button id="startProfile" layoutX="170" minHeight="45.0" minWidth="143.0" mnemonicParsing="false" prefWidth="143.0" text="Играть" />
     </Pane>
-    <Label id="serverName" layoutX="355.0" layoutY="137.0" maxWidth="400.0" prefHeight="32.0" prefWidth="96.0" styleClass="scene-header" text="ServerName" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="137.0" />
+    <Label id="serverName" layoutX="275.0" layoutY="137.0" maxWidth="400.0" prefHeight="32.0" prefWidth="160.0" styleClass="scene-header" text="ServerName" AnchorPane.leftAnchor="289.0" AnchorPane.topAnchor="137.0" />
+    <Label id="profileVersion" layoutX="532.0" layoutY="145.0" prefHeight="16.0" prefWidth="40.0" text="1.21.11" />
+    <Label id="gameTheme" layoutX="680.0" layoutY="145.0" prefHeight="16.0" prefWidth="123.0" text="Миртоншен" />
 </AnchorPane>

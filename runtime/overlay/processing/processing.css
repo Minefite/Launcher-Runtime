@@ -5,5 +5,16 @@
 }
 
 #description {
-    -fx-text-fill: -fx-colors-text;
+    -fx-fill: -fx-black2C;
+    -fx-font-size: 16px;
+}
+#description.error {
+    -fx-text-fill: -fx-red;
+}
+
+.mf-processing-background {
+    -fx-background-image: url('../../minefite/images/overlays/background.png');
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
 }
