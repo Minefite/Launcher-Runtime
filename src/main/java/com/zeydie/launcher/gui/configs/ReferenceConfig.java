@@ -37,9 +37,9 @@ public class ReferenceConfig {
         if (JavaFXApplication.getInstance().skinManager.getSkin(login) != null)
             JavaFxUtils.putAvatarToImageView(JavaFXApplication.getInstance(), login, imageView);
         else {
-            httpClient.cacheSkin("default");
+            httpClient.cacheDefaultSkin(login);
 
-            JavaFxUtils.putAvatarToImageView(JavaFXApplication.getInstance(), "default", imageView);
+            JavaFxUtils.putAvatarToImageView(JavaFXApplication.getInstance(), login, imageView);
         }
 
         return imageView;
@@ -65,10 +65,10 @@ public class ReferenceConfig {
         if (oauthRefreshToken == null) return null;
 
         return Accounts.getAccountsConfig()
-                       .getAccounts()
-                       .stream()
-                       .filter(account -> account.getLogin().equals(oauthRefreshToken.split("\\.")[0]))
-                       .findFirst()
-                       .orElse(null);
+                .getAccounts()
+                .stream()
+                .filter(account -> account.getLogin().equals(oauthRefreshToken.split("\\.")[0]))
+                .findFirst()
+                .orElse(null);
     }
 }

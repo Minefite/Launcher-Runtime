@@ -35,6 +35,14 @@ public class HttpClientAPI {
         skinManager.getSkin(login);
     }
 
+    @SneakyThrows
+    public void cacheDefaultSkin(@NonNull final String login) {
+        @NonNull val skinManager = JavaFXApplication.getInstance().skinManager;
+
+        skinManager.addSkin(login, new URL(String.format(this.skinUrl, "default")).toURI());
+        skinManager.getSkin(login);
+    }
+
     public int getServerIdForUUID(@NonNull final UUID uuid) {
         return this.get(this.serverIdUrl, uuid).toInteger();
     }

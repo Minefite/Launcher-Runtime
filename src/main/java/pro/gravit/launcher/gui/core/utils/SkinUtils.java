@@ -15,6 +15,7 @@ import java.awt.image.SinglePixelPackedSampleModel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -60,15 +61,6 @@ public class SkinUtils {
         }
 
         try {
-            //TODO ZeyCodeStart
-            if (url.getPath().endsWith("default.png"))
-                try {
-                    url = new URL(String.format(HttpClientAPI.getInstance().getSkinUrl(), "default")).toURI();
-                } catch (URISyntaxException exception) {
-                    exception.printStackTrace();
-                }
-            //TODO ZeyCodeEnd
-
             var response = client.send(HttpRequest.newBuilder()
                                                   .uri(url)
                                                   .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36")

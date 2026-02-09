@@ -10,9 +10,7 @@
         <StackPane prefHeight="32.0" prefWidth="32.0" AnchorPane.topAnchor="7.0">
             <children>
                 <!-- Аватар игрока -->
-                <ImageView id="avatar" cacheHint="SPEED" depthTest="DISABLE" fitHeight="50.0" fitWidth="50.0" smooth="false">
-                    <Image url="@../images/icons/default.png" />
-                </ImageView>
+                <ImageView id="avatar" cacheHint="SPEED" depthTest="DISABLE" fitHeight="50.0" fitWidth="50.0" smooth="false"/>
                 <fx:include source="buttons/customization.fxml" />
             </children>
         </StackPane>

@@ -47,7 +47,7 @@ public class ServerInfoScene extends FxScene implements SceneSupportUserBlock {
 
                                         settings.reset();
 
-                                    } catch (Exception exception) {
+                                    } catch (final Exception exception) {
                                         errorHandle(exception);
                                     }
                                 }

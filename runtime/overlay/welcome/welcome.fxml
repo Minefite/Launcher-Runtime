@@ -19,9 +19,7 @@
     </AnchorPane>
     <VBox alignment="CENTER" spacing="24.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
         <children>
-            <ImageView id="playerHead" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../../images/icons/default.png" />
-            </ImageView>
+            <ImageView id="playerHead" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true"/>
             <VBox alignment="CENTER">
                 <children>
                     <Label id="header-text" alignment="CENTER" text="%runtime.scenes.login.welcome" />
