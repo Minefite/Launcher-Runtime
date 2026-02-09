@@ -63,18 +63,18 @@ public class AccountScroll {
         loginButton.setOnAction(
                 event -> {
                     this.gridPane.getChildren()
-                                 .forEach(
-                                         node -> {
-                                             if (node instanceof AccountButton) {
-                                                 @NonNull val styles = node.getStyleClass();
+                            .forEach(
+                                    node -> {
+                                        if (node instanceof AccountButton) {
+                                            @NonNull val styles = node.getStyleClass();
 
-                                                 styles.remove("accountButton-hovered");
+                                            styles.remove("accountButton-hovered");
 
-                                                 if (!styles.contains("accountButton"))
-                                                     styles.add("accountButton");
-                                             }
-                                         }
-                                 );
+                                            if (!styles.contains("accountButton"))
+                                                styles.add("accountButton");
+                                        }
+                                    }
+                            );
 
                     @NonNull val styles = loginButton.getStyleClass();
 
@@ -92,10 +92,10 @@ public class AccountScroll {
         val serverId = account.getServerId();
 
         @Nullable var inputStream = this.getClass().getResourceAsStream(
-                String.format("/runtime/images/fastlogin/servers/%d.png", serverId));
+                String.format("/runtime/minefite/images/fastlogin/servers/%d.png", serverId));
 
         if (inputStream == null)
-            inputStream = this.getClass().getResourceAsStream("/runtime/images/fastlogin/servers/null.png");
+            inputStream = this.getClass().getResourceAsStream("/runtime/minefite/images/fastlogin/servers/null.png");
         if (inputStream == null)
             inputStream = new URL(
                     "https://img.favpng.com/19/6/24/check-mark-computer-icons-sign-clip-art-png-favpng-iFiVE36gqaa5HBVQ4AWZz1tHP.jpg").openStream();
@@ -120,13 +120,13 @@ public class AccountScroll {
             @NonNull final Button loginButton
     ) throws IOException {
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
-        @NonNull val runtimeSettings = javaFXApplication.runtimeSettings;
-        @NonNull val authService = javaFXApplication.authService;
+
+        @NonNull val authData = Accounts.getAuthData();
 
         @NonNull val accountsConfig = Accounts.getAccountsConfig();
         @NonNull val accountList = accountsConfig.getAccounts();
 
-        @Nullable var inputStream = this.getClass().getResourceAsStream("/runtime/images/fastlogin/trash.png");
+        @Nullable var inputStream = this.getClass().getResourceAsStream("/runtime/minefite/images/fastlogin/trash.png");
 
         if (inputStream == null)
             inputStream = new URL(
@@ -146,10 +146,9 @@ public class AccountScroll {
 
         exitButton.setOnMouseClicked(
                 event -> {
-                    //TODO
-                    //runtimeSettings.oauthAccessToken = null;
-                    //runtimeSettings.oauthRefreshToken = null;
-                    //runtimeSettings.oauthExpire = 0;
+                    authData.accessToken = null;
+                    authData.refreshToken = null;
+                    authData.expireIn = 0;
 
                     accountList.removeIf(entry -> entry.equals(account));
                     accountsConfig.save();

@@ -23,7 +23,8 @@ public class ServerButton extends FxComponent {
     private static final String SERVER_BUTTON_DEFAULT_IMAGE = "images/servers/example.png";
     private static final String SERVER_BUTTON_CUSTOM_IMAGE = "images/servers/%s.png";
     public ProfileFeatureAPI.ClientProfile profile;
-    private Button saveButton;
+    //TODO ZeyCodeClear
+    //private Button saveButton;
     private Button resetButton;
     private Region serverLogo;
 
@@ -39,7 +40,7 @@ public class ServerButton extends FxComponent {
     private static String getServerButtonFxml(JavaFXApplication application, ProfileFeatureAPI.ClientProfile profile) {
         String customFxml = String.format(SERVER_BUTTON_CUSTOM_FXML, profile.getUUID().toString());
         URL fxml = application.tryResource(customFxml);
-        if(fxml != null) {
+        if (fxml != null) {
             return customFxml;
         }
         return SERVER_BUTTON_FXML;
@@ -56,13 +57,13 @@ public class ServerButton extends FxComponent {
         LookupHelper.<Labeled>lookup(layout, "#genreServer").setText(profile.getMinecraftVersion());
         this.serverLogo = LookupHelper.lookup(layout, "#serverLogo");
         URL logo = application.tryResource(String.format(SERVER_BUTTON_CUSTOM_IMAGE, profile.getUUID().toString()));
-        if(logo == null) {
+        if (logo == null) {
             logo = application.tryResource(SERVER_BUTTON_DEFAULT_IMAGE);
         }
-        if(logo != null) {
+        if (logo != null) {
             this.serverLogo.setBackground(new Background(new BackgroundImage(new Image(logo.toString()),
-                                                                             BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
-                                                                             BackgroundPosition.CENTER, new BackgroundSize(0.0, 0.0, true, true, false, true))));
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER, new BackgroundSize(0.0, 0.0, true, true, false, true))));
             JavaFxUtils.setRadius(this.serverLogo, 20.0);
         }
         AtomicLong currentOnline = new AtomicLong(0);
@@ -81,7 +82,8 @@ public class ServerButton extends FxComponent {
             }
             update.run();
         });
-        saveButton = LookupHelper.lookup(layout, "#save");
+        //TODO ZeyCodeClear
+        //saveButton = LookupHelper.lookup(layout, "#startProfile");
         resetButton = LookupHelper.lookup(layout, "#reset");
     }
 
@@ -95,9 +97,22 @@ public class ServerButton extends FxComponent {
     }
 
     public void enableSaveButton(String text, EventHandler<ActionEvent> eventHandler) {
-        saveButton.setVisible(true);
+        //TODO ZeyCodeStart
+        LookupHelper.lookupIfPossible(layout, "#save")
+                .ifPresent(
+                        node -> {
+                            if (node instanceof final Button button) {
+                                button.setVisible(true);
+                                if (text != null) button.setText(text);
+                                button.setOnAction(eventHandler);
+                            }
+                        }
+                );
+        //TODO ZeyCodeEnd
+        //TODO ZeyCodeClear
+        /*saveButton.setVisible(true);
         if (text != null) saveButton.setText(text);
-        saveButton.setOnAction(eventHandler);
+        saveButton.setOnAction(eventHandler);*/
     }
 
     public void enableResetButton(String text, EventHandler<ActionEvent> eventHandler) {

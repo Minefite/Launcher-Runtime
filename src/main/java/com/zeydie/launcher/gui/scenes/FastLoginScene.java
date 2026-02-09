@@ -68,8 +68,6 @@ public class FastLoginScene extends FxScene {
                 if (scene > 3) scene = 1;
             }
         }, 0, 500);
-
-
     }
 
     @Override
@@ -82,16 +80,15 @@ public class FastLoginScene extends FxScene {
         if (this.selectedAccount == null) return;
 
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
-        @NonNull val runtimeSettings = javaFXApplication.runtimeSettings;
+        @NonNull val authData = Accounts.getAuthData();
 
-        //TODO
-        //runtimeSettings.oauthAccessToken = this.selectedAccount.getOauthAccessToken();
-        //runtimeSettings.oauthRefreshToken = this.selectedAccount.getOauthRefreshToken();
-        //runtimeSettings.oauthExpire = this.selectedAccount.getOauthExpire();
+        authData.accessToken = this.selectedAccount.getOauthAccessToken();
+        authData.refreshToken = this.selectedAccount.getOauthRefreshToken();
+        authData.expireIn = this.selectedAccount.getOauthExpire();
 
         ContextHelper.runInFxThreadStatic(
                 () -> {
-                    @NonNull val loginScene = JavaFXApplication.getInstance().gui.loginScene;
+                    @NonNull val loginScene = javaFXApplication.gui.loginScene;
 
                     if (loginScene.auth == null)
                         super.switchScene(loginScene);
@@ -99,6 +96,8 @@ public class FastLoginScene extends FxScene {
                         super.switchScene(loginScene);
                         loginScene.getAuthFlow().tryOAuthLogin();
                     }
+
+                    super.centerScene();
                 }
         );
     }
@@ -106,12 +105,11 @@ public class FastLoginScene extends FxScene {
     @SneakyThrows
     public void switchToLogging() {
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
-        @NonNull val runtimeSettings = javaFXApplication.runtimeSettings;
+        @NonNull val authData = Accounts.getAuthData();
 
-        //TODO
-        //runtimeSettings.oauthAccessToken = null;
-        // runtimeSettings.oauthRefreshToken = null;
-        //runtimeSettings.oauthExpire = 0;
+        authData.accessToken = null;
+        authData.refreshToken = null;
+        authData.expireIn = 0;
 
         ContextHelper.runInFxThreadStatic(
                 () -> {

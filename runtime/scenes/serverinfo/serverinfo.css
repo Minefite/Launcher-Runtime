@@ -1,11 +1,85 @@
-ScrollPane {
-    -fx-padding: 15px;
-    -fx-background-color: -fx-colors-baseGA;
-    -fx-background-radius: 15px;
+#server-detail {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
 }
-ScrollPane Label {
-    -fx-font-style: normal;
-    -fx-font-weight: normal;
-    -fx-font-size: 14px;
-    -fx-text-fill: -fx-colors-text;
+#server-detail > #serverName {
+    -fx-font-family: "Gilroy-Extrabold";
+    -fx-font-size: 18px;
+    -fx-text-fill: #fff;
+}
+#server-detail > #serverDescription {
+    -fx-font-family: "Gilroy Medium";
+    -fx-font-size: 18px;
+    -fx-text-fill: rgba(255, 255, 255, 0.5);
+}
+
+.background {
+    -fx-background-image: url('../../minefite/images/scenes/serverinfo/serverinfo.png');
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+}
+
+#settings {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-image: url('../../minefite/images/scenes/serverinfo/button/settings/setting.png');
+}
+
+#settings:hover {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-image: url('../../minefite/images/scenes/serverinfo/button/settings/setting_hover.png');
+}
+
+#settings:pressed {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-image: url('../../minefite/images/scenes/serverinfo/button/settings/setting_pressed.png');
+}
+
+#startProfile {
+    -fx-background-color: #E2B53A;
+    -fx-text-fill: #fff;
+    -fx-background-radius: 14px;
+    -fx-font-family: "Gilroy-SemiBold";
+    -fx-font-size: 16px;
+}
+
+#startProfile:hover {
+    -fx-background-color: #E5BC4D;
+    -fx-text-fill: #fff;
+    -fx-background-radius: 14px;
+    -fx-font-family: "Gilroy-SemiBold";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(226, 181, 58, 0.35), 25, 0.0, 0, 8);
+}
+
+#startProfile:pressed {
+    -fx-background-color: #CCA334;
+    -fx-text-fill: #fff;
+    -fx-background-radius: 14px;
+    -fx-font-family: "Gilroy-SemiBold";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(226, 181, 58, 0.25), 25, 0.0, 0, 8);
+}
+
+#clientSettings {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-image: url('../../minefite/images/scenes/serverinfo/button/mods/mods.png');
+}
+
+#clientSettings:hover {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-image: url('../../minefite/images/scenes/serverinfo/button/mods/mods_hover.png');
+    -fx-effect: dropshadow(three-pass-box, rgba(226, 181, 58, 0.35), 25, 0.0, 0, 8);
+}
+
+#clientSettings:pressed {
+    -fx-background-repeat: no-repeat;
+    -fx-background-color: transparent;
+    -fx-background-image: url('../../minefite/images/scenes/serverinfo/button/mods/mods_pressed.png');
+    -fx-effect: dropshadow(three-pass-box, rgba(226, 181, 58, 0.25), 25, 0.0, 0, 8);
 }

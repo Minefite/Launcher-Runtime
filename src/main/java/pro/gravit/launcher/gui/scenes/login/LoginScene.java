@@ -213,11 +213,12 @@ public class LoginScene extends FxScene {
             application.runtimeSettings.login = successAuth.recentLogin();
             application.runtimeSettings.password = null;
             application.runtimeSettings.lastAuth = authAvailability.getName();
-
-            //TODO ZeyCodeStart
-            Accounts.authed(successAuth);
-            //TODO ZeyCodeEnd
         }
+
+        //TODO ZeyCodeStart
+        Accounts.authed(successAuth);
+        //TODO ZeyCodeEnd
+
         if (user != null
                 && user.getAssets() != null) {
             try {

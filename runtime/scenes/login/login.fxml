@@ -7,71 +7,77 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="layout" fx:id="loginPane" prefHeight="468.0" prefWidth="850.0" styleClass="background" stylesheets="@login.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="layout" fx:id="loginPane" prefHeight="468.0" prefWidth="850.0" styleClass="mf-login-background"
+            stylesheets="@login.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
     <!-- Вертикальная полоса -->
-    <AnchorPane id="loginLeftPane" prefWidth="380.0" styleClass="vline" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <VBox alignment="CENTER" layoutX="35.0" layoutY="366.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="loginLeftPane" prefWidth="380.0" styleClass="vline" visible="false" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" layoutX="35.0" layoutY="366.0" spacing="20.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-            <FlowPane alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" orientation="VERTICAL" prefHeight="260.0">
-               <children>
-                    <ImageView id="logo" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../../images/logo.png" />
-                        </image>
-                    </ImageView>
-               </children>
-            </FlowPane>
+                <FlowPane alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" orientation="VERTICAL"
+                          prefHeight="260.0">
+                    <children>
+                        <ImageView id="logo" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/logo.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </FlowPane>
                 <VBox spacing="10.0">
                     <children>
                         <!-- Чекбоксы -->
-                        <CheckBox id="autoenter" prefHeight="18.0" prefWidth="276.0" text="%runtime.scenes.login.autoenter" wrapText="true">
+                        <CheckBox id="autoenter" prefHeight="18.0" prefWidth="276.0"
+                                  text="%runtime.scenes.login.autoenter" wrapText="true">
                             <padding>
-                                <Insets left="5.0" />
+                                <Insets left="5.0"/>
                             </padding>
                         </CheckBox>
-                        <CheckBox id="savePassword" prefHeight="18.0" prefWidth="276.0" text="%runtime.scenes.login.savePassword" wrapText="true">
+                        <CheckBox id="savePassword" prefHeight="18.0" prefWidth="276.0"
+                                  text="%runtime.scenes.login.savePassword" wrapText="true">
                             <padding>
-                                <Insets left="5.0" />
+                                <Insets left="5.0"/>
                             </padding>
                         </CheckBox>
                     </children>
                     <padding>
-                        <Insets left="20.0" />
+                        <Insets left="20.0"/>
                     </padding>
                 </VBox>
-                <ComboBox id="authList" maxWidth="1.7976931348623157E308" minHeight="60.0" />
+                <ComboBox id="authList" maxWidth="1.7976931348623157E308" minHeight="60.0"/>
             </children>
         </VBox>
     </AnchorPane>
-    <AnchorPane id="header" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="header" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
         <!-- Кнопки управления -->
         <HBox id="controls" spacing="10.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="34.0">
             <!-- Ссылки -->
-            <Pane id="links">
-                <Rectangle height="28.0" layoutX="72.0" layoutY="2.0" strokeType="INSIDE" width="1.0" x="0.5" />
-                <Text id="forgotPass" layoutY="13.0" text="%runtime.scenes.login.forgotPass" textAlignment="RIGHT" wrappingWidth="65.0" />
+            <Pane id="links" visible="false">
+                <Rectangle height="28.0" layoutX="72.0" layoutY="2.0" strokeType="INSIDE" width="1.0" x="0.5"/>
+                <Text id="forgotPass" layoutY="13.0" text="%runtime.scenes.login.forgotPass" textAlignment="RIGHT"
+                      wrappingWidth="65.0"/>
             </Pane>
-            <FlowPane id="registerPane" alignment="CENTER" prefHeight="32.0" prefWrapLength="0.0">
-                <Text styleClass="textLogin" text="%runtime.scenes.login.textLogin" />
-                <Text id="createAccount" text="%runtime.scenes.login.createAccount" />
+            <FlowPane id="registerPane" alignment="CENTER" prefHeight="32.0" prefWrapLength="0.0" visible="false">
+                <Text styleClass="textLogin" text="%runtime.scenes.login.textLogin"/>
+                <Text id="createAccount" text="%runtime.scenes.login.createAccount"/>
             </FlowPane>
 
-            <fx:include source="../../components/buttons/settings.fxml" />
-            <fx:include source="../../components/buttons/minimize.fxml" />
-            <fx:include source="../../components/buttons/exit.fxml" />
+            <fx:include source="../../components/buttons/minimize.fxml"/>
+            <fx:include source="../../components/buttons/exit.fxml"/>
         </HBox>
     </AnchorPane>
-    <VBox alignment="CENTER_LEFT" fillWidth="false" layoutX="330.0" layoutY="100.0" pickOnBounds="false" spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+    <VBox alignment="CENTER_LEFT" fillWidth="false" layoutX="57.0" layoutY="197.0" pickOnBounds="false"
+          prefHeight="156.0" prefWidth="316.0" spacing="10.0" AnchorPane.bottomAnchor="115.0"
+          AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="477.0" AnchorPane.topAnchor="197.0">
         <children>
-            <StackPane id="content" />
-            <Button id="authButton" defaultButton="true" prefHeight="20.0" prefWidth="300.0" styleClass="unactiveButton" text="%runtime.scenes.login.goAuth" />
+            <StackPane id="content" prefHeight="274.0" prefWidth="340.0"/>
         </children>
     </VBox>
     <Pane id="twoFAPane" layoutX="255.5" layoutY="80.0" prefHeight="308.0" prefWidth="339.0" visible="false">
-        <ImageView>
-            <Image url="@../../../minefite/images/fastlogin/2fa.png"/>
-        </ImageView>
         <TextField id="twoFAField" layoutX="74.0" layoutY="213.0" prefHeight="25.0" prefWidth="190.0"/>
     </Pane>
+    <Button id="authButton" defaultButton="true" layoutX="55.0" layoutY="368.0" prefHeight="45.0" prefWidth="330.0"/>
 </AnchorPane>

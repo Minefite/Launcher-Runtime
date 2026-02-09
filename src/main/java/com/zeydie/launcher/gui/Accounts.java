@@ -7,10 +7,15 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
+import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
+import pro.gravit.launcher.core.backend.UserSettings;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
+import pro.gravit.launcher.gui.core.config.StdSettingsManager;
 import pro.gravit.launcher.gui.scenes.login.AuthFlow;
+import pro.gravit.launcher.runtime.backend.BackendSettings;
 
 import java.io.IOException;
+import java.util.function.Function;
 
 public final class Accounts {
     @Getter
@@ -30,15 +35,15 @@ public final class Accounts {
         @NonNull val login = user.getUsername();
 
         @NonNull val javaFXApplication = JavaFXApplication.getInstance();
-        @NonNull val runtimeSettings = javaFXApplication.runtimeSettings;
+        @NonNull val auth = getAuthData();
         @NonNull val accountList = accountsConfig.getAccounts();
         @NonNull val filtered = accountList.stream()
-                                           .filter(account -> account.isLogin(login))
-                                           .findAny();
+                .filter(account -> account.isLogin(login))
+                .findAny();
 
-        @NonNull val accessToken = user.getAccessToken();
-        //@NonNull val refreshToken = runtimeSettings.oauthRefreshToken;
-        //val expire = runtimeSettings.oauthExpire;
+        @NonNull val accessToken = auth.accessToken;
+        @NonNull val refreshToken = auth.refreshToken;
+        val expire = auth.expireIn;
         val serverId = HttpClientAPI.getInstance().getServerIdForUUID(user.getUUID());
 
         if (filtered.isPresent()) {
@@ -46,21 +51,29 @@ public final class Accounts {
 
             account.setLogin(login);
             account.setOauthAccessToken(accessToken);
-          //  account.setOauthRefreshToken(refreshToken);
-          //  account.setOauthExpire(expire);
+            account.setOauthRefreshToken(refreshToken);
+            account.setOauthExpire(expire);
             account.setServerId(serverId);
         } else {
             @NonNull val account = new AccountData();
 
             account.setLogin(login);
             account.setOauthAccessToken(accessToken);
-           // account.setOauthRefreshToken(refreshToken);
-          //  account.setOauthExpire(expire);
+            account.setOauthRefreshToken(refreshToken);
+            account.setOauthExpire(expire);
             account.setServerId(serverId);
 
             accountList.add(account);
         }
 
         accountsConfig.save();
+    }
+
+    public static @NotNull BackendSettings getBackendSettings() {
+        return (BackendSettings) (LauncherBackendAPIHolder.getApi().getUserSettings("backend", s -> new BackendSettings()));
+    }
+
+    public static @NotNull BackendSettings.AuthorizationData getAuthData() {
+        return getBackendSettings().auth;
     }
 }
