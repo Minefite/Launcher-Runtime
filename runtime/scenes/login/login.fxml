@@ -2,30 +2,20 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="layout" fx:id="loginPane" prefHeight="468.0" prefWidth="850.0" styleClass="mf-login-background"
-            stylesheets="@login.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-
+<AnchorPane id="layout" fx:id="loginPane" prefHeight="468.0" prefWidth="850.0"
+            styleClass="transparent, mf-login-background" stylesheets="@login.css"
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <!-- Вертикальная полоса -->
-    <AnchorPane id="loginLeftPane" prefWidth="380.0" styleClass="vline" visible="false" AnchorPane.bottomAnchor="0.0"
-                AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <VBox alignment="CENTER" layoutX="35.0" layoutY="366.0" spacing="20.0" AnchorPane.bottomAnchor="0.0"
-              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="loginLeftPane" prefWidth="0.0" styleClass="vline" visible="false" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" styleClass="blurred-background" prefHeight="0.0" prefWidth="0.0" spacing="20.0"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
             <children>
-                <FlowPane alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" orientation="VERTICAL"
-                          prefHeight="260.0">
-                    <children>
-                        <ImageView id="logo" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../images/logo.png"/>
-                            </image>
-                        </ImageView>
-                    </children>
-                </FlowPane>
                 <VBox spacing="10.0">
                     <children>
                         <!-- Чекбоксы -->
@@ -53,7 +43,7 @@
     <AnchorPane id="header" prefHeight="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
         <!-- Кнопки управления -->
-        <HBox id="controls" spacing="10.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="34.0">
+        <HBox id="controls" prefWidth="299.0" spacing="10.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="34.0">
             <!-- Ссылки -->
             <Pane id="links" visible="false">
                 <Rectangle height="28.0" layoutX="72.0" layoutY="2.0" strokeType="INSIDE" width="1.0" x="0.5"/>

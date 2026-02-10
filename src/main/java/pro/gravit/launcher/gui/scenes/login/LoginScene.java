@@ -3,11 +3,10 @@ package pro.gravit.launcher.gui.scenes.login;
 import com.zeydie.launcher.gui.Accounts;
 import com.zeydie.launcher.gui.http.HttpClientAPI;
 import javafx.application.Platform;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -16,12 +15,11 @@ import lombok.val;
 import org.jetbrains.annotations.Nullable;
 import pro.gravit.launcher.base.events.request.GetAvailabilityAuthRequestEvent;
 import pro.gravit.launcher.core.api.method.AuthMethod;
-import pro.gravit.launcher.core.api.method.AuthMethodDetails;
-import pro.gravit.launcher.core.api.method.details.AuthPasswordDetails;
 import pro.gravit.launcher.core.api.model.Texture;
 import pro.gravit.launcher.core.backend.LauncherBackendAPIHolder;
 import pro.gravit.launcher.gui.core.JavaFXApplication;
 import pro.gravit.launcher.gui.core.impl.UIComponent;
+import pro.gravit.launcher.gui.core.utils.JavaFxUtils;
 import pro.gravit.launcher.gui.helper.LookupHelper;
 import pro.gravit.launcher.gui.core.impl.FxScene;
 import pro.gravit.launcher.gui.scenes.login.methods.AbstractAuthMethod;
@@ -46,7 +44,6 @@ public class LoginScene extends FxScene {
     private final AuthFlow authFlow;
 
     //TODO ZeyCodeStart
-    private Pane overlayPane;
     private Pane twoFAPane;
     private TextField twoFATextField;
     //TODO ZeyCodeEnd
@@ -60,22 +57,24 @@ public class LoginScene extends FxScene {
     @Override
     public void doInit() {
         //TODO ZeyCodeStart
-        this.overlayPane = LookupHelper.lookup(super.layout, "#layout");
         this.twoFAPane = LookupHelper.lookup(super.layout, "#twoFAPane");
         this.twoFATextField = LookupHelper.lookup(super.layout, "#twoFAPane", "#twoFAField");
 
-        LookupHelper.<ButtonBase>lookupIfPossible(layout, "#controls", "#settings")
-                    .ifPresent(
-                            (b) -> b.setOnAction(
-                                    (e) -> {
-                                        try {
-                                            switchScene(application.gui.globalSettingsScene);
-                                        } catch (Exception exception) {
-                                            errorHandle(exception);
-                                        }
+        LookupHelper.<ButtonBase>lookupIfPossible(super.layout, "#controls", "#settings")
+                .ifPresent(
+                        (b) -> b.setOnAction(
+                                (e) -> {
+                                    try {
+                                        switchScene(application.gui.globalSettingsScene);
+                                    } catch (Exception exception) {
+                                        errorHandle(exception);
                                     }
-                            )
-                    );
+                                }
+                        )
+                );
+
+        this.savePasswordCheckBox = LookupHelper.<CheckBox>lookupIfPossible(this.layout, "#savePassword").orElse(null);
+        this.autoenter = LookupHelper.<CheckBox>lookupIfPossible(this.layout, "#autoenter").orElse(null);
         //TODO ZeyCodeEnd
         //TODO ZeyCodeClear
         /*LookupHelper.<ButtonBase>lookup(header, "#controls", "#settings").setOnAction((e) -> {
@@ -87,28 +86,33 @@ public class LoginScene extends FxScene {
         });*/
         authButton = use(layout, AuthButton::new);
         //TODO ZeyCodeStart
-        authButton.setOnAction((e) -> this.check2FA());
+        this.authButton.setOnAction((e) -> this.check2FA());
         //TODO ZeyCodeEnd
         //TODO ZeyCodeClear
-        //authButton.setOnAction((e) -> contextHelper.runCallback(authFlow::loginWithGui));
+        /*authButton.setOnAction((e) -> contextHelper.runCallback(authFlow::loginWithGui));
         savePasswordCheckBox = LookupHelper.lookup(layout, "#savePassword");
-        autoenter = LookupHelper.lookup(layout, "#autoenter");
+        autoenter = LookupHelper.lookup(layout, "#autoenter");*/
 
         //TODO ZeyCodeStart
         this.application.runtimeSettings.autoAuth = true;
-        //TODO ZeyCodeEnd
 
-        autoenter.setSelected(application.runtimeSettings.autoAuth);
-        autoenter.setOnAction((event) -> application.runtimeSettings.autoAuth = autoenter.isSelected());
+        if (this.autoenter != null) {
+            this.autoenter.setSelected(this.application.runtimeSettings.autoAuth);
+            this.autoenter.setOnAction((event) -> this.application.runtimeSettings.autoAuth = this.autoenter.isSelected());
+        }
+        //TODO ZeyCodeEnd
+        //TODO ZeyCodeClear
+        /*autoenter.setSelected(application.runtimeSettings.autoAuth);
+        autoenter.setOnAction((event) -> application.runtimeSettings.autoAuth = autoenter.isSelected());*/
         content = LookupHelper.lookup(layout, "#content");
         if (application.guiModuleConfig.createAccountURL != null) {
             LookupHelper.<Text>lookup(header, "#createAccount")
-                        .setOnMouseClicked((e) -> application.openURL(application.guiModuleConfig.createAccountURL));
+                    .setOnMouseClicked((e) -> application.openURL(application.guiModuleConfig.createAccountURL));
         }
 
         if (application.guiModuleConfig.forgotPassURL != null) {
             LookupHelper.<Text>lookup(header, "#forgotPass")
-                        .setOnMouseClicked((e) -> application.openURL(application.guiModuleConfig.forgotPassURL));
+                    .setOnMouseClicked((e) -> application.openURL(application.guiModuleConfig.forgotPassURL));
         }
         authList = LookupHelper.lookup(layout, "#authList");
         authList.setConverter(new AuthAvailabilityStringConverter());
@@ -124,30 +128,30 @@ public class LoginScene extends FxScene {
 
     private void getAvailabilityAuth() {
         processing(application.backendCallbackService.initDataCallback,
-                   application.getTranslation("runtime.overlay.processing.text.launcher"),
-                   (initData) -> contextHelper.runInFxThread(() -> {
-                       this.auth = initData.methods();
-                       authList.setVisible(auth.size() != 1);
-                       authList.setManaged(auth.size() != 1);
-                       for (var authAvailability : auth) {
-                           if (!authAvailability.isVisible()) {
-                               continue;
-                           }
-                           if (application.runtimeSettings.lastAuth == null) {
-                               if (authAvailability.getName().equals("std") || this.authAvailability == null) {
-                                   changeAuthAvailability(authAvailability);
-                               }
-                           } else if (authAvailability.getName().equals(application.runtimeSettings.lastAuth))
-                               changeAuthAvailability(authAvailability);
-                           if (authAvailability.isVisible()) {
-                               addAuthAvailability(authAvailability);
-                           }
-                       }
-                       if (this.authAvailability == null && !auth.isEmpty()) {
-                           changeAuthAvailability(auth.get(0));
-                       }
-                       runAutoAuth();
-                   }), (e) -> {
+                application.getTranslation("runtime.overlay.processing.text.launcher"),
+                (initData) -> contextHelper.runInFxThread(() -> {
+                    this.auth = initData.methods();
+                    authList.setVisible(auth.size() != 1);
+                    authList.setManaged(auth.size() != 1);
+                    for (var authAvailability : auth) {
+                        if (!authAvailability.isVisible()) {
+                            continue;
+                        }
+                        if (application.runtimeSettings.lastAuth == null) {
+                            if (authAvailability.getName().equals("std") || this.authAvailability == null) {
+                                changeAuthAvailability(authAvailability);
+                            }
+                        } else if (authAvailability.getName().equals(application.runtimeSettings.lastAuth))
+                            changeAuthAvailability(authAvailability);
+                        if (authAvailability.isVisible()) {
+                            addAuthAvailability(authAvailability);
+                        }
+                    }
+                    if (this.authAvailability == null && !auth.isEmpty()) {
+                        changeAuthAvailability(auth.get(0));
+                    }
+                    runAutoAuth();
+                }), (e) -> {
                     errorHandle(e);
                     contextHelper.runAfterTimeout(Duration.seconds(2), () -> {
                         Platform.exit();
@@ -178,10 +182,10 @@ public class LoginScene extends FxScene {
     }
 
     public <T> void processing(CompletableFuture<T> request, String text, Consumer<T> onSuccess,
-            Consumer<String> onError) {
+                               Consumer<String> onError) {
         processRequest(text, request, onSuccess, onError == null ? null :
-                               (thr) -> onError.accept(thr.getCause().getMessage()),
-                       null);
+                        (thr) -> onError.accept(thr.getCause().getMessage()),
+                null);
     }
 
 
@@ -226,8 +230,8 @@ public class LoginScene extends FxScene {
                 Texture avatar = user.getAssets().get("AVATAR");
                 if (skin != null || avatar != null) {
                     application.skinManager.addSkinWithAvatar(user.getUsername(),
-                                                              skin != null ? new URI(skin.getUrl()) : null,
-                                                              avatar != null ? new URI(avatar.getUrl()) : null);
+                            skin != null ? new URI(skin.getUrl()) : null,
+                            avatar != null ? new URI(avatar.getUrl()) : null);
                     application.skinManager.getSkin(user.getUsername()); //Cache skin
                 }
             } catch (Exception e) {
@@ -240,17 +244,17 @@ public class LoginScene extends FxScene {
                 application.gui.welcomeOverlay.reset();
             }
             showOverlay(application.gui.welcomeOverlay,
-                        (e) -> application.gui.welcomeOverlay.hide(2000, (f) -> onGetProfiles()));
+                    (e) -> application.gui.welcomeOverlay.hide(2000, (f) -> onGetProfiles()));
         });
     }
 
     public void onGetProfiles() {
         processing(LauncherBackendAPIHolder.getApi().fetchProfiles(),
-                   application.getTranslation("runtime.overlay.processing.text.profiles"),
-                   (profiles) -> {/*
+                application.getTranslation("runtime.overlay.processing.text.profiles"),
+                (profiles) -> {/*
                        application.profilesService.setProfilesResult(profiles);
                        application.runtimeSettings.profiles = profiles.profiles;*/
-                       contextHelper.runInFxThread(() -> {
+                    contextHelper.runInFxThread(() -> {
                            /*
                            if (application.gui.optionsScene != null) {
                                try {
@@ -259,13 +263,13 @@ public class LoginScene extends FxScene {
                                    errorHandle(ex);
                                }
                            }*/
-                           if (application.getCurrentScene() instanceof LoginScene loginScene) {
-                               loginScene.authFlow.isLoginStarted = false;
-                           }
-                           application.profileService.setProfiles(profiles);
-                           application.setMainScene(application.gui.serverMenuScene);
-                       });
-                   }, null);
+                        if (application.getCurrentScene() instanceof LoginScene loginScene) {
+                            loginScene.authFlow.isLoginStarted = false;
+                        }
+                        application.profileService.setProfiles(profiles);
+                        application.setMainScene(application.gui.serverMenuScene);
+                    });
+                }, null);
     }
 
     public void clearPassword() {
@@ -284,39 +288,58 @@ public class LoginScene extends FxScene {
 
         LogHelper.debug("authMethods: %s", authMethods);
 
-        if (authMethods instanceof final AbstractAuthMethod<?> authMethod
-                && authMethod.getClass() == LoginAndPasswordAuthMethod.class) {
-            @NonNull val loginAndPasswordAuthMethod = (LoginAndPasswordAuthMethod) authMethod;
-            @NonNull val overlay = loginAndPasswordAuthMethod.overlay;
-
-            @NonNull val future = overlay.future;
-            @NonNull val login = overlay.login.getText();
-            @NonNull val result = overlay.getResult();
-
-            if (!httpClient.has2FA(login)) {
-                LogHelper.debug("%s has not 2FA", login);
-                future.complete(result);
-                return;
-            }
-
-            this.overlayPane.setVisible(false);
-            this.twoFAPane.setVisible(true);
-            this.twoFATextField.textProperty()
-                               .addListener(
-                                       (observable, oldValue, newValue) -> {
-                                           if (newValue.length() == 6)
-                                               LogHelper.debug(
-                                                       "2FA is valid " + httpClient.isValid2FA(login, newValue));
-
-                                           if (httpClient.isValid2FA(login, newValue)) {
-                                               this.overlayPane.setVisible(true);
-                                               this.twoFAPane.setVisible(false);
-
-                                               future.complete(result);
-                                           }
-                                       }
-                               );
+        if (!(authMethods instanceof AbstractAuthMethod<?> authMethod)
+                || authMethod.getClass() != LoginAndPasswordAuthMethod.class) {
+            return;
         }
+
+        @NonNull val loginAndPasswordAuthMethod = (LoginAndPasswordAuthMethod) authMethod;
+        @NonNull val overlay = loginAndPasswordAuthMethod.overlay;
+
+        @NonNull val future = overlay.future;
+        @NonNull val login = overlay.login.getText();
+        @NonNull val result = overlay.getResult();
+
+        if (!httpClient.has2FA(login)) {
+            LogHelper.debug("%s has not 2FA", login);
+            future.complete(result);
+            return;
+        }
+
+        LookupHelper.<StackPane>lookupIfPossible(super.layout, "#content")
+                .ifPresent(element -> element.setVisible(false));
+        LookupHelper.<Button>lookupIfPossible(super.layout, "#authButton")
+                .ifPresent(element -> element.setVisible(false));
+
+        @NonNull val styleClasses = this.layout.getStyleClass();
+
+        styleClasses.clear();
+        styleClasses.add("mf-2fa-background");
+
+        this.twoFAPane.setVisible(true);
+        this.twoFATextField.clear();
+        this.twoFATextField.requestFocus();
+
+        this.twoFATextField.textProperty()
+                .addListener(
+                        (observable, oldValue, newValue) -> {
+                            if (newValue.length() > 6)
+                                this.twoFATextField.setText(newValue.substring(0, 6));
+
+                            if (newValue.length() == 6) {
+                                LogHelper.debug(
+                                        "2FA is valid " + httpClient.isValid2FA(login, newValue));
+
+                                if (httpClient.isValid2FA(login, newValue)) {
+                                    //styleClasses.clear();
+
+                                    this.twoFAPane.setVisible(false);
+
+                                    future.complete(result);
+                                }
+                            }
+                        }
+                );
     }
     //TODO ZeyCodeEnd
 
@@ -361,7 +384,7 @@ public class LoginScene extends FxScene {
         }
 
         public <T> void processing(CompletableFuture<T> request, String text, Consumer<T> onSuccess,
-                Consumer<String> onError) {
+                                   Consumer<String> onError) {
             LoginScene.this.processing(request, text, onSuccess, onError);
         }
     }

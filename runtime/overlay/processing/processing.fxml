@@ -16,7 +16,7 @@
         <children>
             <Label id="header-text" alignment="CENTER" text="%runtime.overlay.processing.processing.description" />
             <!-- Описание процесса -->
-            <Label id="description" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" wrapText="true" />
+            <Label id="description" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" visible="false"/>
         </children>
     </VBox>
 </AnchorPane>

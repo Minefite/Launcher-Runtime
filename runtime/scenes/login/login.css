@@ -141,6 +141,12 @@ Rectangle {
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover, auto;
 }
+.mf-2fa-background {
+    -fx-background-image: url('../../minefite/images/overlays/background.png');
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+}
 
 #twoFAPane {
     -fx-background-image: url('../../minefite/images/scenes/login/2fa.png');

@@ -1,13 +1,15 @@
 #header-text {
     -fx-font-weight: 800;
     -fx-font-size: 18px;
-    -fx-text-fill: -fx-colors-text;
+    -fx-text-fill: -fx-colors-unactive-hover;
 }
 
-#description {
-    -fx-fill: -fx-black2C;
+#description,
+.description {
+    -fx-fill: -fx-colors-unactive;
     -fx-font-size: 16px;
 }
+
 #description.error {
     -fx-text-fill: -fx-red;
 }
